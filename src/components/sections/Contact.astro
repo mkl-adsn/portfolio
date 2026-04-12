@@ -1,0 +1,49 @@
+---
+const contacts = [
+  { icon: 'mail',     label: 'mkl.adsn@gmail.com',  href: 'mailto:mkl.adsn@gmail.com' },
+  { icon: 'phone',    label: '+46 709 52 64 03',      href: 'tel:+46709526403' },
+  { icon: 'linkedin', label: 'LinkedIn',              href: 'https://linkedin.com' },
+  { icon: 'location', label: 'Stockholm, Sweden',     href: null },
+];
+---
+
+<section id="contact" class="overflow-hidden" style="background-color: var(--grey-900);">
+  <div class="container-narrow py-40 flex flex-col gap-10">
+
+    <h2 class="type-h2" style="color: var(--grey-100);">Get in touch</h2>
+
+    <div class="flex flex-col gap-4">
+      <h3 class="type-h3" style="color: var(--grey-100);">Mikael Andersson</h3>
+
+      <ul class="list-none m-0 p-0 flex flex-col gap-4">
+        {contacts.map(({ icon, label, href }) => (
+          <li class="flex items-center gap-3">
+            <span class="w-6 h-6 flex-shrink-0">
+              <img
+                src={`/images/Icon/Light/${icon.charAt(0).toUpperCase() + icon.slice(1)}.svg`}
+                width="24"
+                height="24"
+                alt=""
+              />
+            </span>
+
+            {href ? (
+              <a
+                href={href}
+                class="type-body-bold no-underline hover:underline"
+                style="color: var(--grey-100);"
+                target={icon === 'linkedin' ? '_blank' : undefined}
+                rel={icon === 'linkedin' ? 'noopener noreferrer' : undefined}
+              >
+                {label}
+              </a>
+            ) : (
+              <span class="type-body-bold" style="color: var(--grey-100);">{label}</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,59 @@
+---
+export interface Props {
+  name: string;
+  level: 1 | 2 | 3;
+  categories: string[];
+}
+const { name, level, categories } = Astro.props;
+
+// Light folder = white icons for use on dark (grey-900) background
+const STAR_FILLED  = '/images/Icon/Light/Star%20Filled.svg';
+const STAR_OUTLINE = '/images/Icon/Light/Star%20Outline.svg';
+
+const stars = [1, 2, 3].map(i => (i <= level ? STAR_FILLED : STAR_OUTLINE));
+---
+
+<div
+  class="skill-tag"
+  data-categories={categories.join(',')}
+  data-name={name.toLowerCase()}
+>
+  <span class="skill-tag__name">{name}</span>
+  <span class="skill-tag__stars">
+    {stars.map(src => (
+      <img src={src} width="16" height="16" alt="" />
+    ))}
+  </span>
+</div>
+
+<style>
+  .skill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    height: 40px;
+    padding-left: 16px;
+    padding-right: 12px;
+    background-color: var(--grey-900);
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .skill-tag__name {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 2.25px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--grey-100);
+    line-height: 1;
+  }
+
+  .skill-tag__stars {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+</style>

@@ -1,0 +1,98 @@
+---
+const navItems = [
+  { label: 'Cases',   href: '#cases'   },
+  { label: 'Bio',     href: '#bio'     },
+  { label: 'CV',      href: '#cv'      },
+  { label: 'Contact', href: '#contact' },
+];
+---
+
+<div class="sticky top-0 z-50 flex justify-center pt-3 pointer-events-none">
+  <nav
+    id="main-nav"
+    class="nav"
+    aria-label="Page sections"
+  >
+    {navItems.map(({ label, href }) => (
+      <a
+        href={href}
+        class="nav__tab type-label-sm"
+        data-section={href.slice(1)}
+      >
+        {label}
+      </a>
+    ))}
+  </nav>
+</div>
+
+<style>
+  /* ── Container ───────────────────────────────────────────────────────────── */
+  .nav {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--grey-900);
+    border-radius: 8px;
+    background-color: rgba(249, 250, 251, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* ── Tab button ──────────────────────────────────────────────────────────── */
+  .nav__tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    color: var(--grey-900);
+    text-decoration: none;
+    transition: background-color 120ms ease, color 120ms ease;
+  }
+
+  /* Hover */
+  .nav__tab:hover {
+    background-color: var(--grey-200);
+  }
+
+  /* Active section */
+  .nav__tab.active {
+    background-color: var(--grey-900);
+    color: var(--grey-100);
+  }
+
+  /* Hover on active tab — keep it dark, no flicker */
+  .nav__tab.active:hover {
+    background-color: var(--grey-800);
+  }
+</style>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLElement>('.nav__tab');
+  const sectionIds = Array.from(tabs).map(t => t.dataset.section!);
+
+  const activate = (id: string) => {
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.section === id));
+  };
+
+  sectionIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) activate(id); },
+      { threshold: 0.35 }
+    );
+    obs.observe(el);
+  });
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById(tab.dataset.section!)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>

@@ -1,0 +1,243 @@
+@import "tailwindcss";
+
+/* ─── Fonts ──────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Warnock Pro';
+  src: url('/fonts/WarnockPro-Regular.woff2') format('woff2'),
+       url('/fonts/WarnockPro-Regular.otf')   format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Warnock Pro';
+  src: url('/fonts/WarnockPro-Semibold.woff2') format('woff2'),
+       url('/fonts/WarnockPro-Semibold.otf')   format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Design tokens ──────────────────────────────────────────────────────── */
+:root {
+  --grey-100: #f9fafb;
+  --grey-200: #f0f2f4;
+  --grey-600: #525b6c;
+  --grey-800: #384051;
+  --grey-900: #252c3c;
+  --accent:   #8793af;
+
+  --font-serif: 'Warnock Pro', Georgia, serif;
+  --font-sans:  'Figtree', system-ui, sans-serif;
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--grey-100);
+  color: var(--grey-900);
+  overflow-x: hidden;
+}
+
+/* ─── Typography ─────────────────────────────────────────────────────────── */
+/*
+  From Figma:
+    H1        Warnock Pro 400/600  60px  line-height 64px
+    H2        Warnock Pro 600      48px  line-height 1
+    H3        Warnock Pro 600      28px  line-height 1
+    Body md   Figtree 400          18px  line-height 24px
+    Body bold Figtree 600          18px  line-height 1
+    Label md  Figtree 700          15px  ls 2.25px  uppercase
+    Label sm  Figtree 700          13px  ls 1.95px  uppercase
+*/
+
+.type-h1 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 60px;
+  line-height: 64px;
+  color: var(--grey-900);
+  margin: 0;
+}
+
+/* Semibold spans inside h1 */
+.type-h1 strong,
+.type-h1 b {
+  font-weight: 600;
+}
+
+.type-h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 1;
+  color: var(--grey-900);
+  margin: 0;
+}
+
+.type-h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--grey-600);
+  margin: 0;
+}
+
+.type-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--grey-900);
+  margin: 0;
+}
+
+.type-body-bold {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--grey-900);
+  margin: 0;
+}
+
+.type-label {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 2.25px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.type-label-sm {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ─── Layout containers ──────────────────────────────────────────────────── */
+/* Full-width sections use these inside to constrain content */
+.container {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 48px;
+  width: 100%;
+}
+
+.container-narrow {
+  max-width: 720px;
+  margin-inline: auto;
+  padding-inline: 48px;
+  width: 100%;
+}
+
+/* ─── Background gradient ────────────────────────────────────────────────── */
+.page-bg {
+  background-image: linear-gradient(
+    270deg,
+    var(--grey-200) 0%,
+    var(--grey-100) 15%,
+    var(--grey-100) 85%,
+    var(--grey-200) 100%
+  );
+}
+
+/* ─── Button ─────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  cursor: pointer;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.btn__face {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 24px;
+  height: 48px;
+  border-radius: 4px;
+  border: 1px solid;
+  overflow: hidden;
+  margin-bottom: -4px;
+  transform: translateY(0);
+  transition: transform 120ms ease, background-color 80ms ease;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 2.25px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.btn:hover .btn__face  { transform: translateY(3px); }
+.btn:active .btn__face { transform: translateY(4px); transition-duration: 60ms; }
+
+.btn__edge {
+  position: relative;
+  z-index: 1;
+  height: 8px;
+  border-radius: 0 0 4px 4px;
+  border-width: 0 1px 1px 1px;
+  border-style: solid;
+  transition: background-color 80ms ease, border-color 80ms ease;
+}
+
+/* Light */
+.btn--light .btn__face          { background-color: var(--grey-100); border-color: var(--grey-600); color: var(--grey-900); }
+.btn--light .btn__edge          { background-color: var(--grey-200); border-color: var(--grey-600); }
+.btn--light:active .btn__face   { background-color: var(--grey-200); }
+.btn--light:active .btn__edge   { background-color: var(--grey-900); border-color: var(--grey-900); }
+
+/* Dark */
+.btn--dark .btn__face           { background-color: var(--grey-900); border-color: var(--grey-200); color: var(--grey-100); }
+.btn--dark .btn__edge           { background-color: var(--grey-800); border-color: var(--grey-200); }
+.btn--dark:active .btn__face    { background-color: var(--grey-800); }
+.btn--dark:active .btn__edge    { background-color: var(--grey-100); border-color: var(--grey-100); }
+
+/* ─── Draw-text animation ────────────────────────────────────────────────── */
+.draw-text-outline {
+  -webkit-text-stroke: 1.5px var(--grey-900);
+  color: transparent;
+  user-select: none;
+  pointer-events: none;
+}
+
+.draw-text-fill {
+  position: absolute;
+  inset: 0;
+  color: var(--grey-900);
+  clip-path: inset(0 100% 0 0);
+  white-space: inherit;
+}
+
+.draw-text-fill .char {
+  display: inline;
+}
+
+/* ─── Draw-image animation ───────────────────────────────────────────────── */
+.draw-image {
+  filter: grayscale(1) contrast(1.8) brightness(1.15) blur(0.5px);
+  transition: none;
+}

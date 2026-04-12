@@ -1,0 +1,57 @@
+---
+/**
+ * Press-depth button — two variants, three states (default / hover / pressed).
+ *
+ * variant  'dark'  filled navy face, lighter navy edge
+ *          'light' light face, grey border, dark grey edge
+ *
+ * icon     filename from /Images/Icon/ (without extension), e.g. "Download"
+ */
+export interface Props {
+  variant?: 'dark' | 'light';
+  icon?: string;
+  href?: string;
+  download?: boolean | string;
+  class?: string;
+}
+
+const {
+  variant = 'light',
+  icon,
+  href,
+  download,
+  class: className = '',
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+
+// Dark variant sits on a dark face → needs light (white) icon
+// Light variant sits on a light face → needs dark icon
+const iconSrc = icon
+  ? variant === 'dark'
+    ? `/images/Icon/Light/${icon}.svg`
+    : `/images/Icon/Dark/${icon}.svg`
+  : null;
+---
+
+<Tag
+  href={href}
+  download={download}
+  class:list={['btn', `btn--${variant}`, className]}
+>
+  <span class="btn__face">
+    {iconSrc && (
+      <img
+        src={iconSrc}
+        width="24"
+        height="24"
+        alt=""
+        class="btn__icon"
+      />
+    )}
+    <slot />
+  </span>
+  <span class="btn__edge"></span>
+</Tag>
+
+<!-- Button styles live in global.css so they apply to any element using .btn classes -->
