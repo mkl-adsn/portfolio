@@ -6,9 +6,31 @@
   .zoom-in        Animated by animations.ts: scale 0 → 1 as block scrolls up from bottom
 */
 
+/* ─── Hero typewriter cursor ──────────────────────────────────────────────── */
+.hero-cursor {
+  display: inline-block;
+  width: 0.2em;
+  height: 0.7em;
+  outline: solid var(--grey-900) 0.2em;
+  background: var(--grey-900);
+  vertical-align: -0.10em;
+  margin-left: 16px;
+  animation: cursor-blink 1.1s step-end infinite;
+}
+
+.hero-cursor.done {
+
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
 /* Initial state for draw-image (overridden by GSAP during scroll) */
 .draw-image {
-  filter: grayscale(1) contrast(1.8) brightness(1.15) blur(0.5px);
+filter: grayscale(1) brightness(1.3) sepia(0.25) contrast(5);
+
   transition: none;
 }
 

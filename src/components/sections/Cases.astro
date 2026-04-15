@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import Button from '../ui/Button.astro';
-import PhoneMockup from '../ui/PhoneMockup.astro';
 
 const allCases = (await getCollection('cases')).sort(
   (a, b) => a.data.order - b.data.order
@@ -12,10 +11,16 @@ const allCases = (await getCollection('cases')).sort(
   <div class="container flex flex-col gap-32">
     {allCases.map((c, i) => {
       const isEven = i % 2 === 0;
+      const orientation = c.data.imageOrientation ?? 'portrait';
       return (
-        <article class={`zoom-in flex flex-col gap-12 md:flex-row md:items-center md:gap-[200px] ${isEven ? '' : 'md:flex-row-reverse'}`}>
+        <article class={`zoom-in flex flex-col gap-12 md:flex-row md:items-center md:gap-[120px] ${isEven ? '' : 'md:flex-row-reverse'}`}>
 
-          <PhoneMockup image={c.data.image} alt={c.data.title} />
+          <!-- Case image -->
+          <figure class={`case-image case-image--${orientation}`}>
+            {c.data.image && (
+              <img src={c.data.image} alt={c.data.title} class="draw-image" />
+            )}
+          </figure>
 
           <!-- Text block -->
           <div class="flex-1 flex flex-col gap-6 max-w-[600px]">
@@ -31,7 +36,7 @@ const allCases = (await getCollection('cases')).sort(
               </div>
               <p class="reveal-text type-body">{c.data.description}</p>
             </div>
-            <Button variant="light" href={`/cases/${c.id.replace(/\.md$/, '')}`}>
+            <Button variant="light" href={`/cases/${c.id.replace(/\.md$/, '')}`} class="self-start">
               <span class="type-label">View case</span>
             </Button>
           </div>
@@ -40,4 +45,43 @@ const allCases = (await getCollection('cases')).sort(
       );
     })}
   </div>
+ 
 </section>
+
+<style>
+  .case-image {
+    flex-shrink: 0;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .case-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Portrait: tall card, similar footprint to the old phone mockup */
+  .case-image--portrait {
+    width: 320px;
+  }
+
+  /* Landscape: wide card */
+  .case-image--landscape {
+    width: 520px;
+  }
+
+  @media (max-width: 767px) {
+    .case-image--portrait {
+      width: 100%;
+      max-width: 260px;
+      align-self: center;
+    }
+
+    .case-image--landscape {
+      width: 100%;
+    }
+  }
+</style>

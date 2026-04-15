@@ -2,7 +2,7 @@
 import { navItems } from '../../content/data/nav.ts';
 ---
 
-<div class="sticky top-0 z-50 flex justify-center pt-3 pointer-events-none">
+<div class="nav-wrapper sticky top-0 z-50 flex justify-center pt-2 pointer-events-none">
   <nav id="main-nav" class="nav" aria-label="Page sections">
     {navItems.map(({ label, href }) => (
       <a
@@ -45,6 +45,20 @@ import { navItems } from '../../content/data/nav.ts';
   .nav__tab:hover        { background-color: var(--grey-900-006); }
   .nav__tab.active       { background-color: var(--grey-900); color: var(--grey-100); }
   .nav__tab.active:hover { background-color: var(--grey-800); }
+
+  /* Touch devices: pin nav to the bottom of the screen 
+  @media (hover: none) and (pointer: coarse) {
+    .nav-wrapper {
+      position: fixed !important;
+      top: auto;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding-top: 0;
+      padding-bottom: max(8px, env(safe-area-inset-bottom));
+      justify-content: center;
+    }
+  }*/
 </style>
 
 <script>
