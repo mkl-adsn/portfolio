@@ -1,14 +1,14 @@
 ---
 import { skills } from '../../content/data/skills.ts';
 import SkillTag from './SkillTag.astro';
-import Button from './Button.astro';
+import FilterTab from './FilterTab.astro';
 
 const categories = ['All Skills', 'Application', 'Design', 'Code', 'Other', 'Irrelevant'];
-
 const VISIBLE_DEFAULT = 8;
 ---
 
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-4">
+
   <!-- Search box -->
   <div class="search-box">
     <div class="search-box__face">
@@ -27,33 +27,22 @@ const VISIBLE_DEFAULT = 8;
   <!-- Category filter tabs -->
   <div id="skill-filters" class="flex gap-6 items-end flex-wrap">
     {categories.map((cat, i) => (
-      <button
-        class="filter-btn flex flex-col gap-1 items-start cursor-pointer bg-transparent border-none p-0"
-        data-filter={cat === 'All Skills' ? 'all' : cat}
-        data-active={i === 0 ? 'true' : 'false'}
-      >
-        <span
-          class="filter-label type-label"
-          style={`color: ${i === 0 ? 'var(--grey-900)' : 'var(--grey-600)'};`}
-        >
-          {cat}
-        </span>
-        <span
-          class="filter-bar w-full"
-          style={`display: block; height: 2px; background: ${i === 0 ? 'var(--grey-900)' : 'transparent'};`}
-        ></span>
-      </button>
+      <FilterTab
+        label={cat}
+        filter={cat === 'All Skills' ? 'all' : cat}
+        active={i === 0}
+      />
     ))}
   </div>
 
-  <!-- Skill tags grid -->
+  <!-- Skill tags -->
   <div id="skills-grid" class="flex flex-wrap gap-2">
     {skills.map(skill => (
       <SkillTag name={skill.name} level={skill.level} categories={skill.categories} />
     ))}
   </div>
 
-  <!-- Show all button — hidden until JS determines it's needed -->
+  <!-- Show-all button — hidden until JS determines it's needed -->
   <div id="show-all-wrap" style="display: none;">
     <button id="show-all-btn" class="btn btn--light">
       <span class="btn__face">
@@ -62,6 +51,7 @@ const VISIBLE_DEFAULT = 8;
       <span class="btn__edge"></span>
     </button>
   </div>
+
 </div>
 
 <script>
@@ -69,7 +59,7 @@ const VISIBLE_DEFAULT = 8;
 
   document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('skill-search') as HTMLInputElement;
-    const filterBtns  = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const filterTabs  = document.querySelectorAll<HTMLButtonElement>('.filter-tab');
     const tags        = Array.from(document.querySelectorAll<HTMLElement>('.skill-tag'));
     const showAllWrap = document.getElementById('show-all-wrap')!;
     const showAllBtn  = document.getElementById('show-all-btn')!;
@@ -78,46 +68,33 @@ const VISIBLE_DEFAULT = 8;
     let searchQuery  = '';
     let showAll      = false;
 
-    const applyFilters = () => {
-      // Build ordered list of tags that match current filter + search
+    function applyFilters() {
       const matching: HTMLElement[] = [];
+
       tags.forEach(tag => {
         const cats = (tag.dataset.categories ?? '').split(',');
-        const nm   = tag.dataset.name ?? '';
-        if (
-          (activeFilter === 'all' || cats.includes(activeFilter)) &&
-          nm.includes(searchQuery)
-        ) {
-          matching.push(tag);
-        }
+        const name = tag.dataset.name ?? '';
+        const matchesFilter = activeFilter === 'all' || cats.includes(activeFilter);
+        const matchesSearch = name.includes(searchQuery);
+        if (matchesFilter && matchesSearch) matching.push(tag);
       });
 
-      // Show/hide each tag
       tags.forEach(tag => {
         const rank = matching.indexOf(tag);
-        tag.style.display =
-          rank === -1 ? 'none'                          // filtered out
-          : showAll || rank < VISIBLE_DEFAULT ? ''      // within cap or expanded
-          : 'none';                                     // beyond cap
+        tag.style.display = rank === -1 || (!showAll && rank >= VISIBLE_DEFAULT) ? 'none' : '';
       });
 
-      // Show button only when there are hidden-by-cap tags
-      showAllWrap.style.display =
-        !showAll && matching.length > VISIBLE_DEFAULT ? '' : 'none';
-    };
+      showAllWrap.style.display = !showAll && matching.length > VISIBLE_DEFAULT ? '' : 'none';
+    }
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        activeFilter = btn.dataset.filter ?? 'all';
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        activeFilter = tab.dataset.filter ?? 'all';
         showAll = false;
 
-        filterBtns.forEach(b => {
-          const active = b === btn;
-          b.querySelector<HTMLElement>('.filter-label')!.style.color =
-            active ? 'var(--grey-900)' : 'var(--grey-600)';
-          b.querySelector<HTMLElement>('.filter-bar')!.style.background =
-            active ? 'var(--grey-900)' : 'transparent';
-          b.dataset.active = active ? 'true' : 'false';
+        // CSS handles the visual update via [data-active] attribute selectors
+        filterTabs.forEach(t => {
+          t.dataset.active = (t === tab) ? 'true' : 'false';
         });
 
         applyFilters();
@@ -161,7 +138,7 @@ const VISIBLE_DEFAULT = 8;
     transition: background-color 120ms ease, transform 120ms ease;
   }
 
-  /* Active: face darkens and lifts 3px */
+  /* Active: face presses down 3px */
   .search-box:focus-within .search-box__face {
     background-color: var(--grey-200);
     transform: translateY(3px);
@@ -172,7 +149,7 @@ const VISIBLE_DEFAULT = 8;
     background-color: var(--grey-200);
     border-width: 0 1px 1px 1px;
     border-style: solid;
-    border-color: var(--grey-600);
+    border-color: var(--grey-700);
     border-radius: 0 0 4px 4px;
     position: relative;
     z-index: 1;
@@ -187,7 +164,5 @@ const VISIBLE_DEFAULT = 8;
     min-width: 0;
   }
 
-  .search-box__input::placeholder {
-    color: var(--grey-600);
-  }
+  .search-box__input::placeholder { color: var(--grey-700); }
 </style>

@@ -1,0 +1,37 @@
+/* ─── Design tokens ──────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Warnock Pro';
+  src: url('/fonts/WarnockPro-Regular.woff2') format('woff2'),
+       url('/fonts/WarnockPro-Regular.otf')   format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Warnock Pro';
+  src: url('/fonts/WarnockPro-Semibold.woff2') format('woff2'),
+       url('/fonts/WarnockPro-Semibold.otf')   format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Colour palette */
+  --grey-100:     #f9fafb;
+  --grey-200:     #f0f2f4;
+  --grey-300:     #E7EAEE;
+  --grey-400:     #CACFD8;  
+  --grey-500:     #A7AFBE;
+  --grey-600:     #768193;
+  --grey-700:     #525b6c;
+  --grey-800:     #384051;
+  --grey-900:     #252c3c;
+  --accent:       #8793af;
+  --grey-900-006: rgba(37, 44, 60, 0.06);
+
+  /* Typefaces */
+  --font-serif: 'Warnock Pro', Georgia, serif;
+  --font-sans:  'Figtree', system-ui, sans-serif;
+}

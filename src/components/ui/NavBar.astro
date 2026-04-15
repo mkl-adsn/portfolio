@@ -1,18 +1,9 @@
 ---
-const navItems = [
-  { label: 'Cases',   href: '#cases'   },
-  { label: 'Bio',     href: '#bio'     },
-  { label: 'CV',      href: '#cv'      },
-  { label: 'Contact', href: '#contact' },
-];
+import { navItems } from '../../content/data/nav.ts';
 ---
 
 <div class="sticky top-0 z-50 flex justify-center pt-3 pointer-events-none">
-  <nav
-    id="main-nav"
-    class="nav"
-    aria-label="Page sections"
-  >
+  <nav id="main-nav" class="nav" aria-label="Page sections">
     {navItems.map(({ label, href }) => (
       <a
         href={href}
@@ -26,7 +17,6 @@ const navItems = [
 </div>
 
 <style>
-  /* ── Container ───────────────────────────────────────────────────────────── */
   .nav {
     pointer-events: auto;
     display: flex;
@@ -40,7 +30,6 @@ const navItems = [
     -webkit-backdrop-filter: blur(12px);
   }
 
-  /* ── Tab button ──────────────────────────────────────────────────────────── */
   .nav__tab {
     display: flex;
     align-items: center;
@@ -53,21 +42,9 @@ const navItems = [
     transition: background-color 120ms ease, color 120ms ease;
   }
 
-  /* Hover */
-  .nav__tab:hover {
-    background-color: var(--grey-200);
-  }
-
-  /* Active section */
-  .nav__tab.active {
-    background-color: var(--grey-900);
-    color: var(--grey-100);
-  }
-
-  /* Hover on active tab — keep it dark, no flicker */
-  .nav__tab.active:hover {
-    background-color: var(--grey-800);
-  }
+  .nav__tab:hover        { background-color: var(--grey-900-006); }
+  .nav__tab.active       { background-color: var(--grey-900); color: var(--grey-100); }
+  .nav__tab.active:hover { background-color: var(--grey-800); }
 </style>
 
 <script>
@@ -81,11 +58,10 @@ const navItems = [
   sectionIds.forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
-    const obs = new IntersectionObserver(
+    new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) activate(id); },
-      { threshold: 0.35 }
-    );
-    obs.observe(el);
+      { rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+    ).observe(el);
   });
 
   tabs.forEach(tab => {

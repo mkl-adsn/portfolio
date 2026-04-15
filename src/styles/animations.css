@@ -1,0 +1,37 @@
+/* ─── Scroll-driven animation helpers ────────────────────────────────────── */
+/*
+  .draw-heading   Animated by animations.ts: outline ghost → clipped fill reveal
+  .draw-image     Animated by animations.ts: grayscale/blur → full colour scrub
+  .reveal-text    Animated by animations.ts: opacity/translateY fade-in
+  .zoom-in        Animated by animations.ts: scale 0 → 1 as block scrolls up from bottom
+*/
+
+/* Initial state for draw-image (overridden by GSAP during scroll) */
+.draw-image {
+  filter: grayscale(1) contrast(1.8) brightness(1.15) blur(0.5px);
+  transition: none;
+}
+
+/* Initial state for zoom-in (overridden by GSAP during scroll) */
+/* .zoom-in {
+  transform: scale(0);
+  transform-origin: center bottom;
+} */
+
+/* Legacy static classes (kept for reference; runtime variants built in JS) */
+.draw-text-outline {
+  -webkit-text-stroke: 1px var(--grey-600);
+  color: transparent;
+  user-select: none;
+  pointer-events: none;
+}
+
+.draw-text-fill {
+  position: absolute;
+  inset: 0;
+  color: var(--grey-900);
+  clip-path: inset(0 100% 0 0);
+  white-space: inherit;
+}
+
+.draw-text-fill .char { display: inline; }

@@ -28,7 +28,7 @@ function wrapDrawHeading(el: HTMLElement) {
     WebkitTextStroke: '1px var(--grey-900)',
     color: 'transparent',
     userSelect: 'none',
-    pointerEvents: 'none',
+
   });
 
   // Fill layer (clipped)
@@ -42,7 +42,7 @@ function wrapDrawHeading(el: HTMLElement) {
     color: 'var(--grey-900)',
     clipPath: 'inset(0 100% 0 0)',
     whiteSpace: 'inherit',
-    pointerEvents: 'none',
+   
   });
 
   el.style.position = 'relative';
@@ -62,7 +62,7 @@ export function initAnimations() {
 
     ScrollTrigger.create({
       trigger: el,
-      start: 'top 90%',
+      start: 'top 95%',
       end: 'top 30%',
       scrub: 0.8,
       onUpdate(self) {
@@ -108,4 +108,17 @@ export function initAnimations() {
       }
     );
   });
+
+  // ── 4. Content blocks: scale 0 → 1 (zoom in from bottom) ────────────────
+  // document.querySelectorAll<HTMLElement>('.zoom-in').forEach(el => {
+  //   ScrollTrigger.create({
+  //     trigger: el,
+  //     start: 'top 100%',   // element's top edge enters viewport
+  //     end: 'top 90%',      // element's top at 1/3 from bottom (100% − 33%)
+  //     scrub: 0.8,
+  //     onUpdate(self) {
+  //       el.style.transform = `scale(${self.progress.toFixed(4)})`;
+  //     },
+  //   });
+  // });
 }

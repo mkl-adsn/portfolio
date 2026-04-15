@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Button from '../ui/Button.astro';
+import PhoneMockup from '../ui/PhoneMockup.astro';
 
 const allCases = (await getCollection('cases')).sort(
   (a, b) => a.data.order - b.data.order
@@ -12,31 +13,9 @@ const allCases = (await getCollection('cases')).sort(
     {allCases.map((c, i) => {
       const isEven = i % 2 === 0;
       return (
-        <article class={`flex items-center gap-[200px] ${isEven ? '' : 'flex-row-reverse'}`}>
+        <article class={`zoom-in flex flex-col gap-12 md:flex-row md:items-center md:gap-[200px] ${isEven ? '' : 'md:flex-row-reverse'}`}>
 
-          <!-- Phone mockup -->
-          <div class="flex-shrink-0 w-[400px] h-[820px] relative">
-            <div class="relative w-full h-full">
-              <div class="absolute inset-2 rounded-[48px] bg-gradient-to-b from-[#5e7199] to-[#3d4d70] shadow-[inset_0px_0px_1px_2px_#4e5062,inset_0px_0px_2px_3px_rgba(196,218,255,0.6)]"></div>
-              <div class="absolute top-[13px] left-[13px] right-[13px] bottom-[13px] rounded-[43px] bg-[#0c0e10] shadow-[0px_0px_1px_1px_rgba(196,218,255,0.4)]"></div>
-              <div class="absolute top-5 left-5 right-5 bottom-5 rounded-[36px] bg-[#fefefe] overflow-hidden draw-image">
-                {c.data.image && (
-                  <img src={c.data.image} alt={c.data.title} class="w-full h-full object-cover" />
-                )}
-              </div>
-              <!-- Status bar -->
-              <div class="absolute top-5 left-5 right-5 h-9 flex items-center justify-between px-6 py-1 rounded-tl-[36px] rounded-tr-[36px] bg-white">
-                <span class="type-label-sm" style="color: black;">10:00</span>
-                <div class="flex gap-1 items-center">
-                  <span style="width:14px;height:14px;display:inline-block;background:var(--grey-900);opacity:0.5;border-radius:2px;"></span>
-                  <span style="width:14px;height:14px;display:inline-block;background:var(--grey-900);opacity:0.5;border-radius:2px;"></span>
-                  <span style="width:14px;height:14px;display:inline-block;background:var(--grey-900);opacity:0.5;border-radius:2px;"></span>
-                </div>
-              </div>
-              <div class="absolute bottom-[14px] left-1/2 -translate-x-1/2 w-28 h-1 bg-black opacity-20 rounded-full"></div>
-              <div class="absolute bottom-0 left-[55px] right-[55px] h-[6px] bg-black opacity-10 rounded-full blur-sm"></div>
-            </div>
-          </div>
+          <PhoneMockup image={c.data.image} alt={c.data.title} />
 
           <!-- Text block -->
           <div class="flex-1 flex flex-col gap-6 max-w-[600px]">

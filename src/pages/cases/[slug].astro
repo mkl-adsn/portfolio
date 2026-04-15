@@ -16,43 +16,36 @@ const { Content } = await render(entry);
 ---
 
 <BaseLayout title={`${entry.data.title} — Mikael Andersson`}>
-  <div class="max-w-[800px] mx-auto px-6 py-24">
+  <div class="container-narrow py-24">
+
     <div class="mb-12">
       <Button variant="light" href="/#cases">
-        <span class="btn-label">← Back</span>
+        <span class="type-label">← Back</span>
       </Button>
     </div>
 
-    <h1
-      class="text-[48px] leading-[1.1] text-grey-900 m-0 mb-4"
-      style="font-family: var(--font-serif); font-weight: 600;"
-    >
-      {entry.data.title}
-    </h1>
+    <h1 class="type-h2 mb-4">{entry.data.title}</h1>
 
-    <p
-      class="text-[18px] font-semibold text-grey-600 mb-8 m-0"
-      style="font-family: var(--font-sans);"
-    >
+    <p class="type-body-bold mb-8" style="color: var(--grey-700);">
       {entry.data.subtitle}
     </p>
 
     <div class="flex flex-wrap gap-2 mb-12">
       {entry.data.tags.map(tag => (
-        <span
-          class="px-4 py-2 bg-grey-900 text-grey-100 rounded text-[13px] font-bold uppercase"
-          style="font-family: var(--font-sans); letter-spacing: 1.95px;"
-        >
+        <span class="type-label-sm" style="
+          padding: 8px 16px;
+          background-color: var(--grey-900);
+          color: var(--grey-100);
+          border-radius: 4px;
+        ">
           {tag}
         </span>
       ))}
     </div>
 
-    <article
-      class="prose max-w-none text-[18px] leading-[24px] text-grey-900"
-      style="font-family: var(--font-sans);"
-    >
+    <article class="type-body flex flex-col gap-4">
       <Content />
     </article>
+
   </div>
 </BaseLayout>
