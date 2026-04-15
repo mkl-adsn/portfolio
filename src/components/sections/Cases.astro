@@ -8,7 +8,7 @@ const allCases = (await getCollection('cases')).sort(
 );
 ---
 
-<section id="cases" class="py-24">
+<section id="cases" class="py-12 md:py-24">
   <div class="container flex flex-col gap-32">
     {allCases.map((c, i) => {
       const isEven = i % 2 === 0;

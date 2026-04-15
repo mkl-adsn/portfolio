@@ -82,8 +82,8 @@
 /* ─── Mobile typography (≤767px) ─────────────────────────────────────────── */
 @media (max-width: 767px) {
   .type-h1 {
-    font-size: 40px;
-    line-height: 44px;
+    font-size: 36px;
+    line-height: 40px;
   }
 
   .type-h2 {
@@ -92,7 +92,7 @@
   }
 
   .type-h3 {
-    font-size: 22px;
+    font-size: 24px;
     line-height: 28px;
   }
 }
