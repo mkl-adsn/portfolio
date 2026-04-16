@@ -34,7 +34,7 @@ const allCases = (await getCollection('cases')).sort(
                   ])}
                 </p>
               </div>
-              <p class="reveal-text type-body">{c.data.description}</p>
+              <p class="draw-body type-body">{c.data.description}</p>
             </div>
             <Button variant="light" href={`/cases/${c.id.replace(/\.md$/, '')}`} class="self-start">
               <span class="type-label">View case</span>
@@ -54,6 +54,7 @@ const allCases = (await getCollection('cases')).sort(
     margin: 0;
     overflow: hidden;
     z-index: 10;
+    mix-blend-mode: multiply;
   }
 
   .case-image img {
