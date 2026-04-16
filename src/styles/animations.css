@@ -10,11 +10,11 @@
 .hero-cursor {
   display: inline-block;
   width: 0.2em;
-  height: 0.7em;
+  height: 0.65em;
   outline: solid var(--grey-900) 0.2em;
   background: var(--grey-900);
-  vertical-align: -0.10em;
-  margin-left: 16px;
+  vertical-align: -0em;
+  margin-left: 0.25em;
   animation: cursor-blink 1.1s step-end infinite;
 }
 
@@ -29,7 +29,7 @@
 
 /* Initial state for draw-image (overridden by GSAP during scroll) */
 .draw-image {
-filter: grayscale(1) brightness(1.3) sepia(0.25) contrast(5);
+filter: brightness(1.3) sepia(1) contrast(5);
 
   transition: none;
 }
