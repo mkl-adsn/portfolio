@@ -237,8 +237,8 @@ export function initHeroTypewriter() {
   const _buttonsEl = buttonsEl!
 
   const segments = [
-    { text: 'Senior UX/UI Designer aligning product vision with technical execution.', bold: true  },
-    { text: ' Brings together stakeholder input and development understanding to create ', bold: false },
+    { text: 'Mikael Andersson, senior UX/UI designer aligning product vision with technical execution.', bold: true  },
+    { text: ' Turns stakeholder input and developer needs into ', bold: false },
     { text: 'scalable, buildable UI solutions.', bold: true  },
   ];
 
@@ -304,10 +304,12 @@ export function initAnimations() {
     buildRowsAndAnimate(wrapDrawHeading(el, 'var(--grey-700)', '0.5px'), el, 'top 95%', 'top 30%', 0.4);
   });
 
-  // ── 2. Body text: grey-400 → grey-900, row by row ────────────────────────
-  document.querySelectorAll<HTMLElement>('.draw-body').forEach(el => {
-    buildRowsAndAnimate(wrapDrawBody(el), el, 'top 95%', 'top 70%', 0.3);
-  });
+  // ── 2. Body text: grey-400 → grey-900, row by row (desktop only) ─────────
+  if (!window.matchMedia('(max-width: 767px)').matches) {
+    document.querySelectorAll<HTMLElement>('.draw-body').forEach(el => {
+      buildRowsAndAnimate(wrapDrawBody(el), el, 'top 95%', 'top 70%', 0.3);
+    });
+  }
 
   // ── 3. Images: colour halftone → full image ──────────────────────────────
   document.querySelectorAll<HTMLElement>('.draw-image').forEach(el => {
@@ -316,8 +318,8 @@ export function initAnimations() {
 
     ScrollTrigger.create({
       trigger: box,
-      start: 'top 95%',
-      end: 'top 45%',
+      start: 'top 75%',
+      end: 'top 25%',
       scrub: 1,
       onUpdate(self) { updateHalftoneScroll(box, reveal, self.progress); },
     });
