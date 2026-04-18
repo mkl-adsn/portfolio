@@ -50,6 +50,13 @@ function buildRowsAndAnimate(
     fillLayer.style.clipPath = 'inset(0 100% 0 0)';
 
     requestAnimationFrame(() => {
+      // Mirror the trigger's exact float pixel width onto the fill layer so text
+      // wraps at identical positions. getBoundingClientRect() returns a float
+      // (e.g. 624.92px); setting it explicitly avoids the subpixel rounding that
+      // inset:0 / right:0 introduce. For heading fill layers this is a no-op
+      // (they already use inset:0 and their metrics are controlled by text-stroke).
+      fillLayer.style.width = `${trigger.getBoundingClientRect().width}px`;
+
       const wordEls = Array.from(fillLayer.querySelectorAll<HTMLElement>('.draw-word'));
 
       const rowMap = new Map<number, HTMLElement[]>();
@@ -228,43 +235,128 @@ function updateHalftoneScroll(box: HTMLElement, reveal: HTMLElement, progress: n
   reveal.style.opacity = revealOpacity.toFixed(4);
 }
 
-/** Grey-400 → grey-900 color reveal for body text: stacked grid fill layer on top. */
-function wrapDrawBody(el: HTMLElement) {
-  const original = el.innerHTML;
+/**
+ * Detects rendered line groups in el by walking its text nodes and using the
+ * Range API to read each word's bounding rect top — no DOM modification needed.
+ * Returns an array of lines, each line being an array of word strings.
+ *
+ * Why Range API instead of offsetTop on injected spans: at fractional DPI scales
+ * (e.g. 125% on Windows) the browser lays text out at physical-pixel precision.
+ * The element's CSS box width (getBoundingClientRect / offsetWidth) may differ
+ * from the effective text-wrap width, so any duplicate element we create will
+ * wrap at slightly different positions. Reading rects directly from the source
+ * text nodes sidesteps this entirely.
+ */
+function detectTextLines(el: HTMLElement): string[][] {
+  const lineMap = new Map<number, string[]>();
 
-  // Grid stacking: both layers are explicit grid items at 1/1, so they share
-  // the container's exact pixel width and visually overlap.
-  // Anonymous text nodes can't be placed explicitly, so we must clear el and
-  // re-wrap the original content in a proper grid item first.
-  // position:absolute;inset:0 is avoided because it causes subpixel rounding
-  // (e.g. parent 624.92px → child 624px) which shifts words to the next line.
-  el.innerHTML = '';
-  el.style.display = 'grid';
+  function walk(node: Node) {
+    if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
+      const text = node.textContent;
+      for (const match of text.matchAll(/\S+/g)) {
+        const range = document.createRange();
+        range.setStart(node, match.index!);
+        range.setEnd(node, match.index! + match[0].length);
+        const top = Math.round(range.getBoundingClientRect().top);
+        if (!lineMap.has(top)) lineMap.set(top, []);
+        lineMap.get(top)!.push(match[0]);
+      }
+    } else {
+      for (const child of node.childNodes) walk(child);
+    }
+  }
 
-  // Original (dim) layer — block span so it's a proper grid item.
-  const origEl = document.createElement('span');
-  origEl.innerHTML = original;
-  Object.assign(origEl.style, {
-    display: 'block',
-    gridRow: '1',
-    gridColumn: '1',
-  });
+  walk(el);
 
-  // Fill layer — same classes as el so font properties are identical.
+  return Array.from(lineMap.entries())
+    .sort(([a], [b]) => a - b)
+    .map(([, words]) => words);
+}
+
+/**
+ * Body text animation — detects line breaks from the source element via the
+ * Range API, then builds clip-path row spans in an overlay fill layer.
+ *
+ * Each fill row-span contains exactly one line of text (as measured from the
+ * source), so its own width never matters — it cannot re-wrap regardless of
+ * any subpixel difference between the fill layer and source element widths.
+ */
+function buildBodyRowsAndAnimate(
+  fillLayer: HTMLElement,
+  sourceEl: HTMLElement,
+  trigger: HTMLElement,
+  start: string,
+  end: string,
+  stagger: number,
+) {
+  let st: ScrollTrigger | null = null;
+
+  function build() {
+    st?.kill();
+    fillLayer.style.clipPath = 'inset(0 100% 0 0)';
+
+    requestAnimationFrame(() => {
+      // Clear stale row spans BEFORE detection — fillLayer is a child of
+      // sourceEl, so detectTextLines would otherwise walk its old text nodes
+      // and return doubled/incorrect line groups on every resize rebuild.
+      fillLayer.innerHTML = '';
+
+      const lines = detectTextLines(sourceEl);
+
+      const rowEls = lines.map(words => {
+        const span = document.createElement('span');
+        span.className = 'draw-row';
+        span.style.cssText = 'display: block; clip-path: inset(0 100% 0 0);';
+        span.textContent = words.join(' ');
+        return span;
+      });
+
+      rowEls.forEach(r => fillLayer.appendChild(r));
+      fillLayer.style.clipPath = '';
+
+      st = ScrollTrigger.create({
+        trigger,
+        start,
+        end,
+        scrub: 0.8,
+        onUpdate(self) {
+          const p = self.progress;
+          const n = rowEls.length;
+          rowEls.forEach((rowEl, i) => {
+            const delay = n > 1 ? (i / (n - 1)) * stagger : 0;
+            const local = Math.max(0, Math.min(1, (p - delay) / (1 - delay)));
+            const pct   = Math.round(local * 1000) / 10;
+            rowEl.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+          });
+        },
+      });
+    });
+  }
+
+  build();
+  _resizeCallbacks.push(build);
+}
+
+/** Grey-400 → grey-900 color reveal for body text: overlay fill layer. */
+function wrapDrawBody(el: HTMLElement): HTMLElement {
+  // position:relative makes el the containing block for the fill overlay.
+  el.style.position = 'relative';
+
+  // Fill layer sits over the source text and inherits all font properties.
+  // inset:0 is fine here — width never affects row detection (Range API reads
+  // from sourceEl directly) and each row-span holds only one line so it
+  // cannot re-wrap regardless of any subpixel box difference.
   const fillEl = document.createElement('div');
-  Array.from(el.classList).forEach(cls => fillEl.classList.add(cls));
-  fillEl.classList.add('draw-body-fill');
-  fillEl.innerHTML = original.replace(/(\S+)/g, '<span class="draw-word">$1</span>');
+  fillEl.className = 'draw-body-fill';
   Object.assign(fillEl.style, {
-    gridRow: '1',
-    gridColumn: '1',
+    position: 'absolute',
+    inset: '0',
     margin: '0',
     color: 'var(--grey-900)',
     pointerEvents: 'none',
     clipPath: 'inset(0 100% 0 0)',
   });
 
-  el.appendChild(origEl);
   el.appendChild(fillEl);
   return fillEl;
 }
@@ -354,8 +446,10 @@ export function initAnimations() {
   });
 
   // ── 2. Body text: grey-400 → grey-900, row by row ────────────────────────
+  // Uses Range API (buildBodyRowsAndAnimate) to detect line breaks from the
+  // source element directly — immune to subpixel DPI rendering differences.
   document.querySelectorAll<HTMLElement>('.draw-body').forEach(el => {
-    buildRowsAndAnimate(wrapDrawBody(el), el, 'top 95%', 'top 70%', 0.3);
+    buildBodyRowsAndAnimate(wrapDrawBody(el), el, el, 'top 95%', 'top 70%', 0.3);
   });
 
   // ── 3. Images: colour halftone → full image ──────────────────────────────
