@@ -14,7 +14,7 @@
   background: var(--grey-900);
   vertical-align: -0em;
   margin-left: 0.25em;
-  animation: cursor-blink 1.1s step-end infinite, cursor-stop 0.1s 10.5s forwards;
+  animation: cursor-blink 1.1s step-end infinite;
 }
 
 .hero-cursor.done {
@@ -36,12 +36,6 @@
   position: relative;
 }
 
-/* On mobile the animation is skipped — show text in its completed state */
-@media (max-width: 767px) {
-  .draw-body {
-    color: var(--grey-900);
-  }
-}
 
 /* ─── Halftone image scroll effect (leanrada separate-K technique) ───────── */
 /*

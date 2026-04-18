@@ -20,7 +20,7 @@ export interface LanguageEntry {
 export const workExperience: WorkEntry[] = [
   {
     company: 'Digitalist Sweden',
-    period: '2018–2023',
+    period: '2018‑2023',
     role: 'UX/Digital Designer',
     description: [
       `At Digitalist, I worked with several major clients, maintaining and improving their website designs and user experiences through research, interviews, prototyping, and UI design. I established and maintained complex design systems, supported requirements work, and helped bridge the gap between design and development.`,
@@ -28,7 +28,7 @@ export const workExperience: WorkEntry[] = [
   },
   {
     company: 'FEO Media',
-    period: '2017–2018',
+    period: '2017‑2018',
     role: 'UX/UI Game Artist',
     description: [
       `At FEO Media, I worked on Quizkampen Business — the enterprise version of Quizkampen (QuizClash) — primarily designing a new interface for the admin panel where clients could manage their quizzes and question database. I also collaborated with the marketing department, creating brochures, flyers, and landing pages for the sales team.`,
@@ -37,8 +37,8 @@ export const workExperience: WorkEntry[] = [
   },
   {
     company: 'Solid Agency',
-    period: '2012–2017',
-    role: 'Graphic/UX Designer (2012–2015)  ·  Art Director/UX (2015–2017)',
+    period: '2012‑2017',
+    role: 'Graphic/UX Designer (2012‑2015)  ·  Art Director/UX (2015‑2017)',
     description: [
       `At Solid Agency, I began as a graphic/UX designer, primarily designing web applications, browser games, and campaign sites. As the company grew, so did my responsibilities — I started working more closely with clients, took a larger role in the concept creation process, and expanded into company branding, social media campaigns, photography, and visual effects.`,
       `In my final year, I focused on developing communication concepts for various social media platforms, collaborating closely with copywriters and photographers to produce content grounded in those concepts.`,
@@ -63,7 +63,7 @@ export const workExperience: WorkEntry[] = [
   },
   {
     company: 'Freelance',
-    period: '2009–2014',
+    period: '2009‑2014',
     role: 'Graphic Designer',
     description: [
       `Alongside my studies, I worked as a freelance graphic designer for various smaller clients. Projects ranged from websites and logotypes to print design.`,
@@ -74,14 +74,14 @@ export const workExperience: WorkEntry[] = [
 export const education: EducationEntry[] = [
   {
     institution: 'Linköpings Universitet',
-    period: '2009–2012',
-    degree: 'Grafisk Design och Kommunikation — Graphic Design and Communications',
+    period: '2009‑2012',
+    degree: 'Grafisk Design och Kommunikation (Graphic Design and Communications)',
     description: `Completed 158 of 180 credits towards a Bachelor's Degree. The programme had a strong theoretical focus, providing a broad understanding of topics relevant to the design industry — including design history, visual rhetoric, information design, HCI/UX, intellectual property law, and marketing communications.`,
   },
   {
     institution: 'Törnströmska Gymnasiet',
-    period: '2006–2008',
-    degree: 'Medieprogrammet: Grafisk Design — Media Programme: Graphic Design',
+    period: '2006‑2008',
+    degree: 'Medieprogrammet: Grafisk Design (Media Programme: Graphic Design)',
     description: `An upper secondary programme focused on practical applications in graphic design, creative writing, and photography.`,
   },
 ];

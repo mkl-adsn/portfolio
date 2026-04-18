@@ -11,12 +11,24 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+/* ─── Resize registry ────────────────────────────────────────────────────── */
+
+// Populated by buildRowsAndAnimate; flushed by the debounced resize listener
+// added at the end of initAnimations.
+const _resizeCallbacks: Array<() => void> = [];
+let _resizeTimer: ReturnType<typeof setTimeout> | null = null;
+
 /* ─── Utility ────────────────────────────────────────────────────────────── */
 
 /**
  * After layout, groups .draw-word spans in fillLayer by rendered row (offsetTop),
  * rebuilds the layer as block row-spans each with clip-path, then wires a
  * ScrollTrigger that reveals rows left→right with a stagger.
+ *
+ * On window resize the build is re-run automatically: wordWrappedHTML is
+ * captured once before the first build destroys the .draw-word spans, then
+ * restored at the start of every subsequent build so row detection can re-run
+ * against the new layout.
  */
 function buildRowsAndAnimate(
   fillLayer: HTMLElement,
@@ -25,51 +37,67 @@ function buildRowsAndAnimate(
   end: string,
   stagger: number,
 ) {
-  requestAnimationFrame(() => {
-    const wordEls = Array.from(fillLayer.querySelectorAll<HTMLElement>('.draw-word'));
+  // Capture word-wrapped HTML before first build destroys it.
+  const wordWrappedHTML = fillLayer.innerHTML;
+  let st: ScrollTrigger | null = null;
 
-    const rowMap = new Map<number, HTMLElement[]>();
-    wordEls.forEach(w => {
-      const top = Math.round(w.offsetTop);
-      if (!rowMap.has(top)) rowMap.set(top, []);
-      rowMap.get(top)!.push(w);
-    });
+  function build() {
+    // Kill the previous trigger so we don't accumulate stale instances.
+    st?.kill();
 
-    const rowEls = Array.from(rowMap.entries())
-      .sort(([a], [b]) => a - b)
-      .map(([, words]) => {
-        const rowSpan = document.createElement('span');
-        rowSpan.className = 'draw-row';
-        rowSpan.style.cssText = 'display: block; clip-path: inset(0 100% 0 0);';
-        rowSpan.textContent = words.map(w => w.textContent ?? '').join(' ');
-        return rowSpan;
+    // Restore word spans so offsetTop measurements are valid for the current layout.
+    fillLayer.innerHTML = wordWrappedHTML;
+    fillLayer.style.clipPath = 'inset(0 100% 0 0)';
+
+    requestAnimationFrame(() => {
+      const wordEls = Array.from(fillLayer.querySelectorAll<HTMLElement>('.draw-word'));
+
+      const rowMap = new Map<number, HTMLElement[]>();
+      wordEls.forEach(w => {
+        const top = Math.round(w.offsetTop);
+        if (!rowMap.has(top)) rowMap.set(top, []);
+        rowMap.get(top)!.push(w);
       });
 
-    // Swap word-span content for row-span content, then clear parent clip-path
-    fillLayer.innerHTML = '';
-    rowEls.forEach(r => fillLayer.appendChild(r));
-    fillLayer.style.clipPath = '';
-
-    ScrollTrigger.create({
-      trigger,
-      start,
-      end,
-      scrub: 0.8,
-      onUpdate(self) {
-        const p = self.progress;
-        // Distribute delays evenly so the last row starts at `stagger` (fraction of
-        // scroll range) regardless of row count — prevents rows beyond 1/stagger
-        // from never being reached.
-        const n = rowEls.length;
-        rowEls.forEach((rowEl, i) => {
-          const delay = n > 1 ? (i / (n - 1)) * stagger : 0;
-          const local = Math.max(0, Math.min(1, (p - delay) / (1 - delay)));
-          const pct   = Math.round(local * 1000) / 10;
-          rowEl.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+      const rowEls = Array.from(rowMap.entries())
+        .sort(([a], [b]) => a - b)
+        .map(([, words]) => {
+          const rowSpan = document.createElement('span');
+          rowSpan.className = 'draw-row';
+          rowSpan.style.cssText = 'display: block; clip-path: inset(0 100% 0 0);';
+          rowSpan.textContent = words.map(w => w.textContent ?? '').join(' ');
+          return rowSpan;
         });
-      },
+
+      // Swap word-span content for row-span content, then clear parent clip-path
+      fillLayer.innerHTML = '';
+      rowEls.forEach(r => fillLayer.appendChild(r));
+      fillLayer.style.clipPath = '';
+
+      st = ScrollTrigger.create({
+        trigger,
+        start,
+        end,
+        scrub: 0.8,
+        onUpdate(self) {
+          const p = self.progress;
+          // Distribute delays evenly so the last row starts at `stagger` (fraction of
+          // scroll range) regardless of row count — prevents rows beyond 1/stagger
+          // from never being reached.
+          const n = rowEls.length;
+          rowEls.forEach((rowEl, i) => {
+            const delay = n > 1 ? (i / (n - 1)) * stagger : 0;
+            const local = Math.max(0, Math.min(1, (p - delay) / (1 - delay)));
+            const pct   = Math.round(local * 1000) / 10;
+            rowEl.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+          });
+        },
+      });
     });
-  });
+  }
+
+  build();
+  _resizeCallbacks.push(build);
 }
 
 /** Dual-layer draw effect for headings: outline skeleton + clipped fill reveal. */
@@ -88,7 +116,9 @@ function wrapDrawHeading(el: HTMLElement, color = 'var(--grey-900)', outlineWidt
     userSelect: 'none',
   });
 
-  // Fill layer — word-wrapped for row detection; hidden until rows are built in rAF
+  // Fill layer — word-wrapped for row detection; hidden until rows are built in rAF.
+  // WebkitTextStroke must match the outline layer so both layers have identical
+  // character metrics and therefore identical line-break positions.
   const fillEl = document.createElement('span');
   fillEl.className = 'draw-fill-layer';
   fillEl.innerHTML = original.replace(/(\S+)/g, '<span class="draw-word">$1</span>');
@@ -99,6 +129,7 @@ function wrapDrawHeading(el: HTMLElement, color = 'var(--grey-900)', outlineWidt
     color,
     whiteSpace: 'inherit',
     clipPath: 'inset(0 100% 0 0)',
+    WebkitTextStroke: `${outlineWidth} transparent`, // match outline metrics, invisible
   });
 
   el.style.position = 'relative';
@@ -197,25 +228,43 @@ function updateHalftoneScroll(box: HTMLElement, reveal: HTMLElement, progress: n
   reveal.style.opacity = revealOpacity.toFixed(4);
 }
 
-/** Grey-400 → grey-900 color reveal for body text: absolute fill layer on top. */
+/** Grey-400 → grey-900 color reveal for body text: stacked grid fill layer on top. */
 function wrapDrawBody(el: HTMLElement) {
   const original = el.innerHTML;
 
-  el.style.position = 'relative';
+  // Grid stacking: both layers are explicit grid items at 1/1, so they share
+  // the container's exact pixel width and visually overlap.
+  // Anonymous text nodes can't be placed explicitly, so we must clear el and
+  // re-wrap the original content in a proper grid item first.
+  // position:absolute;inset:0 is avoided because it causes subpixel rounding
+  // (e.g. parent 624.92px → child 624px) which shifts words to the next line.
+  el.innerHTML = '';
+  el.style.display = 'grid';
 
-  const fillEl = document.createElement('span');
-  fillEl.className = 'draw-body-fill';
+  // Original (dim) layer — block span so it's a proper grid item.
+  const origEl = document.createElement('span');
+  origEl.innerHTML = original;
+  Object.assign(origEl.style, {
+    display: 'block',
+    gridRow: '1',
+    gridColumn: '1',
+  });
+
+  // Fill layer — same classes as el so font properties are identical.
+  const fillEl = document.createElement('div');
+  Array.from(el.classList).forEach(cls => fillEl.classList.add(cls));
+  fillEl.classList.add('draw-body-fill');
   fillEl.innerHTML = original.replace(/(\S+)/g, '<span class="draw-word">$1</span>');
   Object.assign(fillEl.style, {
-    display: 'block',
-    position: 'absolute',
-    inset: '0',
+    gridRow: '1',
+    gridColumn: '1',
+    margin: '0',
     color: 'var(--grey-900)',
-    whiteSpace: 'inherit',
     pointerEvents: 'none',
     clipPath: 'inset(0 100% 0 0)',
   });
 
+  el.appendChild(origEl);
   el.appendChild(fillEl);
   return fillEl;
 }
@@ -304,12 +353,10 @@ export function initAnimations() {
     buildRowsAndAnimate(wrapDrawHeading(el, 'var(--grey-700)', '0.5px'), el, 'top 95%', 'top 30%', 0.4);
   });
 
-  // ── 2. Body text: grey-400 → grey-900, row by row (desktop only) ─────────
-  if (!window.matchMedia('(max-width: 767px)').matches) {
-    document.querySelectorAll<HTMLElement>('.draw-body').forEach(el => {
-      buildRowsAndAnimate(wrapDrawBody(el), el, 'top 95%', 'top 70%', 0.3);
-    });
-  }
+  // ── 2. Body text: grey-400 → grey-900, row by row ────────────────────────
+  document.querySelectorAll<HTMLElement>('.draw-body').forEach(el => {
+    buildRowsAndAnimate(wrapDrawBody(el), el, 'top 95%', 'top 70%', 0.3);
+  });
 
   // ── 3. Images: colour halftone → full image ──────────────────────────────
   document.querySelectorAll<HTMLElement>('.draw-image').forEach(el => {
@@ -323,6 +370,17 @@ export function initAnimations() {
       scrub: 1,
       onUpdate(self) { updateHalftoneScroll(box, reveal, self.progress); },
     });
+  });
+
+  // ── 4. Rebuild text animations on resize (debounced 200 ms) ──────────────
+  // _resizeCallbacks is populated by each buildRowsAndAnimate call above.
+  // ScrollTrigger.refresh() recalculates image trigger positions after resize.
+  window.addEventListener('resize', () => {
+    if (_resizeTimer) clearTimeout(_resizeTimer);
+    _resizeTimer = setTimeout(() => {
+      _resizeCallbacks.forEach(cb => cb());
+      ScrollTrigger.refresh();
+    }, 200);
   });
 
 }
