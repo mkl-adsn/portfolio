@@ -19,6 +19,7 @@
 
 :root {
   /* Colour palette */
+  --white:        #ffffff;
   --grey-100:     #f9fafb;
   --grey-200:     #f0f2f4;
   --grey-300:     #E7EAEE;

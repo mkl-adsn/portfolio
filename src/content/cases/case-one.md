@@ -4,6 +4,7 @@ subtitle: "UX Research // UI Design // Prototyping"
 description: "A complete redesign of an enterprise platform, improving task completion by 38% through intensive user research and iterative prototyping."
 tags: ["Figma", "UX Research", "Design Systems"]
 image: "/images/case-placeholder-image.png"
+halftoneImage: "/images/case-placeholder-image-solid.png"
 imageOrientation: portrait
 order: 1
 ---

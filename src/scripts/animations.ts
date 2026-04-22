@@ -155,14 +155,16 @@ function wrapDrawHeading(el: HTMLElement, color = 'var(--grey-900)', outlineWidt
  * values on scroll; all rendering logic lives in animations.css.
  *
  * DOM structure:
- *   .halftone-box                       ← replaces the original <img>
- *     .halftone-demo                    ← CMY filtered wrapper
- *       img.halftone-media              ← saturated image (CMY signal)
- *       .halftone-demo-ink              ← Y channel (::before) + C+M (::after)
- *     .halftone-demo-k-layer            ← K (black) channel, multiply-blended
- *       img.halftone-media              ← greyscale image (K signal)
- *     .halftone-reveal                  ← original image, fades in at end
- *       img
+ *   .halftone-figure-wrapper            ← flex item; position:relative
+ *     .case-image (figure)              ← mix-blend-mode: multiply
+ *       .halftone-box
+ *         .halftone-demo                ← CMY filtered wrapper
+ *           img.halftone-media          ← saturated image (CMY signal)
+ *           .halftone-demo-ink          ← Y channel (::before) + C+M (::after)
+ *         .halftone-demo-k-layer        ← K (black) channel, multiply-blended
+ *           img.halftone-media          ← greyscale image (K signal)
+ *     .halftone-reveal                  ← sibling of figure; outside multiply context
+ *       img                             ← original image, fades in at end
  *
  * Scroll phases (0 → 1):
  *   0 – REVEAL_START   --hs shrinks MAX_SIZE → MIN_SIZE (coarse → fine dots)
@@ -171,10 +173,11 @@ function wrapDrawHeading(el: HTMLElement, color = 'var(--grey-900)', outlineWidt
 
 /** Builds the leanrada separate-K DOM structure around a .draw-image element. */
 function setupHalftoneDOM(img: HTMLElement): { box: HTMLElement; reveal: HTMLElement } {
-  const src = (img as HTMLImageElement).src;
-  const alt = (img as HTMLImageElement).alt ?? '';
+  const revealSrc   = (img as HTMLImageElement).src;
+  const halftoneSrc = (img as HTMLImageElement).dataset.halftoneSrc ?? revealSrc;
+  const alt         = (img as HTMLImageElement).alt ?? '';
 
-  function makeImg(extraClass?: string): HTMLImageElement {
+  function makeImg(src: string, extraClass?: string): HTMLImageElement {
     const el = document.createElement('img');
     el.src = src;
     el.alt = alt;
@@ -182,34 +185,45 @@ function setupHalftoneDOM(img: HTMLElement): { box: HTMLElement; reveal: HTMLEle
     return el;
   }
 
-  // CMY wrapper
+  // CMY wrapper — uses halftone-specific image (solid, no alpha)
   const cmy = document.createElement('div');
   cmy.className = 'halftone-demo';
-  cmy.appendChild(makeImg());
+  cmy.appendChild(makeImg(halftoneSrc));
   const ink = document.createElement('div');
   ink.className = 'halftone-demo-ink';
   cmy.appendChild(ink);
 
-  // K layer
+  // K layer — same halftone image
   const kLayer = document.createElement('div');
   kLayer.className = 'halftone-demo-k-layer';
-  kLayer.appendChild(makeImg());
+  kLayer.appendChild(makeImg(halftoneSrc));
 
-  // Reveal — original image fades in over the halftone during final phase
+  // Reveal — original image (may have transparency), fades in during final phase
   const reveal = document.createElement('div');
   reveal.className = 'halftone-reveal';
-  reveal.appendChild(makeImg());
+  reveal.appendChild(makeImg(revealSrc));
 
-  // Box replaces the original img
+  // Wrap the figure so reveal can live outside .case-image (and therefore
+  // outside its mix-blend-mode: multiply stacking context) while staying
+  // visually overlaid on the same area.
+  const figure = img.parentNode!;
+  const wrapper = document.createElement('div');
+  wrapper.className = 'halftone-figure-wrapper';
+  figure.parentNode!.insertBefore(wrapper, figure);
+  wrapper.appendChild(figure);
+
+  // Box replaces the original img inside the figure
   const box = document.createElement('div');
   box.className = 'halftone-box';
   box.style.setProperty('--hs', '40px');
   box.style.setProperty('--hb', '0.3');
-  img.parentNode!.insertBefore(box, img);
+  figure.insertBefore(box, img);
   box.appendChild(cmy);
   box.appendChild(kLayer);
-  box.appendChild(reveal);
   img.remove();
+
+  // Reveal is a sibling of the figure inside the wrapper — outside .case-image
+  wrapper.appendChild(reveal);
 
   return { box, reveal };
 }
@@ -430,8 +444,15 @@ export function initHeroTypewriter() {
     }
   }
 
-  // Short pause before typing begins
-  setTimeout(tick, 1200);
+  // Wait for Warnock Pro to load AND for the minimum pause to elapse.
+  // font-display:swap means the browser renders the fallback immediately, so
+  // without this gate the first characters appear in the wrong typeface.
+  // Promise.all ensures neither condition alone is sufficient to start early.
+  Promise.all([
+    document.fonts.load('400 60px "Warnock Pro"'),
+    document.fonts.load('600 60px "Warnock Pro"'),
+    new Promise<void>(resolve => setTimeout(resolve, 1200)),
+  ]).then(() => tick());
 }
 
 export function initAnimations() {

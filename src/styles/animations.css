@@ -45,6 +45,14 @@
   --dot = --hs × --hb = gradient radius (dot size)
 */
 
+/* Wrapper that becomes the flex item in place of .case-image.
+   Holds the figure (with multiply blend) and .halftone-reveal as siblings so
+   the reveal is outside the multiply stacking context. */
+.halftone-figure-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .halftone-box {
   position: relative;
   display: block;
