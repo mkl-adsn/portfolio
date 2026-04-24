@@ -1,10 +1,20 @@
 ---
 import SkillsFilter from '../ui/SkillsFilter.astro';
 import { workExperience, education, languages } from '../../content/data/cv.ts';
+import Button from '../ui/Button.astro';
 ---
 
 <section id="cv" class="py-12 md:py-24">
+
+  <div class="container flex justify-between gap-x-8 gap-y-6 items-center flex-wrap mb-12 md:mb-24">
+    <h1 class="type-h1 draw-heading">Curriculum Vitae</h1>
+<Button variant="light" icon="Download" href="/cv.pdf" download>
+        <span class="type-label">Download CV</span>
+      </Button>
+      </div>
+
   <div class="container-narrow flex flex-col gap-16 md:gap-24">
+
 
     <!-- Work Experience -->
 
@@ -22,6 +32,14 @@ import { workExperience, education, languages } from '../../content/data/cv.ts';
           </div>
         </div>
       ))}
+    </div>
+
+ <!-- Skills -->
+    <div class="flex flex-col gap-8 md:gap-12">
+    <h2 class="draw-heading type-h2">Professional Skills</h2>
+
+    <SkillsFilter />
+
     </div>
 
     <!-- Education -->
@@ -52,14 +70,10 @@ import { workExperience, education, languages } from '../../content/data/cv.ts';
         </div>
       ))}
     </div>
-
-    <!-- Skills -->
-    <div class="flex flex-col gap-8 md:gap-12">
-    <h2 class="draw-heading type-h2">Professional Skills</h2>
-
-    <SkillsFilter />
-
-    </div>
+<Button variant="light" icon="Download" href="/cv.pdf" download>
+        <span class="type-label">Download CV</span>
+      </Button>
+   
 
   </div>
 </section>

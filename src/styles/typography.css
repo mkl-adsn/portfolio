@@ -26,7 +26,7 @@
 .type-h2 {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: 48px;
+  font-size: 44px;
   line-height: 1;
   color: var(--grey-900);
   margin: 0;
@@ -82,17 +82,17 @@
 /* ─── Mobile typography (≤767px) ─────────────────────────────────────────── */
 @media (max-width: 767px) {
   .type-h1 {
-    font-size: 36px;
-    line-height: 40px;
+    font-size: 38px;
+    line-height: 42px;
   }
 
   .type-h2 {
-    font-size: 32px;
-    line-height: 36px;
+    font-size: 30px;
+    line-height: 1;
   }
 
   .type-h3 {
     font-size: 24px;
-    line-height: 28px;
+    line-height: 1;
   }
 }

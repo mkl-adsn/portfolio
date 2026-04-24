@@ -2,16 +2,16 @@
 /* Full-width sections use these inside to constrain content width */
 
 .container {
-  max-width: 1296px;
+  max-width: 1536px;
   margin-inline: auto;
-  padding-inline: 48px;
+  padding-inline: 96px;
   width: 100%;
 }
 
 .container-narrow {
-  max-width: 720px;
+  max-width: 912px;
   margin-inline: auto;
-  padding-inline: 48px;
+  padding-inline: 96px;
   width: 100%;
 }
 
@@ -40,7 +40,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 5;
   pointer-events: none;
   opacity: 0.15;
   mix-blend-mode: hard-light;  

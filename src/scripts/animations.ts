@@ -20,98 +20,17 @@ let _resizeTimer: ReturnType<typeof setTimeout> | null = null;
 
 /* ─── Utility ────────────────────────────────────────────────────────────── */
 
-/**
- * After layout, groups .draw-word spans in fillLayer by rendered row (offsetTop),
- * rebuilds the layer as block row-spans each with clip-path, then wires a
- * ScrollTrigger that reveals rows left→right with a stagger.
- *
- * On window resize the build is re-run automatically: wordWrappedHTML is
- * captured once before the first build destroys the .draw-word spans, then
- * restored at the start of every subsequent build so row detection can re-run
- * against the new layout.
- */
-function buildRowsAndAnimate(
-  fillLayer: HTMLElement,
-  trigger: HTMLElement,
-  start: string,
-  end: string,
-  stagger: number,
-) {
-  // Capture word-wrapped HTML before first build destroys it.
-  const wordWrappedHTML = fillLayer.innerHTML;
-  let st: ScrollTrigger | null = null;
-
-  function build() {
-    // Kill the previous trigger so we don't accumulate stale instances.
-    st?.kill();
-
-    // Restore word spans so offsetTop measurements are valid for the current layout.
-    fillLayer.innerHTML = wordWrappedHTML;
-    fillLayer.style.clipPath = 'inset(0 100% 0 0)';
-
-    requestAnimationFrame(() => {
-      // Mirror the trigger's exact float pixel width onto the fill layer so text
-      // wraps at identical positions. getBoundingClientRect() returns a float
-      // (e.g. 624.92px); setting it explicitly avoids the subpixel rounding that
-      // inset:0 / right:0 introduce. For heading fill layers this is a no-op
-      // (they already use inset:0 and their metrics are controlled by text-stroke).
-      fillLayer.style.width = `${trigger.getBoundingClientRect().width}px`;
-
-      const wordEls = Array.from(fillLayer.querySelectorAll<HTMLElement>('.draw-word'));
-
-      const rowMap = new Map<number, HTMLElement[]>();
-      wordEls.forEach(w => {
-        const top = Math.round(w.offsetTop);
-        if (!rowMap.has(top)) rowMap.set(top, []);
-        rowMap.get(top)!.push(w);
-      });
-
-      const rowEls = Array.from(rowMap.entries())
-        .sort(([a], [b]) => a - b)
-        .map(([, words]) => {
-          const rowSpan = document.createElement('span');
-          rowSpan.className = 'draw-row';
-          rowSpan.style.cssText = 'display: block; clip-path: inset(0 100% 0 0);';
-          rowSpan.textContent = words.map(w => w.textContent ?? '').join(' ');
-          return rowSpan;
-        });
-
-      // Swap word-span content for row-span content, then clear parent clip-path
-      fillLayer.innerHTML = '';
-      rowEls.forEach(r => fillLayer.appendChild(r));
-      fillLayer.style.clipPath = '';
-
-      st = ScrollTrigger.create({
-        trigger,
-        start,
-        end,
-        scrub: 0.8,
-        onUpdate(self) {
-          const p = self.progress;
-          // Distribute delays evenly so the last row starts at `stagger` (fraction of
-          // scroll range) regardless of row count — prevents rows beyond 1/stagger
-          // from never being reached.
-          const n = rowEls.length;
-          rowEls.forEach((rowEl, i) => {
-            const delay = n > 1 ? (i / (n - 1)) * stagger : 0;
-            const local = Math.max(0, Math.min(1, (p - delay) / (1 - delay)));
-            const pct   = Math.round(local * 1000) / 10;
-            rowEl.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
-          });
-        },
-      });
-    });
-  }
-
-  build();
-  _resizeCallbacks.push(build);
-}
 
 /** Dual-layer draw effect for headings: outline skeleton + clipped fill reveal. */
-function wrapDrawHeading(el: HTMLElement, color = 'var(--grey-900)', outlineWidth = '1px') {
+function wrapDrawHeading(
+  el: HTMLElement,
+  color = 'var(--grey-900)',
+  outlineWidth = '1px',
+): { fillEl: HTMLElement; outlineEl: HTMLElement } {
   const original = el.innerHTML;
 
-  // Outline ghost (skeleton always visible)
+  // Outline ghost (skeleton always visible) — in normal flow, used as the
+  // source element for Range API line-break detection.
   const outlineEl = document.createElement('span');
   outlineEl.className = 'draw-outline-layer';
   outlineEl.setAttribute('aria-hidden', 'true');
@@ -123,12 +42,11 @@ function wrapDrawHeading(el: HTMLElement, color = 'var(--grey-900)', outlineWidt
     userSelect: 'none',
   });
 
-  // Fill layer — word-wrapped for row detection; hidden until rows are built in rAF.
-  // WebkitTextStroke must match the outline layer so both layers have identical
-  // character metrics and therefore identical line-break positions.
+  // Fill layer — row spans built by buildBodyRowsAndAnimate via Range API on
+  // the outline layer. WebkitTextStroke matches outline so glyph metrics are
+  // identical and line breaks land in the same positions.
   const fillEl = document.createElement('span');
   fillEl.className = 'draw-fill-layer';
-  fillEl.innerHTML = original.replace(/(\S+)/g, '<span class="draw-word">$1</span>');
   Object.assign(fillEl.style, {
     display: 'block',
     position: 'absolute',
@@ -136,7 +54,7 @@ function wrapDrawHeading(el: HTMLElement, color = 'var(--grey-900)', outlineWidt
     color,
     whiteSpace: 'inherit',
     clipPath: 'inset(0 100% 0 0)',
-    WebkitTextStroke: `${outlineWidth} transparent`, // match outline metrics, invisible
+    WebkitTextStroke: `${outlineWidth} transparent`,
   });
 
   el.style.position = 'relative';
@@ -144,7 +62,7 @@ function wrapDrawHeading(el: HTMLElement, color = 'var(--grey-900)', outlineWidt
   el.appendChild(outlineEl);
   el.appendChild(fillEl);
 
-  return fillEl;
+  return { fillEl, outlineEl };
 }
 
 /**
@@ -422,7 +340,7 @@ export function initHeroTypewriter() {
   }
 
   let index = 0;
-  const SPEED_MS = 33; // ms per character
+  const SPEED_MS = 25; // ms per character
 
   // Keep buttons invisible until typing finishes; wrapper opacity is already 0 in HTML
   function tick() {
@@ -456,14 +374,19 @@ export function initHeroTypewriter() {
 }
 
 export function initAnimations() {
-  // ── 1. Draw-heading (h2): outline skeleton → grey-900 fill, row by row ─────
+  // ── 1. Draw-heading: outline skeleton → grey-900 fill, row by row ──────────
+  // Uses Range API on the outline layer (normal-flow source) so line-break
+  // detection is accurate regardless of the heading's containing layout context
+  // (block, flex item with justify-between, etc.).
   document.querySelectorAll<HTMLElement>('.draw-heading').forEach(el => {
-    buildRowsAndAnimate(wrapDrawHeading(el), el, 'top 95%', 'top 30%', 0.4);
+    const { fillEl, outlineEl } = wrapDrawHeading(el);
+    buildBodyRowsAndAnimate(fillEl, outlineEl, el, 'top 95%', 'top 30%', 0.4);
   });
 
   // ── 1b. Draw-subheading (h3): same effect, grey-700 ──────────────────────
   document.querySelectorAll<HTMLElement>('.draw-subheading').forEach(el => {
-    buildRowsAndAnimate(wrapDrawHeading(el, 'var(--grey-700)', '0.5px'), el, 'top 95%', 'top 30%', 0.4);
+    const { fillEl, outlineEl } = wrapDrawHeading(el, 'var(--grey-700)', '0.5px');
+    buildBodyRowsAndAnimate(fillEl, outlineEl, el, 'top 95%', 'top 30%', 0.4);
   });
 
   // ── 2. Body text: grey-400 → grey-900, row by row ────────────────────────

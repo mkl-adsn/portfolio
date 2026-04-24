@@ -53,6 +53,17 @@
   flex-shrink: 0;
 }
 
+/* On mobile, portrait wrappers need the same max-width + centering that was
+   previously on .case-image--portrait, since the wrapper is now the flex item.
+   Without this, the wrapper stretches to full article width, de-centering the
+   halftone image and making .halftone-reveal (inset:20px) fill the full width. */
+@media (max-width: 767px) {
+  .halftone-figure-wrapper:has(.case-image--portrait) {
+    max-width: 300px;
+    align-self: center;
+  }
+}
+
 .halftone-box {
   position: relative;
   display: block;
@@ -173,6 +184,7 @@
   inset: 20px;
   opacity: 0;
   pointer-events: none;
+  z-index: 10;
 }
 
 .halftone-reveal > .halftone-media {

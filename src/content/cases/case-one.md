@@ -1,5 +1,5 @@
 ---
-title: "Project One"
+title: "Project One Longer Title to Easier Find Row Issues with Fill Animation"
 subtitle: "UX Research // UI Design // Prototyping"
 description: "A complete redesign of an enterprise platform, improving task completion by 38% through intensive user research and iterative prototyping."
 tags: ["Figma", "UX Research", "Design Systems"]
