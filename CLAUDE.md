@@ -20,16 +20,15 @@ Keep narration and explanations of what you are about to do to a minimum. Act, t
 
 ## Committing
 
-Before committing a branch, regenerate the CV PDF so `public/cv.pdf` stays in
-sync with the `/cv` page, then include it in the commit:
+Before committing a branch, **always** run `npm run build:cv` to regenerate the
+CV PDF, then include `public/cv.pdf` in the commit. Don't check whether CV
+content changed first — unconditionally regenerating is foolproof and faster
+than deciding, so just do it every time.
 
-- Run `npm run build:cv` when any CV content, layout, or styling may have
-  changed (it rebuilds `dist/` first, then renders the PDF).
-- Run `npm run generate:cv` only when `dist/` is already up to date and just the
-  PDF needs re-rendering.
-
-When unsure, use `npm run build:cv`. (The deploy `build` script deliberately
-does **not** generate the PDF — see `scripts/generate-cv-pdf.mjs`.)
+(`npm run generate:cv` re-renders the PDF from an existing `dist/` build if you
+already have one up to date, but `build:cv` is the safe default. The deploy
+`build` script deliberately does **not** generate the PDF — see
+`scripts/generate-cv-pdf.mjs`.)
 
 ## Architecture
 

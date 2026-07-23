@@ -30,13 +30,6 @@
   to { opacity: 0; }
 }
 
-/* Initial state for draw-body: dim text, overridden by JS fill layer reveal */
-.draw-body {
-  color: var(--grey-400);
-  position: relative;
-}
-
-
 /* ─── Halftone image scroll effect (leanrada separate-K technique) ───────── */
 /*
   All rendering driven by two CSS custom properties set per-element by JS:

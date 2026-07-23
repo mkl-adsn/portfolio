@@ -25,9 +25,9 @@ import Button from '../ui/Button.astro';
         <div class="zoom-in flex flex-col gap-6">
           <h3 class="draw-subheading type-h3">{job.company}, {job.period}</h3>
           <div class="flex flex-col gap-3">
-            <p class="draw-body type-body-bold">{job.role}</p>
+            <p class="type-body-bold">{job.role}</p>
             {job.description.map(para => (
-              <p class="draw-body type-body">{para}</p>
+              <p class="type-body">{para}</p>
             ))}
           </div>
         </div>
@@ -51,8 +51,8 @@ import Button from '../ui/Button.astro';
         <div class="zoom-in flex flex-col gap-6">
           <h3 class="draw-subheading type-h3">{entry.institution}, {entry.period}</h3>
           <div class="flex flex-col gap-3">
-            <p class="draw-body type-body-bold">{entry.degree}</p>
-            <p class="draw-body type-body">{entry.description}</p>
+            <p class="type-body-bold">{entry.degree}</p>
+            <p class="type-body">{entry.description}</p>
           </div>
         </div>
       ))}
@@ -65,7 +65,7 @@ import Button from '../ui/Button.astro';
 
       {languages.map(lang => (
         <div class="zoom-in flex flex-col gap-1">
-          <p class="draw-body type-body-bold">{lang.name}</p>
+          <p class="type-body-bold">{lang.name}</p>
           <p class="type-body" style="color: var(--grey-700);">{lang.level}</p>
         </div>
       ))}

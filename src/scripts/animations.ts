@@ -270,30 +270,6 @@ function buildBodyRowsAndAnimate(
   _resizeCallbacks.push(build);
 }
 
-/** Grey-400 → grey-900 color reveal for body text: overlay fill layer. */
-function wrapDrawBody(el: HTMLElement): HTMLElement {
-  // position:relative makes el the containing block for the fill overlay.
-  el.style.position = 'relative';
-
-  // Fill layer sits over the source text and inherits all font properties.
-  // inset:0 is fine here — width never affects row detection (Range API reads
-  // from sourceEl directly) and each row-span holds only one line so it
-  // cannot re-wrap regardless of any subpixel box difference.
-  const fillEl = document.createElement('div');
-  fillEl.className = 'draw-body-fill';
-  Object.assign(fillEl.style, {
-    position: 'absolute',
-    inset: '0',
-    margin: '0',
-    color: 'var(--grey-900)',
-    pointerEvents: 'none',
-    clipPath: 'inset(0 100% 0 0)',
-  });
-
-  el.appendChild(fillEl);
-  return fillEl;
-}
-
 /* ─── Init ───────────────────────────────────────────────────────────────── */
 
 /* ─── Hero typewriter ────────────────────────────────────────────────────── */
@@ -386,14 +362,7 @@ export function initAnimations() {
     buildBodyRowsAndAnimate(fillEl, outlineEl, el, 'top 95%', 'top 30%', 0.4);
   });
 
-  // ── 2. Body text: grey-400 → grey-900, row by row ────────────────────────
-  // Uses Range API (buildBodyRowsAndAnimate) to detect line breaks from the
-  // source element directly — immune to subpixel DPI rendering differences.
-  document.querySelectorAll<HTMLElement>('.draw-body').forEach(el => {
-    buildBodyRowsAndAnimate(wrapDrawBody(el), el, el, 'top 95%', 'top 70%', 0.3);
-  });
-
-  // ── 3. Images: colour halftone → full image ──────────────────────────────
+  // ── 2. Images: colour halftone → full image ──────────────────────────────
   document.querySelectorAll<HTMLElement>('.draw-image').forEach(el => {
     const { box, reveal } = setupHalftoneDOM(el);
     updateHalftoneScroll(box, reveal, 0);
