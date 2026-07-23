@@ -7,8 +7,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/generate-cv-pdf.mjs",
-    "build:site": "astro build",
+    "build": "astro build",
+    "build:cv": "astro build && node scripts/generate-cv-pdf.mjs",
     "generate:cv": "node scripts/generate-cv-pdf.mjs",
     "preview": "astro preview",
     "astro": "astro",

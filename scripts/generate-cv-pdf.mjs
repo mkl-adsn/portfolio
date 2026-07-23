@@ -1,10 +1,14 @@
 /**
- * Post-build step: render the print-optimized `/cv` route to a PDF.
+ * Local step: render the print-optimized `/cv` route to a PDF.
  *
- * Runs after `astro build`. Serves the built `dist/` with Astro's programmatic
- * preview server, renders `/cv` in headless Chromium, and writes the PDF to:
- *   - dist/cv.pdf    → shipped with this deploy
- *   - public/cv.pdf  → so `npm run dev` (and the next build) also serve it
+ * Run manually via `npm run build:cv` (or `npm run generate:cv`) — NOT part of
+ * the deploy `build`, since the Vercel build environment has no Chromium binary.
+ * The generated `public/cv.pdf` is committed to the repo and served as-is.
+ *
+ * Serves the built `dist/` with Astro's programmatic preview server, renders
+ * `/cv` in headless Chromium, and writes the PDF to:
+ *   - dist/cv.pdf    → local build output
+ *   - public/cv.pdf  → committed; served by dev and every deploy
  *
  * The "Download CV" buttons point at /cv.pdf, so no app code needs to know this
  * script exists.
