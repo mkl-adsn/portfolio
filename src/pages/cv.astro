@@ -1,0 +1,260 @@
+---
+/*
+ * Print-optimized CV route.
+ *
+ * This page is NOT part of the site navigation — it exists to be rendered to
+ * `public/cv.pdf` by `scripts/generate-cv-pdf.mjs` (headless Chromium) at build
+ * time. It deliberately does not use BaseLayout: no nav, hero, custom cursor,
+ * animations, or the site's grey background. Pure white, print-tuned type.
+ *
+ * Content comes from the same data modules the landing page uses, so the CV and
+ * the site never drift apart.
+ */
+import { bioParagraphs } from '../content/data/bio.ts';
+import { contacts } from '../content/data/contact.ts';
+import { workExperience, education, languages } from '../content/data/cv.ts';
+import { groupSkillsForPrint } from '../content/data/skills.ts';
+import '../styles/tokens.css';
+
+const skillGroups = groupSkillsForPrint();
+
+const email = contacts.find(c => c.icon === 'Mail')?.label ?? '';
+const phone = contacts.find(c => c.icon === 'Phone')?.label ?? '';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Mikael Andersson — CV</title>
+    <style is:global>
+      /* Figtree self-hosted for the PDF render (headless Chromium has no system
+         Figtree). Scoped to this route so the live site is unchanged. */
+      @font-face {
+        font-family: 'Figtree';
+        src: url('/fonts/Figtree-Regular.woff2') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Figtree';
+        src: url('/fonts/Figtree-SemiBold.woff2') format('woff2');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /*Top, Right. Bottom, Left.*/
+      @page {
+        size: A4;
+        margin: 21mm 28mm 14mm 28mm;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        color: var(--grey-900);
+        font-family: var(--font-sans);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      /* On-screen preview only — mimic a white sheet on a grey desk. The PDF
+         uses @page margins instead, so this padding is stripped for print. */
+      @media screen {
+        body { background: #e6e8eb; padding: 24px; }
+        .cv { box-shadow: 0 2px 24px rgba(0, 0, 0, 0.12); padding: 16mm; }
+      }
+
+      .cv {
+        max-width: 178mm;
+        margin: 0 auto;
+        background: #ffffff;
+      }
+
+      /* ─── Print type scale ─────────────────────────────────────────── */
+      .cv-name-row {
+        display: flex;
+        align-items: top;
+        justify-content: space-between;
+        gap: 12pt;
+        margin: 0 0 28pt;
+      }
+      .cv-name {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 24pt;
+        line-height: 1;
+        color: var(--grey-900);
+        margin: 0;}
+
+      .cv-visit {
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+        font-size: 9.5pt;
+        line-height: 1.4;
+        white-space: nowrap;
+      }
+      .cv-visit-url { font-weight: 700; color: var(--grey-900); }
+      .cv-visit-note { font-weight: 400; color: var(--grey-900); }
+      .cv-visit-contact { font-weight: 700; color: var(--grey-900); margin-top:6pt; }
+
+      .cv-intro { display: flex; flex-direction: column; gap: 6pt; }
+      .cv-intro p {
+        margin: 0;
+        font-size: 10pt;
+        line-height: 1.5;
+        color: var(--grey-900);
+      }
+
+      .cv-section { margin-top: 11mm; }
+      .cv-section:first-of-type { margin-top: 9mm; }
+
+      .cv-h2 {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 16pt;
+        line-height: 1;
+        color: var(--grey-900);
+        margin: 0 0 6pt;
+        padding-bottom: 0pt;
+        break-after: avoid;
+      }
+
+      .cv-entry { margin-bottom: 9pt; break-inside: avoid; }
+      .cv-entry:last-child { margin-bottom: 0; }
+
+      .cv-h3 {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 12pt;
+        line-height: 1.15;
+        color: var(--grey-900);
+        margin: 16pt 0 3pt;
+      }
+      .cv-h3 .cv-period { color: var(--grey-700); font-weight: 400; }
+
+      .cv-role {
+        font-size: 9.5pt;
+        font-weight: 700;
+        color: var(--grey-700);
+        margin: 1pt 0 3pt;
+      }
+
+      .cv-body {
+        font-size: 9.5pt;
+        line-height: 1.45;
+        color: var(--grey-900);
+        margin: 0 0 6pt;
+      }
+      .cv-body:last-child { margin-bottom: 0; }
+
+      /* Skills */
+      .cv-skills-cols {
+        column-count: 2;
+        column-gap: 12mm;
+        padding-top: 9pt;
+      }
+      .cv-skill-group { margin-bottom: 6pt; break-inside: avoid; }
+      .cv-skill-group:last-child { margin-bottom: 0; }
+      /* First group sits flush under the section heading — no extra top gap. */
+      .cv-skills-cols .cv-skill-group:first-child .cv-cat { margin-top: 0; }
+      .cv-cat {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 12pt;
+        line-height: 1.15;
+        color: var(--grey-900);
+        margin: 16pt 0 3pt;
+      }
+      .cv-skill-names {
+        font-size: 9.5pt;
+        line-height: 1.4;
+        color: var(--grey-900);
+        margin: 0;
+      }
+
+      /* Contact & languages simple rows */
+      .cv-list { margin: 0; padding: 0; list-style: none; }
+      .cv-list li {
+        font-size: 9.5pt;
+        line-height: 2;
+        color: var(--grey-800);
+      }
+      .cv-lang-name { font-weight: 700; color: var(--grey-900); }
+    </style>
+  </head>
+  <body>
+    <main class="cv">
+      <!-- Name + bio -->
+      <header>
+        <div class="cv-name-row">
+          <h1 class="cv-name">Mikael Andersson</h1>
+          <span class="cv-visit">
+            <span class="cv-visit-url">www.mikael.work</span>
+            <span class="cv-visit-note">Visit to see portfolio and cases</span>
+            <span class="cv-visit-contact">{email}</span>
+            <span class="cv-visit-contact">{phone}</span>
+          </span>
+        </div>
+        <div class="cv-intro">
+          {bioParagraphs.map(para => <p>{para}</p>)}
+        </div>
+      </header>
+
+      <!-- Work Experience -->
+      <section class="cv-section">
+        <h2 class="cv-h2">Work Experience</h2>
+        {workExperience.map(job => (
+          <div class="cv-entry">
+            <h3 class="cv-h3">{job.company}<span class="cv-period">, {job.period}</span></h3>
+            <p class="cv-role">{job.role}</p>
+            {job.description.map(para => <p class="cv-body">{para}</p>)}
+          </div>
+        ))}
+      </section>
+
+      <!-- Professional Skills -->
+      <section class="cv-section">
+        <h2 class="cv-h2">Professional Skills</h2>
+        <div class="cv-skills-cols">
+          {skillGroups.map(group => (
+            <div class="cv-skill-group">
+              <p class="cv-cat">{group.category}</p>
+              <p class="cv-skill-names">{group.names.join(', ')}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section class="cv-section">
+        <h2 class="cv-h2">Education</h2>
+        {education.map(edu => (
+          <div class="cv-entry">
+            <h3 class="cv-h3">{edu.institution}<span class="cv-period">, {edu.period}</span></h3>
+            <p class="cv-role">{edu.degree}</p>
+            <p class="cv-body">{edu.description}</p>
+          </div>
+        ))}
+      </section>
+
+      <!-- Languages -->
+      <section class="cv-section">
+        <h2 class="cv-h2">Languages</h2>
+        <ul class="cv-list">
+          {languages.map(lang => (
+            <li><span class="cv-lang-name">{lang.name}</span> — {lang.level}</li>
+          ))}
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

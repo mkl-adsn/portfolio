@@ -1,27 +1,18 @@
 ---
+import { bioHeading, bioParagraphs } from '../../content/data/bio.ts';
 ---
 
 <section id="bio" class="py-12 md:py-24">
   <div class="zoom-in container flex gap-x-16 gap-y-4  lg:flex-row flex-col">
 
     <h1 class="draw-heading type-h1 min-w-1/2">
-      Hello, My name is Mikael Andersson.
+      {bioHeading}
     </h1>
 
     <div class="flex flex-col gap-4 ">
-
-      <p class="draw-body type-body">
-        I'm a Senior UX/UI Designer with a background spanning user research, interface design,
-        digital marketing, game design, front end development, and more. I do my best work where I can help turn
-        complex requirements into clear, scalable UI, maintaining design systems,
-        and collaborating closely with both stakeholders and developers to make sure ideas travel
-        from concept to screen without losing what made them good.
-      </p>
-      <p class="draw-body type-body">
-        I've worked with clients ranging from international corporations like
-        Pfizer and Bridgestone to major Swedish organizations such as Unionen and Cloetta, as well
-        as startups and independent businesses.
-      </p>
+      {bioParagraphs.map(para => (
+        <p class="draw-body type-body">{para}</p>
+      ))}
     </div>
 
   </div>

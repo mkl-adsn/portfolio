@@ -170,7 +170,7 @@ I conducted in-depth interviews with several clients, both power users and those
 </div>
 
 
-<div class="case-split case-split--image-left max-w-4xl" data-lightbox>
+<div class="case-split case-split--image-right max-w-4xl" data-lightbox>
   <img src="\images\Case\universum\uip-filters.webp" alt="Filters placed in a side panel, available everywhere in thr platform" />
   <div class="case-split__text">
     <p>I refined and expanded the filters to make them easier to use so that clients could slice the data by the dimensions that mattered to them..</p>

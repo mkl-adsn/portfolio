@@ -94,5 +94,5 @@ export const education: EducationEntry[] = [
 
 export const languages: LanguageEntry[] = [
   { name: 'Swedish', level: 'Native language' },
-  { name: 'English', level: 'Professional working proficiency' },
+  { name: 'English', level: 'Professional working proficiency (C2)' },
 ];

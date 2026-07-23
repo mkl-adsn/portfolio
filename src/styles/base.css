@@ -1,10 +1,10 @@
 /* ─── Custom cursor ───────────────────────────────────────────────────────── */
 
-/* Hide the native cursor on mouse/trackpad devices. 
+ /*Hide the native cursor on mouse/trackpad devices. */
 @media (pointer: fine) {
   *, *::before, *::after { cursor: none !important; }
 }
-*/
+
 #custom-cursor {
   position: fixed;
   top: 0;

@@ -7,7 +7,9 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/generate-cv-pdf.mjs",
+    "build:site": "astro build",
+    "generate:cv": "node scripts/generate-cv-pdf.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "storybook": "storybook dev -p 6006",
@@ -21,8 +23,9 @@
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
+    "@storybook/addon-docs": "^10.4.2",
     "@storybook/html-vite": "^10.4.2",
-    "storybook": "^10.4.2",
-    "@storybook/addon-docs": "^10.4.2"
+    "playwright": "^1.61.1",
+    "storybook": "^10.4.2"
   }
 }

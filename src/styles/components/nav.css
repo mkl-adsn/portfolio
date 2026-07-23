@@ -6,6 +6,7 @@
 */
 
 .nav {
+  position: relative;
   pointer-events: auto;
   display: flex;
   align-items: center;
@@ -23,6 +24,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
+  border-radius: inherit;
   pointer-events: none;
   opacity: 0.15;
   mix-blend-mode: hard-light;
