@@ -26,6 +26,16 @@ const { title = 'Mikael Andersson — UX/UI Designer' } = Astro.props;
     />
   </head>
   <body class="page-bg scrollbar">
+    <!-- Custom cursor: two images swapped on mousedown/up. Hidden on touch devices via CSS. -->
+    <div id="custom-cursor" aria-hidden="true">
+      <img class="cursor-default" src="/images/Cursor/CursorDefault.png" alt="" draggable="false" />
+      <img class="cursor-pressed" src="/images/Cursor/CursorPressed.png" alt="" draggable="false" />
+    </div>
     <slot />
   </body>
 </html>
+
+<script>
+  import { initCustomCursor } from '../scripts/cursor.ts';
+  initCustomCursor();
+</script>

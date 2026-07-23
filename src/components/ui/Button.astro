@@ -12,6 +12,7 @@ export interface Props {
   icon?: string;
   href?: string;
   download?: boolean | string;
+  disabled?: boolean;
   class?: string;
 }
 
@@ -20,10 +21,13 @@ const {
   icon,
   href,
   download,
+  disabled = false,
   class: className = '',
 } = Astro.props;
 
-const Tag = href ? 'a' : 'button';
+// A disabled link can't use the native `disabled` attribute, so fall back to a
+// <button> (which can) whenever the button is disabled.
+const Tag = href && !disabled ? 'a' : 'button';
 
 // Dark variant sits on a dark face → needs light (white) icon
 // Light variant sits on a light face → needs dark icon
@@ -37,7 +41,9 @@ const iconSrc = icon
 <Tag
   href={href}
   download={download}
-  class:list={['btn', `btn--${variant}`, className]}
+  disabled={Tag === 'button' && disabled}
+  aria-disabled={disabled ? 'true' : undefined}
+  class:list={['btn', `btn--${variant}`, { 'btn--disabled': disabled }, className]}
 >
   <span class="btn__face">
     {iconSrc && (

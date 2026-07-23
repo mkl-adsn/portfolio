@@ -1,3 +1,43 @@
+/* ─── Custom cursor ───────────────────────────────────────────────────────── */
+
+/* Hide the native cursor on mouse/trackpad devices. 
+@media (pointer: fine) {
+  *, *::before, *::after { cursor: none !important; }
+}
+*/
+#custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 164px;
+  pointer-events: none;
+  z-index: 9999;
+  /* Positioned off-screen until the first mousemove fires. */
+  transform: translate(-400px, -400px);
+  will-change: transform;
+}
+
+#custom-cursor img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Default: show default, hide pressed */
+#custom-cursor .cursor-pressed { display: none; }
+
+/* Pressed state: swap images */
+#custom-cursor.is-pressed .cursor-default { display: none; }
+#custom-cursor.is-pressed .cursor-pressed { display: block; }
+
+/* Pointer left the browser window */
+#custom-cursor.is-outside { opacity: 0; }
+
+/* Touch / coarse-pointer devices: remove from layout entirely. */
+@media (pointer: coarse) {
+  #custom-cursor { display: none; }
+}
+
 /* ─── Reset & base ───────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
