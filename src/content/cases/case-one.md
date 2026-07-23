@@ -33,7 +33,7 @@ order: 1
 ---
 <h2>The challenge</h2>
 
-<p>Universum’s digital presence had become fragmented over time. The company website was an ageing WordPress build that no longer reflected the brand or showcased the depth of data the company had to offer. CareerTest, the survey that feeds the entire business, needed a stronger experience to keep completion rates high and data-collection costs low. Finally, the client-facing Insights Platform was a young product where UX and UI had been a lower priority than migrating the physical delivery to it. The goal across all three: one coherent, on-brand, data-driven experience.</p>
+Universum’s digital presence had become fragmented over time. The company website was an ageing WordPress build that no longer reflected the brand or showcased the depth of data the company had to offer. CareerTest, the survey that feeds the entire business, needed a stronger experience to keep completion rates high and data-collection costs low. Finally, the client-facing Insights Platform was a young product where UX and UI had been a lower priority than migrating the physical delivery to it. The goal across all three: one coherent, on-brand, data-driven experience.
 
 ---
 
@@ -41,13 +41,15 @@ order: 1
 
 I was the in-house UX/UI designer responsible for the design of all three products, from research and wireframes through to polished UI. For the website I also acted as both product owner and UX engineer, sharing responsibility for front-end implementation and CMS configuration with the engineers. I worked closely with product managers, engineers, data scientists, sales, and marketing to help turn business goals and Universum’s data into usable interfaces.
 
+---
+
 <h3>Tools & approach</h3>
 
 Figma was my main design tool, where I built and maintained the tokenized design systems behind all three products. This helped keep the work structured and much easier to implement, acting as a single source of truth, speeding up design and hand-off, and  ensuring tight parity between design and code, so what ships matches what was designed.
 
 For the company website I extended this into UX-engineering, configuring the CMS Storyblok and using AI-assisted tooling — Claude Code with the Figma MCP — to take my designs straight into production code myself.
 
-In conducted interviews and user
+To identify issues and painpoints, I conducted en depth interviews and user testing with internal stakeholders as well as external parties, like CareerTest users and Universum Insights platform clients. 
 
 I set up behavioural tracking with Mixpanel on CareerTest and Matomo on the company website. Finally, I produced visuals, video assets, and social-media ad templates in Canva, Photoshop, and After Effects for both the digital platforms, and to support other departments, like digital marketing.
 

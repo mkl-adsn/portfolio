@@ -13,7 +13,7 @@ const allCases = (await getCollection('cases')).sort(
       const isEven = i % 2 === 0;
       const orientation = c.data.imageOrientation ?? 'portrait';
       return (
-        <article class={`zoom-in flex flex-col gap-16 lg:flex-row md:items-center md:gap-[120px] ${isEven ? '' : 'lg:flex-row-reverse'}`}>
+        <article class={`zoom-in flex flex-col gap-8 lg:gap-16 lg:flex-row md:items-center  ${isEven ? '' : 'lg:flex-row-reverse'}`}>
 
           <!-- Case image -->
           <figure class={`case-image case-image--${orientation}`}>

@@ -15,6 +15,21 @@ Keep narration and explanations of what you are about to do to a minimum. Act, t
 | `npm run build` | Build production site to `./dist/` |
 | `npm run preview` | Preview production build locally |
 | `npm run astro ...` | Run Astro CLI commands (e.g. `astro add`, `astro check`) |
+| `npm run build:cv` | Full site build **and** regenerate `public/cv.pdf` |
+| `npm run generate:cv` | Regenerate `public/cv.pdf` from the existing `dist/` build |
+
+## Committing
+
+Before committing a branch, regenerate the CV PDF so `public/cv.pdf` stays in
+sync with the `/cv` page, then include it in the commit:
+
+- Run `npm run build:cv` when any CV content, layout, or styling may have
+  changed (it rebuilds `dist/` first, then renders the PDF).
+- Run `npm run generate:cv` only when `dist/` is already up to date and just the
+  PDF needs re-rendering.
+
+When unsure, use `npm run build:cv`. (The deploy `build` script deliberately
+does **not** generate the PDF — see `scripts/generate-cv-pdf.mjs`.)
 
 ## Architecture
 

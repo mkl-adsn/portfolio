@@ -10,6 +10,16 @@
   width: 100%;
 }
 
+/*
+  The carousel is sometimes also given the `.case-image-full` breakout util,
+  whose mobile rule switches it to `position: static` — which would orphan the
+  absolutely-positioned arrows to the page instead of the carousel. This
+  higher-specificity rule keeps the carousel a positioning context regardless.
+*/
+.carousel.case-image-full {
+  position: relative;
+}
+
 .carousel__viewport {
   overflow: hidden;
   border-radius: 8px;

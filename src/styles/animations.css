@@ -51,6 +51,8 @@
 .halftone-figure-wrapper {
   position: relative;
   flex-shrink: 0;
+  margin-left: -20px;
+  margin-right: -20px;
 }
 
 /* On mobile, portrait wrappers need the same max-width + centering that was
