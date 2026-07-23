@@ -1,5 +1,6 @@
 ---
 import Button from '../ui/Button.astro';
+import { heroCopy } from '../../content/data/hero';
 ---
 
 <section id="hero" class="h-[100svh] md:h-[90svh] flex items-center">
@@ -7,7 +8,7 @@ import Button from '../ui/Button.astro';
 
     <h1
       class="type-h1"
-      aria-label="Mikael Andersson, senior UX/UI designer aligning product vision with technical execution. Turns stakeholder input and developer needs into scalable, buildable UI solutions."
+      aria-label={heroCopy}
     >
       <span id="hero-typewriter"></span><span class="hero-cursor" aria-hidden="true"></span>
     </h1>

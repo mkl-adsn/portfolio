@@ -1,0 +1,133 @@
+/* ─── Carousel ───────────────────────────────────────────────────────────── */
+/*
+  One-slide-at-a-time image carousel. Slides are authored inside
+  .carousel__track; arrows and dots are injected by src/scripts/carousel.ts.
+  Sliding is a translateX on the track. Clicking a slide opens the lightbox.
+*/
+
+.carousel {
+  position: relative;
+  width: 100%;
+}
+
+.carousel__viewport {
+  overflow: hidden;
+  border-radius: 8px;
+  touch-action: pan-y; /* allow vertical page scroll; we handle horizontal drag */
+  cursor: grab;
+}
+
+.carousel__viewport:active {
+  cursor: grabbing;
+}
+
+.carousel__track {
+  display: flex;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.carousel__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.carousel__slide img {
+  width: 100%;
+  display: block;
+  border-radius: 8px;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+  cursor: zoom-in;
+}
+
+.carousel__slide figcaption {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: var(--grey-600);
+  text-align: center;
+}
+
+/* ── Arrows ───────────────────────────────────────────────────────────────── */
+.carousel__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--grey-900-040);
+  color: var(--white);
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+  z-index: 2;
+}
+
+.carousel__arrow:hover {
+  background-color: var(--grey-900-090);
+}
+
+.carousel__arrow--prev {
+  left: 16px;
+}
+
+.carousel__arrow--next {
+  right: 16px;
+}
+
+.carousel__arrow--next svg {
+  transform: scaleX(-1);
+}
+
+/* Slides carry their own caption; nudge arrows up to center on the image. */
+.carousel:has(.carousel__slide figcaption) .carousel__arrow {
+  top: calc(50% - 20px);
+}
+
+/* ── Dots ─────────────────────────────────────────────────────────────────── */
+.carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.carousel__dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--grey-400);
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.3s ease;
+}
+
+.carousel__dot.is-active {
+  background-color: var(--grey-900);
+  transform: scale(1.25);
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .carousel__arrow {
+    width: 40px;
+    height: 40px;
+  }
+  .carousel__arrow--prev {
+    left: 8px;
+  }
+  .carousel__arrow--next {
+    right: 8px;
+  }
+}

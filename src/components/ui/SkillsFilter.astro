@@ -3,7 +3,7 @@ import { skills } from '../../content/data/skills.ts';
 import SkillTag from './SkillTag.astro';
 import FilterTab from './FilterTab.astro';
 
-const categories = ['All Skills', 'Application', 'Design', 'Code', 'Other', 'Irrelevant'];
+const categories = ['All Skills', 'Application', 'Design', 'Dev', 'Other'];
 const VISIBLE_DEFAULT = 8;
 ---
 
@@ -116,53 +116,4 @@ const VISIBLE_DEFAULT = 8;
   });
 </script>
 
-<style>
-  /* ── Search box ──────────────────────────────────────────────────────────── */
-  .search-box {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
-
-  .search-box__face {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px;
-    background-color: var(--grey-100);
-    border: 1px solid var(--grey-900);
-    border-radius: 4px;
-    margin-bottom: -4px;
-    position: relative;
-    z-index: 2;
-    transition: background-color 120ms ease, transform 120ms ease;
-  }
-
-  /* Active: face presses down 3px */
-  .search-box:focus-within .search-box__face {
-    background-color: var(--grey-200);
-    transform: translateY(3px);
-  }
-
-  .search-box__edge {
-    height: 8px;
-    background-color: var(--grey-200);
-    border-width: 0 1px 1px 1px;
-    border-style: solid;
-    border-color: var(--grey-700);
-    border-radius: 0 0 4px 4px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .search-box__input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--grey-900);
-    min-width: 0;
-  }
-
-  .search-box__input::placeholder { color: var(--grey-700); }
-</style>
+<!-- Styles: src/styles/components/search-box.css (loaded via global.css) -->

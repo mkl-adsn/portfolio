@@ -1,5 +1,6 @@
 ---
 import { contacts } from '../../content/data/contact.ts';
+import Button from '../ui/Button.astro';
 ---
 
 <section id="contact" class="contact-section overflow-hidden mt-12">
@@ -40,6 +41,10 @@ import { contacts } from '../../content/data/contact.ts';
         ))}
       </ul>
     </div>
+
+    <Button variant="light" icon="Download" href="/cv.pdf" download class="self-start">
+      <span class="type-label">Download CV</span>
+    </Button>
 
   </div>
 </section>

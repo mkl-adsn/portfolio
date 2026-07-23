@@ -16,36 +16,337 @@ const { Content } = await render(entry);
 ---
 
 <BaseLayout title={`${entry.data.title} — Mikael Andersson`}>
-  <div class="container-narrow py-24">
 
-    <div class="mb-12">
-      <Button variant="light" href="/#cases">
-        <span class="type-label">← Back</span>
-      </Button>
+  <div class="case-hero">
+    <div class="container">
+      <div class="case-hero__back">
+        <Button variant="light" href="/#cases">
+          <span class="type-label">← Back</span>
+        </Button>
+      </div>
+
+      <h1 class="case-hero__title">{entry.data.title}</h1>
+
+      <div class="case-hero__tags">
+        {entry.data.tags.map(tag => (
+          <span class="type-label-sm" style="
+            padding: 8px 16px;
+            background-color: var(--grey-900);
+            color: var(--grey-100);
+            border-radius: 4px;
+          ">
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      {entry.data.description && (
+        <p class="type-preamble case-hero__lead">{entry.data.description}</p>
+      )}
     </div>
+  </div>
 
-    <h1 class="type-h2 mb-4">{entry.data.title}</h1>
-
-    <p class="type-body-bold mb-8" style="color: var(--grey-700);">
-      {entry.data.subtitle}
-    </p>
-
-    <div class="flex flex-wrap gap-2 mb-12">
-      {entry.data.tags.map(tag => (
-        <span class="type-label-sm" style="
-          padding: 8px 16px;
-          background-color: var(--grey-900);
-          color: var(--grey-100);
-          border-radius: 4px;
-        ">
-          {tag}
-        </span>
-      ))}
-    </div>
-
-    <article class="type-body flex flex-col gap-4">
+  <div class="container-narrow case-content">
+    <article class="case-body">
       <Content />
     </article>
-
   </div>
+
 </BaseLayout>
+
+<script>
+  import { initAnimations } from '../../scripts/animations.ts';
+  import { initLightbox } from '../../scripts/lightbox.ts';
+  import { initCarousel } from '../../scripts/carousel.ts';
+
+  // Markdown-generated and split-block headings don't carry the draw classes,
+  // so tag them here before initAnimations() queries the DOM. h2 → grey-900
+  // draw-heading, h3 → grey-700 draw-subheading (same as the landing page).
+  document
+    .querySelectorAll('.case-body h2, .case-split__text h2')
+    .forEach(el => el.classList.add('draw-heading'));
+
+  document
+    .querySelectorAll('.case-body h3, .case-split__text h3')
+    .forEach(el => el.classList.add('draw-subheading'));
+
+  // Drop markdown `---` rules entirely — section spacing comes from CSS margins.
+  document.querySelectorAll('.case-body hr').forEach(el => el.remove());
+
+  initAnimations();
+  initLightbox();
+  initCarousel();
+</script>
+
+<style>
+  /* ─── Hero ──────────────────────────────────────────────────────────────── */
+  .case-hero {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  .case-hero__back {
+    margin-bottom: 64px;
+  }
+
+  .case-hero__title {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 80px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--grey-900);
+    margin: 0 0 32px;
+  }
+@media (max-width: 767px) {
+ .case-hero__title {
+    font-size: 48px;
+  }
+  }
+  /* Typography comes from .type-preamble; this handles layout only. */
+  .case-hero__lead {
+    margin: 0;
+    max-width: 720px;
+  }
+
+  .case-hero__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 0 0 40px;
+  }
+
+  /* ─── Content ────────────────────────────────────────────────────────────── */
+  .case-content {
+    padding-top: 96px;
+    padding-bottom: 120px;
+  }
+
+  /* ─── Prose body (global — target markdown-generated HTML) ───────────────── */
+  .case-body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  :global(.case-body h2) {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--grey-900);
+    margin: 24px 0 0;
+  }
+
+  :global(.case-body h3) {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--grey-700);
+    margin: 8px 0 0;
+  }
+
+  :global(.case-body p) {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    color: var(--grey-900);
+    margin: 0;
+  }
+
+  :global(.case-body strong) {
+    font-weight: 600;
+  }
+
+  :global(.case-body ul),
+  :global(.case-body ol) {
+    font-family: var(--font-sans);
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--grey-900);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  :global(.case-body li) {
+    position: relative;
+    padding-left: 32px;
+  }
+
+  /* Unordered: a small accent square, optically aligned to the first line. */
+  :global(.case-body ul > li::before) {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.52em;
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    background-color: var(--accent);
+  }
+
+  /* Ordered: serif numerals in the accent colour, echoing the headings. */
+  :global(.case-body ol) {
+    counter-reset: case-ol;
+  }
+
+  :global(.case-body ol > li) {
+    counter-increment: case-ol;
+    padding-left: 40px;
+  }
+
+  :global(.case-body ol > li::before) {
+    content: counter(case-ol, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    font-family: var(--font-serif);
+    font-size: 20px;
+    line-height: 1;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  /* A bold lead-in at the start of an item reads as a mini-label. */
+  :global(.case-body li > strong:first-child) {
+    color: var(--grey-900);
+    font-weight: 600;
+  }
+
+  /* Nested lists tuck in without extra vertical gap. */
+  :global(.case-body li ul),
+  :global(.case-body li ol) {
+    margin-top: 12px;
+    gap: 12px;
+  }
+
+  :global(.case-body img) {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+  }
+
+  /* Section spacing: any block following another that opens with a heading. */
+  :global(.case-body > * + h2) {
+    margin-top: 80px;
+  }
+
+  /* ─── Mobile ─────────────────────────────────────────────────────────────── */
+  @media (max-width: 767px) {
+    .case-hero {
+      padding-top: 48px;
+      padding-bottom: 72px;
+    }
+    .case-hero__back { margin-bottom: 40px; }
+    .case-hero__tags { margin-bottom: 32px; }
+    .case-content { padding-top: 64px; padding-bottom: 80px; }
+    :global(.case-body h2) { font-size: 30px; }
+    :global(.case-body h3) { font-size: 24px; }
+    :global(.case-body > * + h2) { margin-top: 48px; }
+  }
+
+  /* ─── Layout blocks (global — target markdown-generated HTML) ────────────── */
+  /* Break out of the narrow prose column to a wider, centered area so the
+     two-column splits and full images have room to breathe. */
+  :global(.case-split),
+  :global(.case-image-full) {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1536px, calc(100vw - 192px));
+    z-index: 10;
+  }
+
+  :global(.case-split) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin: 80px auto;
+  }
+
+  :global(.case-split img) {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 60vh;
+    border-radius: 8px;
+    display: block;
+  }
+
+  :global(.case-split__text) {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-family: var(--font-sans);
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--grey-900);
+  }
+
+  :global(.case-split__text h2) {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--grey-900);
+    margin: 0;
+  }
+
+  :global(.case-split__text h3) {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--grey-700);
+    margin: 0;
+  }
+
+  :global(.case-split__text p) { margin: 0; }
+  :global(.case-split__text strong) { font-weight: 600; }
+
+  :global(.case-split--image-right img) { order: 2; }
+  :global(.case-split--image-right .case-split__text) { order: 1; }
+
+  :global(.case-image-full) {
+    margin: 80px auto;
+  }
+
+  :global(.case-image-full img) {
+    width: 100%;
+    display: block;
+  }
+
+  :global(.case-image-full figcaption) {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    color: var(--grey-600);
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 767px) {
+    /* Drop the breakout — sit back in the normal column flow */
+    :global(.case-split),
+    :global(.case-image-full) {
+      position: static;
+      left: auto;
+      transform: none;
+      width: 100%;
+      margin: 32px 0;
+    }
+
+    :global(.case-split) {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    :global(.case-split--image-right img) { order: unset; }
+    :global(.case-split--image-right .case-split__text) { order: unset; }
+  }
+</style>

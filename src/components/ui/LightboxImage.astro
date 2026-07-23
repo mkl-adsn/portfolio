@@ -1,0 +1,19 @@
+---
+/**
+ * A single image that opens full-screen in the lightbox when clicked.
+ * Behaviour: src/scripts/lightbox.ts (initLightbox picks up [data-lightbox]).
+ */
+export interface Props {
+  src: string;
+  alt?: string;
+  caption?: string;
+}
+const { src, alt = '', caption } = Astro.props;
+---
+
+<figure class="case-image-full" data-lightbox>
+  <img src={src} alt={alt} />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<!-- Styles: src/styles/components/lightbox.css (loaded via global.css) -->

@@ -41,6 +41,15 @@
   margin: 0;
 }
 
+.type-preamble {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.5;
+  color: var(--grey-900);
+  margin: 0;
+}
+
 .type-body {
   font-family: var(--font-sans);
   font-weight: 400;
@@ -79,6 +88,73 @@
   white-space: nowrap;
 }
 
+/* ─── Prose lists (markdown-generated `.case-body` HTML) ─────────────────── */
+.case-body ul,
+.case-body ol {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--grey-900);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.case-body li {
+  position: relative;
+  padding-left: 24px;
+}
+
+/* Unordered: a small accent square, optically aligned to the first line. */
+.case-body ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background-color: var(--accent);
+}
+
+/* Ordered: serif numerals in the accent colour, echoing the headings. */
+.case-body ol {
+  counter-reset: case-ol;
+}
+
+.case-body ol > li {
+  counter-increment: case-ol;
+  padding-left: 40px;
+}
+
+.case-body ol > li::before {
+  content: counter(case-ol, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* A bold lead-in at the start of an item reads as a mini-label. */
+.case-body li > strong:first-child {
+  color: var(--grey-900);
+  font-weight: 600;
+}
+
+/* Nested lists tuck in without extra vertical gap. */
+.case-body li ul,
+.case-body li ol {
+  margin-top: 12px;
+  gap: 12px;
+}
+
 /* ─── Mobile typography (≤767px) ─────────────────────────────────────────── */
 @media (max-width: 767px) {
   .type-h1 {
@@ -94,5 +170,10 @@
   .type-h3 {
     font-size: 24px;
     line-height: 1;
+  }
+
+  .type-preamble {
+    font-size: 20px;
+    line-height: 1.5;
   }
 }

@@ -8,6 +8,7 @@
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { heroSegments } from '../content/data/hero';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -309,11 +310,7 @@ export function initHeroTypewriter() {
   const _cursor    = cursor!;
   const _buttonsEl = buttonsEl!
 
-  const segments = [
-    { text: 'Mikael Andersson, senior UX/UI designer aligning product vision with technical execution.', bold: true  },
-    { text: ' Turns stakeholder input and developer needs into ', bold: false },
-    { text: 'scalable, buildable UI solutions.', bold: true  },
-  ];
+  const segments = heroSegments;
 
   // Flatten to per-character array
   const chars: Array<{ char: string; bold: boolean }> = [];

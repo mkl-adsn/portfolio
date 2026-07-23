@@ -1,11 +1,11 @@
 ---
-title: "Project Two"
-subtitle: "Game Design // UI Art // Unity"
-description: "Led visual identity and UI art for a mobile quiz game, from wireframes through implementation in Unity — reaching 2M downloads on launch."
-tags: ["Unity", "Game Design", "After Effects"]
+title: "Unionen"
+description: "Helping Swedens largest trade union through their digitalization journey, improving the digital experience for both members and elected representatives"
+tags: ["Figma", "UI Design", "Design Systems", "UX Research", "Drupal CMS"]
 image: "/images/case-placeholder-image-horiz.png"
 imageOrientation: landscape
 order: 2
+comingSoon: true
 ---
 
 ## Overview

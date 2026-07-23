@@ -1,0 +1,35 @@
+/* ─── Skill tag ──────────────────────────────────────────────────────────── */
+/*
+  A pill listing a skill name with a 1–3 star rating. Always dark (grey-900)
+  with light text; star glyphs come from /images/Icon/Light.
+*/
+
+.skill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding-left: 16px;
+  padding-right: 12px;
+  background-color: var(--grey-900);
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.skill-tag__name {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2.25px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--grey-100);
+  line-height: 1;
+}
+
+.skill-tag__stars {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  flex-shrink: 0;
+}

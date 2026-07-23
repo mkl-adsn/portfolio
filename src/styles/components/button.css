@@ -64,3 +64,30 @@
 .btn--dark .btn__edge         { background-color: var(--grey-800); border-color: var(--grey-200); }
 .btn--dark:active .btn__face  { background-color: var(--grey-800); }
 .btn--dark:active .btn__edge  { background-color: var(--grey-100); border-color: var(--grey-100); }
+
+/* ── Disabled state ──────────────────────────────────────────────────────── */
+/* Muted borders/text and no press movement. Works for <button disabled> and
+   for links that carry the .btn--disabled class + aria-disabled. */
+.btn:disabled,
+.btn--disabled {
+  cursor: default;
+  pointer-events: none;
+}
+
+.btn:disabled .btn__face,
+.btn--disabled .btn__face { transform: translateY(5px); }
+
+.btn:disabled .btn__icon,
+.btn--disabled .btn__icon { opacity: 0.45; }
+
+/* Light disabled — grey-500 border, edge and label (from Figma) */
+.btn--light:disabled .btn__face,
+.btn--light.btn--disabled .btn__face { background-color: var(--grey-100); border-color: var(--grey-500); color: var(--grey-500); }
+.btn--light:disabled .btn__edge,
+.btn--light.btn--disabled .btn__edge { background-color: var(--grey-200); border-color: var(--grey-500); }
+
+/* Dark disabled — muted navy face, dimmed border and label */
+.btn--dark:disabled .btn__face,
+.btn--dark.btn--disabled .btn__face { background-color: var(--grey-800); border-color: var(--grey-600); color: var(--grey-600); }
+.btn--dark:disabled .btn__edge,
+.btn--dark.btn--disabled .btn__edge { background-color: var(--grey-800); border-color: var(--grey-600); }
