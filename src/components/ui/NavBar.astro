@@ -42,4 +42,30 @@ import { navItems } from '../../content/data/nav.ts';
         ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+
+  // ── Android URL-bar gap compensation ──────────────────────────────────────
+  // The nav uses `position: sticky; top: 8px`, which pins to the *layout*
+  // viewport. When Android's URL bar retracts, the *visual* viewport slides down
+  // a few px (visualViewport.offsetTop) without moving the layout viewport, so
+  // the 8px gap the user sees collapses. Re-add offsetTop to the sticky inset so
+  // the *visible* gap stays 8px. offsetTop is 0 on desktop, so this is a no-op
+  // there. Falls back to the CSS `top: 8px` if visualViewport is unavailable.
+  const wrapper = document.querySelector<HTMLElement>('.nav-wrapper');
+  const vv = window.visualViewport;
+  if (wrapper && vv) {
+    const GAP = 8;
+    let queued = false;
+    const sync = () => {
+      queued = false;
+      wrapper.style.top = `${GAP + vv.offsetTop}px`;
+    };
+    const schedule = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(sync);
+    };
+    vv.addEventListener('resize', schedule);
+    vv.addEventListener('scroll', schedule);
+    sync();
+  }
 </script>
