@@ -41,4 +41,10 @@ const { title = 'Mikael Andersson — UX/UI Designer' } = Astro.props;
 <script>
   import { initCustomCursor } from '../scripts/cursor.ts';
   initCustomCursor();
+
+  // TEMPORARY: device-diagnostic overlay, only when the URL has `?debug`.
+  // Remove this block and src/scripts/debug-overlay.ts once the nav bug is fixed.
+  if (location.search.includes('debug')) {
+    import('../scripts/debug-overlay.ts').then((m) => m.initDebugOverlay());
+  }
 </script>
