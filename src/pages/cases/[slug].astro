@@ -20,8 +20,8 @@ const { Content } = await render(entry);
   <div class="case-hero">
     <div class="container">
       <div class="case-hero__back">
-        <Button variant="light" href="/#cases">
-          <span class="type-label">← Back</span>
+        <Button variant="light" href="/#cases" icon="Arrow left">
+          <span class="type-label">Back</span>
         </Button>
       </div>
 
@@ -50,6 +50,12 @@ const { Content } = await render(entry);
     <article class="case-body">
       <Content />
     </article>
+
+    <div class="case-content__back">
+      <Button variant="light" href="/#cases" icon="Arrow left">
+        <span class="type-label">Back</span>
+      </Button>
+    </div>
   </div>
 
 </BaseLayout>
@@ -120,6 +126,12 @@ const { Content } = await render(entry);
   .case-content {
     padding-top: 96px;
     padding-bottom: 120px;
+  }
+
+  .case-content__back {
+    display: flex;
+    justify-content: center;
+    margin-top: 96px;
   }
 
   /* ─── Prose body (global — target markdown-generated HTML) ───────────────── */
@@ -304,7 +316,7 @@ const { Content } = await render(entry);
     gap: 16px;
     font-family: var(--font-sans);
     font-size: 18px;
-    line-height: 1.6;
+    line-height: 24px;
     color: var(--grey-900);
   }
 

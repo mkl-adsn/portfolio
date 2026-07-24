@@ -20,21 +20,15 @@
  */
 
 import { openLightbox, type LightboxImage } from './lightbox';
+import { ARROW_LEFT_SVG, ARROW_RIGHT_SVG } from './icons';
 
 // Drag distance (fraction of viewport width) needed to advance a slide.
 const SWIPE_THRESHOLD = 0.15;
 // Pointer travel (px) beyond which a press counts as a drag, not a click.
 const DRAG_SLOP = 8;
 
-// Arrows mirror the lightbox (and public/images/Icon/Light/). Kept inline so
-// they inherit `currentColor` and need no asset.
-const ARROW_LEFT_SVG =
-  '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">' +
-  '<path d="M10.25 17L5 12L10.25 7M21 12L6 12" stroke="currentColor" stroke-width="2" /></svg>';
-
-const ARROW_RIGHT_SVG =
-  '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">' +
-  '<path d="M13.752 17L19.002 12L13.752 7M3 12L18 12" stroke="currentColor" stroke-width="2" /></svg>';
+// Arrows come from public/images/Icon/Light/ via src/scripts/icons.ts, inlined
+// so they inherit `currentColor` from the button.
 
 function slidesOf(root: HTMLElement): HTMLElement[] {
   return Array.from(root.querySelectorAll<HTMLElement>('.carousel__slide'));

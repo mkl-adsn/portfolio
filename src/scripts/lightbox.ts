@@ -15,6 +15,8 @@
  * on the empty backdrop, or a tap outside the image all close it.
  */
 
+import { CLOSE_SVG, ARROW_LEFT_SVG, ARROW_RIGHT_SVG, zoomSvg } from './icons';
+
 export interface LightboxImage {
   src: string;
   alt: string;
@@ -57,32 +59,8 @@ let historyPushed = false;
 const SWIPE_THRESHOLD = 0.15; // fraction of viewport width to advance a slide
 const DRAG_SLOP = 8; // px of travel before a press counts as a drag
 
-// Icons mirror the assets in public/images/Icon/Light/, inlined so they inherit
-// `currentColor` from the button (rather than loaded as <img>).
-const CLOSE_SVG =
-  '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">' +
-  '<path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" /></svg>';
-
-const ARROW_LEFT_SVG =
-  '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">' +
-  '<path d="M10.25 17L5 12L10.25 7M21 12L6 12" stroke="currentColor" stroke-width="2" /></svg>';
-
-const ARROW_RIGHT_SVG =
-  '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">' +
-  '<path d="M13.752 17L19.002 12L13.752 7M3 12L18 12" stroke="currentColor" stroke-width="2" /></svg>';
-
-// Magnifying glass; `plus` draws a + inside (zoom-in affordance), else a −.
-function zoomSvg(plus: boolean) {
-  const sign = plus ? '<path d="M12 15L12 9" stroke="currentColor" stroke-width="2" />' : '';
-  return (
-    '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">' +
-    '<circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />' +
-    '<path d="M17 17L21 21" stroke="currentColor" stroke-width="2" />' +
-    '<path d="M9 12H15" stroke="currentColor" stroke-width="2" />' +
-    sign +
-    '</svg>'
-  );
-}
+// Icons (close, arrows, zoom magnifier) come from public/images/Icon/Light/ via
+// src/scripts/icons.ts — inlined so they inherit `currentColor` from the button.
 
 function buildOverlay() {
   overlay = document.createElement('div');
@@ -189,14 +167,24 @@ function buildSlides() {
   track.replaceChildren(...slides);
 }
 
-function updateDots() {
+// Create one dot button per image, once per group. Kept separate from
+// updateDots so navigating only toggles the active class on persistent
+// elements — recreating the nodes each time would leave the new dot born
+// active, giving the CSS transition nothing to animate from.
+function buildDots() {
   dotsEl.innerHTML = group
     .map(
       (_, i) =>
-        `<button class="lightbox__dot${i === index ? ' is-active' : ''}" ` +
-        `type="button" data-index="${i}" aria-label="Go to image ${i + 1}"></button>`
+        `<button class="lightbox__dot" type="button" data-index="${i}" ` +
+        `aria-label="Go to image ${i + 1}"></button>`
     )
     .join('');
+}
+
+function updateDots() {
+  dotsEl.querySelectorAll<HTMLElement>('.lightbox__dot').forEach((dot, i) => {
+    dot.classList.toggle('is-active', i === index);
+  });
 }
 
 // Translate the track to the active slide. `animate=false` snaps without a
@@ -537,6 +525,7 @@ export function openLightbox(images: LightboxImage[], startIndex = 0) {
   index = Math.max(0, Math.min(images.length - 1, startIndex));
 
   buildSlides();
+  buildDots();
   updateDots();
 
   const multi = group.length > 1;

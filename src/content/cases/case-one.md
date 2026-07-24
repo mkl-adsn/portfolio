@@ -63,14 +63,14 @@ I set up behavioural tracking with Mixpanel on CareerTest and Matomo on the comp
 
 <p>I rebuilt and redesigned the site from scratch, structuring its information architecture and responsive layouts around the searches that mattered most to the business so the new site would be as discoverable as it was polished. The result is a fully responsive site aligned to the refreshed Universum brand, with an expanded rankings and insights section at its heart.
 
-<div class="case-image-full">
+<div class="case-image-full" data-lightbox>
   <img src="\images\Case\universum\website-landing.webp" alt="" />
   <figcaption>The redesigned home page for universumglobal.com</figcaption>
 </div>
 
 Prospective clients can browse the rankings, explore the data Universum holds, and move naturally towards contacting sales, turning the website from a brochure into a lead-generating showcase of the company’s data. 
 
-<div class="case-image-full">
+<div class="case-image-full" data-lightbox>
   <img src="\images\Case\universum\website-rankings.webp" alt="" />
   <figcaption>The top 10 ranked employers is available to everyone. Additional rankings and insights can be unlocked by sharing your email, providing Universum with a lead. Once on the unlocked page, users are further pushed towards booking a meeting to explore to full data with a Universum sales representative.</figcaption>
 </div>
@@ -173,17 +173,17 @@ I conducted in-depth interviews with several clients, both power users and those
 
 
 <div class="case-split case-split--image-right max-w-4xl" data-lightbox>
-  <img src="\images\Case\universum\uip-filters.webp" alt="Filters placed in a side panel, available everywhere in thr platform" />
+  <img src="\images\Case\universum\uip-filters.webp" alt="Filters" />
   <div class="case-split__text">
-    <p>I refined and expanded the filters to make them easier to use so that clients could slice the data by the dimensions that mattered to them..</p>
+    <p>I redesigned and expanded the filters and moved them in a side panel to make them available from everywhere in the platform. The improved filters allowed clients to easily explore and slice the data by the dimensions that mattered to them.</p>
   </div>
 </div>
 
 Working closely with stakeholders and data engineers, I shaped and designed several new insights modules that package raw data into clear, actionable stories and redesigned and expanded several existing ones to better serve the clients’ needs. The result is a modern, on-brand, self-serve platform that helps clients get to their insight without needing to contact their key account manager to guide them through the process.
 
-<div class="case-image-full">
+<div class="case-image-full" data-lightbox>
   <img src="\images\Case\universum\uip-powerpoint.webp" alt="" />
-  <figcaption>Clients can export everything to Powerpoint, keeping their current market and filter settings.</figcaption>
+  <figcaption>Clients can export everything to Powerpoint for easy presentation. All market and filter settings made on the platform are kept in the export.</figcaption>
 </div>
 
 <h3>Outcome</h3>

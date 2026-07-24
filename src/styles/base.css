@@ -48,8 +48,12 @@ body {
   font-family: var(--font-sans);
   background-color: var(--grey-100);
   color: var(--grey-900);
-  overflow-x: hidden;
-
+  /* `clip`, not `hidden`: hidden would force overflow-y to `auto`, promoting
+     <body> to a scroll container. That desyncs `position: sticky` (the nav)
+     from the root viewport when Android's URL bar collapses, dropping the nav's
+     8px top offset. `clip` hides horizontal overflow without a scroll container,
+     so the root viewport stays the scroller and sticky tracks the toolbar. */
+  overflow-x: clip;
 }
 
 /* ─── Scrollbar ───────────────────────────────────────────────────────────── */
