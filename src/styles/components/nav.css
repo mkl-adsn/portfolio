@@ -5,6 +5,22 @@
   from JS via an IntersectionObserver on each page section.
 */
 
+/*
+  Sticky wrapper. Layout lives here (not as Tailwind utilities in the markup)
+  so the 8px top offset can't collapse: as an unlayered class it always beats
+  Preflight's `*{padding:0}` reset, regardless of cascade-layer emission order
+  in the production bundle.
+*/
+.nav-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+  pointer-events: none;
+}
+
 .nav {
   position: relative;
   pointer-events: auto;

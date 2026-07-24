@@ -18,7 +18,9 @@
   display: none;
   align-items: center;
   justify-content: center;
-  padding: 4vh 4vw;
+  /* No padding here: the viewport (clip region) spans the whole screen so a
+     zoomed image can expand to the edges. The fit-state inset lives on the
+     slide instead. */
 }
 
 .lightbox.is-open {
@@ -61,6 +63,11 @@ body.lightbox-open {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Inset that gives the fit image its margin. border-box keeps the slide a
+     full viewport wide (so the track's per-slide translate stays correct); the
+     zoom transform overflows this padding and is clipped only at the screen. */
+  box-sizing: border-box;
+  padding: 4vh 4vw;
 }
 
 .lightbox__figure {
@@ -85,6 +92,10 @@ body.lightbox-open {
   display: block;
   user-select: none;
   -webkit-user-drag: none;
+  /* Zoom/pan transform is applied inline by the script; scale about the centre
+     and hint the compositor. */
+  transform-origin: center center;
+  will-change: transform;
 }
 
 /* Multi-image groups can be dragged/swiped between slides. */
@@ -94,6 +105,28 @@ body.lightbox-open {
 
 .lightbox.is-multi .lightbox__viewport:active {
   cursor: grabbing;
+}
+
+/* While an image is zoomed, dragging pans it (grab), and slide navigation is
+   suppressed — hide the arrows and dots. */
+.lightbox.is-zoomed .lightbox__image {
+  cursor: grab;
+}
+
+.lightbox.is-zoomed .lightbox__viewport:active {
+  cursor: grabbing;
+}
+
+.lightbox.is-zoomed .lightbox__arrow,
+.lightbox.is-zoomed .lightbox__dots {
+  display: none;
+}
+
+/* Hide the caption while zoomed so the enlarged image can use the full screen
+   without the caption painting over it. `visibility` keeps its layout box, so
+   the image's fit geometry (and thus the zoom reference) doesn't shift. */
+.lightbox.is-zoomed .lightbox__caption {
+  visibility: hidden;
 }
 
 .lightbox__caption {
@@ -119,14 +152,39 @@ body.lightbox-open {
   padding: 0;
   border: none;
   border-radius: 999px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--grey-900-020);
   color: var(--grey-100);
   cursor: pointer;
   transition: background-color 0.15s ease;
 }
 
 .lightbox__close:hover {
-  background-color: rgba(255, 255, 255, 0.22);
+  background-color: var(--grey-900-040);
+}
+
+/* ── Zoom toggle (magnifier) ──────────────────────────────────────────────── */
+/* Sits just left of the close button; mirrors it. */
+.lightbox__zoom {
+  position: absolute;
+  top: 20px;
+  right: 72px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--grey-900-020);
+  color: var(--grey-100);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.lightbox__zoom:hover {
+  background-color: var(--grey-900-040);
 }
 
 /* ── Prev / next arrows ───────────────────────────────────────────────────── */
@@ -143,14 +201,14 @@ body.lightbox-open {
   padding: 0;
   border: none;
   border-radius: 999px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--grey-900-020);
   color: var(--grey-100);
   cursor: pointer;
   transition: background-color 0.15s ease;
 }
 
 .lightbox__arrow:hover {
-  background-color: rgba(255, 255, 255, 0.22);
+  background-color: var(--grey-900-040);
 }
 
 .lightbox__arrow--prev {
@@ -159,10 +217,6 @@ body.lightbox-open {
 
 .lightbox__arrow--next {
   right: 20px;
-}
-
-.lightbox__arrow--next svg {
-  transform: scaleX(-1);
 }
 
 /* ── Dot indicators ───────────────────────────────────────────────────────── */
@@ -194,17 +248,8 @@ body.lightbox-open {
 
 /* ── Mobile ───────────────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
-  .lightbox {
-    padding: 4vh 4vw;
-  }
+  /* Hide the prev/next chevrons on mobile — swipe navigates instead. */
   .lightbox__arrow {
-    width: 44px;
-    height: 44px;
-  }
-  .lightbox__arrow--prev {
-    left: 8px;
-  }
-  .lightbox__arrow--next {
-    right: 8px;
+    display: none;
   }
 }

@@ -23,7 +23,7 @@ export const workExperience: WorkEntry[] = [
     period: '2023‑2026',
     role: 'UX/UI Designer and Product Owner',
     description: [
-      `Led all design and UX work across Universum's digital presence. Served as product owner for the company website and drove design for the SaaS employer branding insights platform and the global survey used for data collection. Also produced social media marketing assets and managed the company's branding and visual identity.`,
+      `Led all design and UX work across Universum's digital presence. Served as product owner for the company website and drove design for their employer branding insights platform and the global survey used for data collection. Also produced social media marketing assets and managed the company's branding and visual identity.`,
     ],
   },
   {
@@ -40,7 +40,7 @@ export const workExperience: WorkEntry[] = [
     role: 'UX/UI Game Artist',
     description: [
       `Designed a new admin panel interface for Quizkampen Business (the enterprise version of QuizClash), enabling clients to manage their quizzes and question databases. Also produced brochures, flyers, and landing pages for the sales team.`,
-      `Promoted to lead designer for QuizClash 2 after six months. Created the new visual identity, wireframes, and UI art, and implemented them in Unity alongside the development team. Contributed visual effects, animations, and overall game design.`,
+      `Worked as lead designer for QuizClash 2. Created the new visual identity, wireframes, and UI art, and implemented them in Unity alongside the development team. Contributed visual effects, animations, and game design.`,
     ],
   },
   {
@@ -48,7 +48,7 @@ export const workExperience: WorkEntry[] = [
     period: '2012‑2017',
     role: 'Graphic/UX Designer (2012‑2015)  ·  Art Director/UX (2015‑2017)',
     description: [
-      `Started as a graphic/UX designer building web applications, browser games, and campaign sites, then took on client-facing work, a larger role in concept creation, and expanded into branding, social media campaigns, photography, and visual effects. In the final year, developed communication concepts across social platforms, working closely with copywriters and photographers. Clients included Ahlgrens Bilar, Helly Hansen, L'Oréal Paris, Malaco, and Pfizer.`,
+      `Started as a graphic/UX designer, designing web applications, browser games, and campaign sites. Proceeded to take a larger role in concept creation, and expanded into branding, social media campaigns, photography, and visual effects. Also developed communication concepts across social platforms, working closely with copywriters and photographers. Clients included Ahlgrens Bilar, Helly Hansen, L'Oréal Paris, Malaco, and Pfizer.`,
     ],
   },
   {

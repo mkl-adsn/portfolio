@@ -76,7 +76,7 @@
   padding: 0;
   border: none;
   border-radius: 999px;
-  background-color: var(--grey-900-040);
+  background-color: var(--grey-900-020);
   color: var(--white);
   cursor: pointer;
   transition: background-color 0.15s ease, transform 0.15s ease;
@@ -84,7 +84,7 @@
 }
 
 .carousel__arrow:hover {
-  background-color: var(--grey-900-090);
+  background-color: var(--grey-900-040);
 }
 
 .carousel__arrow--prev {
@@ -93,10 +93,6 @@
 
 .carousel__arrow--next {
   right: 16px;
-}
-
-.carousel__arrow--next svg {
-  transform: scaleX(-1);
 }
 
 /* Slides carry their own caption; nudge arrows up to center on the image. */
@@ -130,14 +126,8 @@
 
 /* ── Mobile ───────────────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
+  /* Hide the prev/next chevrons on mobile — swipe navigates instead. */
   .carousel__arrow {
-    width: 40px;
-    height: 40px;
-  }
-  .carousel__arrow--prev {
-    left: 8px;
-  }
-  .carousel__arrow--next {
-    right: 8px;
+    display: none;
   }
 }

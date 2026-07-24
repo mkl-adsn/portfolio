@@ -1,6 +1,6 @@
 ---
 title: "Universum"
-description: "Leading a ground-up digital overhaul one of the worlds' most established employer-branding agency, turning three disconnected products into one coherent experience."
+description: "Leading a ground-up digital overhaul one of the worlds' most established employer-branding agencies, turning three disconnected products into one coherent experience."
 tags: ["Figma", "UX Research", "UI design", "Design Systems", "Product Ownership", "Storyblok CMS", "Front End"]
 image: "/images/Case/universum/thumbnail.webp"
 halftoneImage: "/images/Case/universum/thumbnail-solid.webp"
@@ -47,7 +47,7 @@ I was the in-house UX/UI designer responsible for the design of all three produc
 
 Figma was my main design tool, where I built and maintained the tokenized design systems behind all three products. This helped keep the work structured and much easier to implement, acting as a single source of truth, speeding up design and hand-off, and  ensuring tight parity between design and code, so what ships matches what was designed.
 
-For the company website I extended this into UX-engineering, configuring the CMS Storyblok and using AI-assisted tooling — Claude Code with the Figma MCP — to take my designs straight into production code myself.
+For the company website I extended this into UX-engineering, configuring the CMS Storyblok and using Claude Code with the Figma MCP to take my designs straight into production code myself.
 
 To identify issues and painpoints, I conducted en depth interviews and user testing with internal stakeholders as well as external parties, like CareerTest users and Universum Insights platform clients. 
 
@@ -183,7 +183,7 @@ Working closely with stakeholders and data engineers, I shaped and designed seve
 
 <div class="case-image-full">
   <img src="\images\Case\universum\uip-powerpoint.webp" alt="" />
-  <figcaption>Clients can export everything to a Powerpoint presentation, keeping their current market and filter settings.</figcaption>
+  <figcaption>Clients can export everything to Powerpoint, keeping their current market and filter settings.</figcaption>
 </div>
 
 <h3>Outcome</h3>

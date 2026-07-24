@@ -26,12 +26,15 @@ const SWIPE_THRESHOLD = 0.15;
 // Pointer travel (px) beyond which a press counts as a drag, not a click.
 const DRAG_SLOP = 8;
 
-// Same chevron the lightbox uses (points left; the --next arrow is flipped
-// via CSS). Kept inline so it inherits `currentColor` and needs no asset.
-const ARROW_SVG =
-  '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">' +
-  '<path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" ' +
-  'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+// Arrows mirror the lightbox (and public/images/Icon/Light/). Kept inline so
+// they inherit `currentColor` and need no asset.
+const ARROW_LEFT_SVG =
+  '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">' +
+  '<path d="M10.25 17L5 12L10.25 7M21 12L6 12" stroke="currentColor" stroke-width="2" /></svg>';
+
+const ARROW_RIGHT_SVG =
+  '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">' +
+  '<path d="M13.752 17L19.002 12L13.752 7M3 12L18 12" stroke="currentColor" stroke-width="2" /></svg>';
 
 function slidesOf(root: HTMLElement): HTMLElement[] {
   return Array.from(root.querySelectorAll<HTMLElement>('.carousel__slide'));
@@ -67,13 +70,13 @@ function setupCarousel(root: HTMLElement) {
     prev.type = 'button';
     prev.className = 'carousel__arrow carousel__arrow--prev';
     prev.setAttribute('aria-label', 'Previous image');
-    prev.innerHTML = ARROW_SVG;
+    prev.innerHTML = ARROW_LEFT_SVG;
 
     const next = document.createElement('button');
     next.type = 'button';
     next.className = 'carousel__arrow carousel__arrow--next';
     next.setAttribute('aria-label', 'Next image');
-    next.innerHTML = ARROW_SVG;
+    next.innerHTML = ARROW_RIGHT_SVG;
 
     prev.addEventListener('click', () => go(index - 1));
     next.addEventListener('click', () => go(index + 1));
@@ -115,12 +118,14 @@ function setupCarousel(root: HTMLElement) {
   let dragging = false;
   let moved = false;
   let startX = 0;
+  let startY = 0;
   let deltaX = 0;
 
   function onDown(e: PointerEvent) {
     dragging = true;
     moved = false;
     startX = e.clientX;
+    startY = e.clientY;
     deltaX = 0;
     track!.style.transition = 'none';
     viewport!.setPointerCapture(e.pointerId);
@@ -129,7 +134,11 @@ function setupCarousel(root: HTMLElement) {
   function onMove(e: PointerEvent) {
     if (!dragging) return;
     deltaX = e.clientX - startX;
-    if (Math.abs(deltaX) > DRAG_SLOP) moved = true;
+    // Any pointer travel past the slop — horizontal *or* vertical — disqualifies
+    // this gesture from being a tap, so a vertical scroll never opens the
+    // lightbox even if `pointercancel` doesn't fire.
+    const deltaY = e.clientY - startY;
+    if (Math.abs(deltaX) > DRAG_SLOP || Math.abs(deltaY) > DRAG_SLOP) moved = true;
     const width = viewport!.clientWidth || 1;
     const offset = (-index * 100) + (deltaX / width) * 100;
     track!.style.transform = `translateX(${offset}%)`;
@@ -155,12 +164,22 @@ function setupCarousel(root: HTMLElement) {
     }
   }
 
+  // Fired when the browser takes over the gesture — e.g. a vertical drag that
+  // becomes a page scroll (touch-action: pan-y). Must NOT open the lightbox:
+  // just abandon the drag and snap the track back to rest.
+  function onCancel() {
+    if (!dragging) return;
+    dragging = false;
+    track!.style.transition = '';
+    update();
+  }
+
   // Attached even for single-slide carousels so a click still opens the
   // lightbox; drag-to-change is simply a no-op when there is one slide.
   viewport.addEventListener('pointerdown', onDown);
   viewport.addEventListener('pointermove', onMove);
   viewport.addEventListener('pointerup', onUp);
-  viewport.addEventListener('pointercancel', onUp);
+  viewport.addEventListener('pointercancel', onCancel);
 
   // Keep transform correct across viewport resizes (percent-based, so no-op
   // math, but re-assert in case a browser drops it after orientation change).
