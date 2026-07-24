@@ -7,17 +7,19 @@
 
 /*
   Sticky wrapper. Layout lives here (not as Tailwind utilities in the markup)
-  so the 8px top offset can't collapse: as an unlayered class it always beats
-  Preflight's `*{padding:0}` reset, regardless of cascade-layer emission order
-  in the production bundle.
+  so it can't collapse against Preflight's `*{padding:0}` reset.
+
+  The 8px top gap is the sticky INSET (`top: 8px`), not internal padding. On
+  Android, padding inside a `top: 0` sticky box gets composited above the fold
+  as the URL bar retracts, so the gap visually vanished; the sticky inset is
+  re-resolved against the live scrollport each frame, so it holds.
 */
 .nav-wrapper {
   position: sticky;
-  top: 0;
+  top: 8px;
   z-index: 100;
   display: flex;
   justify-content: center;
-  padding-top: 8px;
   pointer-events: none;
 }
 
