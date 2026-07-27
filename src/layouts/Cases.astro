@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import Button from '../ui/Button.astro';
+import Button from '../components/ui/Button.astro';
 
 const allCases = (await getCollection('cases')).sort(
   (a, b) => a.data.order - b.data.order
@@ -13,7 +13,7 @@ const allCases = (await getCollection('cases')).sort(
       const isEven = i % 2 === 0;
       const orientation = c.data.imageOrientation ?? 'portrait';
       return (
-        <article class={`zoom-in flex flex-col gap-8 lg:gap-16 lg:flex-row md:items-center  ${isEven ? '' : 'lg:flex-row-reverse'}`}>
+        <article class={`zoom-in flex flex-col gap-4 lg:gap-16 lg:flex-row md:items-center  ${isEven ? '' : 'lg:flex-row-reverse'}`}>
 
           <!-- Case image -->
           <figure class={`case-image case-image--${orientation}`}>

@@ -1,5 +1,5 @@
 ---
-import { bioHeading, bioParagraphs } from '../../content/data/bio.ts';
+import { bioHeading, bioParagraphs } from '../content/data/bio.ts';
 ---
 
 <section id="bio" class="py-12 md:py-24">
@@ -9,7 +9,7 @@ import { bioHeading, bioParagraphs } from '../../content/data/bio.ts';
       {bioHeading}
     </h1>
 
-    <div class="flex flex-col gap-4 ">
+    <div class="flex flex-col type-flow">
       {bioParagraphs.map(para => (
         <p class="type-body">{para}</p>
       ))}

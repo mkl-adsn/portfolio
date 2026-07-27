@@ -51,4 +51,4 @@ When adding or refactoring a reusable UI component:
    - `.storybook/preview.ts` (loads it for Storybook).
 3. Add a story at `src/stories/<Name>.stories.ts` that renders the real class names (no inlined `<style>`). Design tokens (`--grey-900`, `--font-sans`, …) come from `tokens.css`, which preview.ts already loads.
 
-Design-system primitives (colors, icons, typography) live as catalog stories under the `Design System/` title; components under `UI/`. The page-level sections in `src/components/sections/` are content/animation-coupled compositions and are not storied.
+Design-system primitives (colors, icons, typography) live as catalog stories under the `Design System/` title; components under `UI/`. The page-level sections in `src/layouts/` (alongside `BaseLayout.astro`) are content/animation-coupled compositions and are not storied.

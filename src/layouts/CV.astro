@@ -1,7 +1,7 @@
 ---
-import SkillsFilter from '../ui/SkillsFilter.astro';
-import { workExperience, education, languages } from '../../content/data/cv.ts';
-import Button from '../ui/Button.astro';
+import SkillsFilter from '../components/ui/SkillsFilter.astro';
+import { workExperience, education, languages } from '../content/data/cv.ts';
+import Button from '../components/ui/Button.astro';
 ---
 
 <section id="cv" class="py-12 md:py-24">
@@ -24,7 +24,7 @@ import Button from '../ui/Button.astro';
       {workExperience.map(job => (
         <div class="zoom-in flex flex-col gap-6">
           <h3 class="draw-subheading type-h3">{job.company}, {job.period}</h3>
-          <div class="flex flex-col gap-3">
+          <div class="flex flex-col type-flow">
             <p class="type-body-bold">{job.role}</p>
             {job.description.map(para => (
               <p class="type-body">{para}</p>
@@ -50,7 +50,7 @@ import Button from '../ui/Button.astro';
       {education.map(entry => (
         <div class="zoom-in flex flex-col gap-6">
           <h3 class="draw-subheading type-h3">{entry.institution}, {entry.period}</h3>
-          <div class="flex flex-col gap-3">
+          <div class="flex flex-col type-flow">
             <p class="type-body-bold">{entry.degree}</p>
             <p class="type-body">{entry.description}</p>
           </div>

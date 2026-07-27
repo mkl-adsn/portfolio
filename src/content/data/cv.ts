@@ -79,15 +79,15 @@ export const workExperience: WorkEntry[] = [
 
 export const education: EducationEntry[] = [
   {
-    institution: 'Linköpings Universitet',
+    institution: 'Linköping University',
     period: '2009‑2012',
-    degree: 'Grafisk Design och Kommunikation (Graphic Design and Communications)',
+    degree: 'Graphic Design and Communications (Grafisk Design och Kommunikation)',
     description: `Completed 158 of 180 credits towards a Bachelor's Degree. The programme had a strong theoretical focus, providing a broad understanding of topics relevant to the design industry including design history, visual rhetoric, information design, HCI/UX, intellectual property law, and marketing communications.`,
   },
   {
     institution: 'Törnströmska Gymnasiet',
     period: '2006‑2008',
-    degree: 'Medieprogrammet: Grafisk Design (Media Programme: Graphic Design)',
+    degree: 'Media Programme – Graphic Design (Medieprogrammet – Grafisk Design)',
     description: `An upper secondary programme focused on practical applications in graphic design, creative writing, and photography.`,
   },
 ];

@@ -23,7 +23,8 @@
 .type-h1 strong,
 .type-h1 b { font-weight: 600; }
 
-.type-h2 {
+.type-h2,
+.case-body h2 {
   font-family: var(--font-serif);
   font-weight: 400;
   font-size: 44px;
@@ -32,7 +33,8 @@
   margin: 0;
 }
 
-.type-h3 {
+.type-h3,
+.case-body h3 {
   font-family: var(--font-serif);
   font-weight: 400;
   font-size: 28px;
@@ -50,7 +52,8 @@
   margin: 0;
 }
 
-.type-body {
+.type-body,
+.case-body p {
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: 18px;
@@ -88,6 +91,38 @@
   white-space: nowrap;
 }
 
+/* ─── Prose flow (markdown-generated `.case-body` HTML) ──────────────────── */
+/* Base vertical rhythm between direct children; specific pairs below refine it. */
+.case-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.case-body strong {
+  font-weight: 600;
+}
+
+/* Tighten p→p to 12px (base flex gap is 24px). */
+.case-body p + p {
+  margin-top: -12px;
+}
+
+/* h3 breathing room: 48px above (p before), 24px below (base gap). */
+.case-body p + h3 {
+  margin-top: 24px;
+}
+
+/* 48px below h2 (base flex gap is 24px). */
+.case-body h2 + * {
+  margin-top: 24px;
+}
+
+/* New section break: 96px before an h2 (base flex gap is 24px). */
+.case-body > * + h2 {
+  margin-top: 72px;
+}
+
 /* ─── Prose lists (markdown-generated `.case-body` HTML) ─────────────────── */
 .case-body ul,
 .case-body ol {
@@ -100,12 +135,12 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 }
 
 .case-body li {
   position: relative;
-  padding-left: 24px;
+  padding-left: 32px;
 }
 
 /* Unordered: a small accent square, optically aligned to the first line. */
@@ -113,9 +148,9 @@
   content: "";
   position: absolute;
   left: 0;
-  top: 0.5em;
-  width: 9px;
-  height: 9px;
+  top: 0.52em;
+  width: 7px;
+  height: 7px;
   border-radius: 2px;
   background-color: var(--accent);
 }
@@ -155,6 +190,14 @@
   gap: 12px;
 }
 
+/* ─── Prose flow (index-page component text, non-markdown) ───────────────── */
+/* Same 12px paragraph rhythm as `.case-body`, expressed as a plain margin
+   since these contexts have no base flex gap to offset. */
+.type-flow > .type-body + .type-body,
+.type-flow > .type-body-bold + .type-body {
+  margin-top: 12px;
+}
+
 /* ─── Mobile typography (≤767px) ─────────────────────────────────────────── */
 @media (max-width: 767px) {
   .type-h1 {
@@ -162,12 +205,14 @@
     line-height: 42px;
   }
 
-  .type-h2 {
+  .type-h2,
+  .case-body h2 {
     font-size: 32px;
     line-height: 1;
   }
 
-  .type-h3 {
+  .type-h3,
+  .case-body h3 {
     font-size: 24px;
     line-height: 1;
   }
@@ -175,5 +220,20 @@
   .type-preamble {
     font-size: 22px;
     line-height: 1.5;
+  }
+
+  /* p before h2: 8px tighter than desktop. */
+  .case-body > * + h2 {
+    margin-top: 40px;
+  }
+
+  /* p after h2: 20px tighter than desktop. */
+  .case-body h2 + * {
+    margin-top: 4px;
+  }
+
+  /* p after h3: 4px tighter than desktop (24px → 20px). */
+  .case-body h3 + p {
+    margin-top: -4px;
   }
 }

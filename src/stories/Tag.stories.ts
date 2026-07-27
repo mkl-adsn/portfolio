@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/html";
 
-// The pill tag used in the case-study hero (src/pages/cases/[slug].astro) to
+// The pill tag used in the case-study hero (src/pages/cases/[case].astro) to
 // list disciplines / tools. type-label-sm on a grey-900 pill.
 type TagArgs = { label: string };
 

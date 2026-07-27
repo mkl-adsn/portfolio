@@ -6,7 +6,7 @@ import Button from '../../components/ui/Button.astro';
 export async function getStaticPaths() {
   const cases = await getCollection('cases');
   return cases.map(c => ({
-    params: { slug: c.id.replace(/\.md$/, '') },
+    params: { case: c.id.replace(/\.md$/, '') },
     props: { entry: c },
   }));
 }
@@ -134,133 +134,13 @@ const { Content } = await render(entry);
     margin-top: 96px;
   }
 
-  /* ─── Prose body (global — target markdown-generated HTML) ───────────────── */
-  .case-body {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  :global(.case-body h2) {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: 44px;
-    line-height: 1;
-    color: var(--grey-900);
-    margin: 24px 0 0;
-  }
-
-  :global(.case-body h3) {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: 28px;
-    line-height: 1;
-    color: var(--grey-700);
-    margin: 8px 0 0;
-  }
-
-  :global(.case-body p) {
-    font-family: var(--font-sans);
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 24px;
-    color: var(--grey-900);
-    margin: 0;
-  }
-
-  /* Tighten p→p to 12px; base flex gap is 24px. */
-  :global(.case-body p + p) {
-    margin-top: -12px;
-  }
-
-  /* h3 breathing room: 48px above (p before), 24px below (base gap). */
-  :global(.case-body p + h3) {
-    margin-top: 24px;
-  }
-
-  /* 48px below h2 (base flex gap is 24px). */
-  :global(.case-body h2 + *) {
-    margin-top: 24px;
-  }
-
-  :global(.case-body strong) {
-    font-weight: 600;
-  }
-
-  :global(.case-body ul),
-  :global(.case-body ol) {
-    font-family: var(--font-sans);
-    font-size: 18px;
-    line-height: 24px;
-    color: var(--grey-900);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  :global(.case-body li) {
-    position: relative;
-    padding-left: 32px;
-  }
-
-  /* Unordered: a small accent square, optically aligned to the first line. */
-  :global(.case-body ul > li::before) {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.52em;
-    width: 7px;
-    height: 7px;
-    border-radius: 2px;
-    background-color: var(--accent);
-  }
-
-  /* Ordered: serif numerals in the accent colour, echoing the headings. */
-  :global(.case-body ol) {
-    counter-reset: case-ol;
-  }
-
-  :global(.case-body ol > li) {
-    counter-increment: case-ol;
-    padding-left: 40px;
-  }
-
-  :global(.case-body ol > li::before) {
-    content: counter(case-ol, decimal-leading-zero);
-    position: absolute;
-    left: 0;
-    top: 0.05em;
-    font-family: var(--font-serif);
-    font-size: 20px;
-    line-height: 1;
-    font-weight: 600;
-    color: var(--accent);
-  }
-
-  /* A bold lead-in at the start of an item reads as a mini-label. */
-  :global(.case-body li > strong:first-child) {
-    color: var(--grey-900);
-    font-weight: 600;
-  }
-
-  /* Nested lists tuck in without extra vertical gap. */
-  :global(.case-body li ul),
-  :global(.case-body li ol) {
-    margin-top: 12px;
-    gap: 12px;
-  }
-
+  /* ─── Prose body ───────────────────────────────────────────────────────────
+     Typography (fonts, colors) and rhythm (margins/gaps) for markdown-generated
+     `.case-body` content live in styles/typography.css, shared with the rest
+     of the site. Only page-specific, non-typographic rules stay here. */
   :global(.case-body img) {
     width: 100%;
     display: block;
-  }
-
-  /* Section spacing: any block following another that opens with a heading. */
-  :global(.case-body > * + h2) {
-    margin-top: 72px;
   }
 
   /* ─── Mobile ─────────────────────────────────────────────────────────────── */
@@ -272,14 +152,6 @@ const { Content } = await render(entry);
     .case-hero__back { margin-bottom: 40px; }
     .case-hero__tags { margin-bottom: 32px; }
     .case-content { padding-top: 16px; padding-bottom: 80px; }
-    :global(.case-body h2) { font-size: 32px; }
-    :global(.case-body h3) { font-size: 24px; }
-    /* p before h2: 8px tighter than desktop. */
-    :global(.case-body > * + h2) { margin-top: 40px; }
-    /* p after h2: 20px tighter than desktop. */
-    :global(.case-body h2 + *) { margin-top: 4px; }
-    /* p after h3: 4px tighter than desktop (24px → 20px). */
-    :global(.case-body h3 + p) { margin-top: -4px; }
   }
 
   /* ─── Layout blocks (global — target markdown-generated HTML) ────────────── */

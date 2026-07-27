@@ -236,7 +236,7 @@ body.lightbox-open {
   padding: 0;
   border: none;
   border-radius: 999px;
-  box-shadow: 0 0 0 1.2px inset var(--grey-500);
+  box-shadow: 0 0 0 1px inset var(--grey-100);
   cursor: pointer;
   transition: all 0.5s ease;
 }
