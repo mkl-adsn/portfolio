@@ -52,6 +52,20 @@ body {
 
 }
 
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+/* JS-driven animations (typewriter, scroll reveals, cursor trail) check
+   prefers-reduced-motion themselves via src/scripts/motion.ts. This covers
+   the remaining CSS-only motion (smooth scroll, blinking cursor). */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* ─── Scrollbar ───────────────────────────────────────────────────────────── */
 /* Firefox */
 * {

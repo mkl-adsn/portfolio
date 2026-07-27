@@ -81,8 +81,8 @@ export const education: EducationEntry[] = [
   {
     institution: 'Linköping University',
     period: '2009‑2012',
-    degree: 'Graphic Design and Communications (Grafisk Design och Kommunikation)',
-    description: `Completed 158 of 180 credits towards a Bachelor's Degree. The programme had a strong theoretical focus, providing a broad understanding of topics relevant to the design industry including design history, visual rhetoric, information design, HCI/UX, intellectual property law, and marketing communications.`,
+    degree: 'Graphic Design and Communication (Grafisk Design och Kommunikation)',
+    description: `A theory-focused programme covering design history, visual rhetoric, information design, HCI/UX, intellectual property law, and marketing communications — the conceptual groundwork underpinning my design practice.`,
   },
   {
     institution: 'Törnströmska Gymnasiet',

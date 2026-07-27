@@ -1,6 +1,6 @@
 ---
 title: "Universum"
-description: "Leading a ground-up digital overhaul one of the worlds' most established employer-branding agencies, turning three disconnected products into one coherent experience."
+description: "Leading a ground-up digital overhaul of one of the world's most established employer-branding agencies, turning three disconnected products into one coherent experience."
 tags: ["Figma", "UX Research", "UI design", "Design Systems", "Product Ownership", "Storyblok CMS", "Front End"]
 image: "/images/Case/universum/thumbnail.webp"
 halftoneImage: "/images/Case/universum/thumbnail-solid.webp"
@@ -23,7 +23,7 @@ As Universum's in-house UX/UI designer, I led the design of a company-wide digit
 </ul>
 
 <div class="case-split case-split--image-left">
-  <img src="\images\Case\universum\universum-logo.webp" />
+  <img src="/images/Case/universum/universum-logo.webp" />
   <div class="case-split__text">
     <h2>The company</h2>
     <p>Universum is one of the world’s most established employer-branding and talent-insights firms. Founded in 1988 in Stockholm, it surveys anywhere from a quarter of a million to over a million students and professionals across the globe each year to understand what talent wants from employers. That research powers Universum’s Most Attractive Employer rankings and the insights it sells to employers worldwide, making data collection and data delivery the core of the business.</p>
@@ -56,7 +56,7 @@ Figma was my main design tool, where I built and maintained the tokenized design
 
 For the company website I extended this into UX-engineering, configuring the CMS Storyblok and using Claude Code with the Figma MCP to take my designs straight into production code myself.
 
-To identify issues and painpoints, I conducted en depth interviews and user testing with internal stakeholders as well as external parties, like CareerTest users and Universum Insights platform clients. 
+To identify issues and painpoints, I conducted in-depth interviews and user testing with internal stakeholders as well as external parties, like CareerTest users and Universum Insights platform clients. 
 
 I set up behavioural tracking with Mixpanel on CareerTest and Matomo on the company website. Finally, I produced visuals, video assets, and social-media ad templates in Canva, Photoshop, and After Effects for both the digital platforms, and to support other departments, like digital marketing.
 
@@ -75,14 +75,14 @@ I set up behavioural tracking with Mixpanel on CareerTest and Matomo on the comp
 I rebuilt and redesigned the site from scratch, structuring its information architecture and responsive layouts around the searches that mattered most to the business so the new site would be as discoverable as it was polished. The result is a fully responsive site aligned to the refreshed Universum brand, with an expanded rankings and insights section at its heart.
 
 <div class="case-image-full" data-lightbox>
-  <img src="\images\Case\universum\website-landing.webp" alt="" />
+  <img src="/images/Case/universum/website-landing.webp" alt="" />
   <figcaption>The redesigned home page for universumglobal.com</figcaption>
 </div>
 
 Prospective clients can browse the rankings, explore the data Universum holds, and move naturally towards contacting sales, turning the website from a brochure into a lead-generating showcase of the company’s data. 
 
 <div class="case-image-full" data-lightbox>
-  <img src="\images\Case\universum\website-rankings.webp" alt="" />
+  <img src="/images/Case/universum/website-rankings.webp" alt="" />
   <figcaption>The top 10 ranked employers is available to everyone. Additional rankings and insights can be unlocked by sharing your email, providing Universum with a lead. Once on the unlocked page, users are further pushed towards booking a meeting to explore to full data with a Universum sales representative.</figcaption>
 </div>
 
@@ -109,7 +109,7 @@ Data collection is one of Universum’s largest expenses, and the old CareerTest
 I redesigned CareerTest end to end, working two problems at once: a smoother, more engaging path through the survey to lift completion, and a far richer, data-driven result page to reward users for finishing.
 
 <div class="case-split case-split--image-left max-w-4xl" data-lightbox>
-  <img src="\images\Case\universum\ct-survey.webp" alt="A CareerTest survey question" />
+  <img src="/images/Case/universum/ct-survey.webp" alt="A CareerTest survey question" />
   <div class="case-split__text">
     <p>I updated the survey visuals to look more fun and modern, and improved the UX to minimize churn. Together with the data scientists I also helped restructure questions with high drop-off rates. To push completions higher, I ran regular A/B experiments on gamification and retention features.</p>
   </div>
@@ -121,19 +121,19 @@ Drawing on Universum’s large body of talent data, I expanded the result page w
   <div class="carousel__viewport">
     <div class="carousel__track">
       <figure class="carousel__slide">
-        <img src="\images\Case\universum\ct-result-hero.webp" alt="Universum home page" />
+        <img src="/images/Case/universum/ct-result-hero.webp" alt="Universum home page" />
         <figcaption>The redesigned result page. The career type mascot in the hero is animated with lottie.</figcaption>
       </figure>
       <figure class="carousel__slide">
-        <img src="\images\Case\universum\ct-result-breakdown.webp" alt="Universum rankings section" />
-        <figcaption>The user can explore how the breakdown of their career type looks like.</figcaption>
+        <img src="/images/Case/universum/ct-result-breakdown.webp" alt="Universum rankings section" />
+        <figcaption>The user can see a breakdown of their profile for each career type.</figcaption>
       </figure>
       <figure class="carousel__slide">
-        <img src="\images\Case\universum\ct-result-salary.webp" alt="Universum unlocked rankings page" />
+        <img src="/images/Case/universum/ct-result-salary.webp" alt="Universum unlocked rankings page" />
         <figcaption>The salary section lets the user see what salaries peers in their field expect.</figcaption>
       </figure>
       <figure class="carousel__slide">
-        <img src="\images\Case\universum\ct-result-employers.webp" alt="Placeholder demo image" />
+        <img src="/images/Case/universum/ct-result-employers.webp" alt="Placeholder demo image" />
         <figcaption>CareerTest matches the users survey answers to the employers that are best matching their preferences.</figcaption>
       </figure>
     </div>
@@ -166,15 +166,15 @@ I conducted in-depth interviews with several clients, both power users and those
   <div class="carousel__viewport">
     <div class="carousel__track">
       <figure class="carousel__slide">
-        <img src="\images\Case\universum\uip-funnel.webp" alt="Universum home page" />
+        <img src="/images/Case/universum/uip-funnel.webp" alt="Universum home page" />
         <figcaption>Recruitment funnel overview.</figcaption>
       </figure>
       <figure class="carousel__slide">
-        <img src="\images\Case\universum\uip-salary.webp" alt="Universum rankings section" />
+        <img src="/images/Case/universum/uip-salary.webp" alt="Universum rankings section" />
         <figcaption>Salary module</figcaption>
       </figure>
       <figure class="carousel__slide">
-        <img src="\images\Case\universum\uip-associations.webp" alt="Universum unlocked rankings page" />
+        <img src="/images/Case/universum/uip-associations.webp" alt="Universum unlocked rankings page" />
         <figcaption>Employer associations.</figcaption>
       </figure>
     </div>
@@ -183,7 +183,7 @@ I conducted in-depth interviews with several clients, both power users and those
 
 
 <div class="case-split case-split--image-right max-w-4xl" data-lightbox>
-  <img src="\images\Case\universum\uip-filters.webp" alt="Filters" />
+  <img src="/images/Case/universum/uip-filters.webp" alt="Filters" />
   <div class="case-split__text">
     <p>I redesigned and expanded the filters and moved them in a side panel to make them available from everywhere in the platform. The improved filters allowed clients to easily explore and slice the data by the dimensions that mattered to them.</p>
   </div>
@@ -192,7 +192,7 @@ I conducted in-depth interviews with several clients, both power users and those
 Working closely with stakeholders and data engineers, I shaped and designed several new insights modules that package raw data into clear, actionable stories and redesigned and expanded several existing ones to better serve the clients’ needs. The result is a modern, on-brand, self-serve platform that helps clients get to their insight without needing to contact their key account manager to guide them through the process.
 
 <div class="case-image-full" data-lightbox>
-  <img src="\images\Case\universum\uip-powerpoint.webp" alt="" />
+  <img src="/images/Case/universum/uip-powerpoint.webp" alt="" />
   <figcaption>Clients can export everything to Powerpoint for easy presentation. All market and filter settings made on the platform are kept in the export.</figcaption>
 </div>
 

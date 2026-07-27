@@ -11,6 +11,7 @@ const VISIBLE_DEFAULT = 8;
 
   <!-- Search box -->
   <div class="search-box">
+    <label for="skill-search" class="sr-only">Search skills</label>
     <div class="search-box__face">
       <img src="/images/Icon/Dark/Search.svg" width="24" height="24" alt="" class="flex-shrink-0" />
       <input
@@ -23,6 +24,9 @@ const VISIBLE_DEFAULT = 8;
     </div>
     <div class="search-box__edge"></div>
   </div>
+
+  <!-- Announces the filtered count to screen readers; visually hidden -->
+  <p id="skills-status" class="sr-only" role="status" aria-live="polite"></p>
 
   <!-- Category filter tabs -->
   <div id="skill-filters" class="flex gap-x-6 gap-y-4 items-end flex-wrap mb-2">
@@ -63,6 +67,7 @@ const VISIBLE_DEFAULT = 8;
     const tags        = Array.from(document.querySelectorAll<HTMLElement>('.skill-tag'));
     const showAllWrap = document.getElementById('show-all-wrap')!;
     const showAllBtn  = document.getElementById('show-all-btn')!;
+    const status      = document.getElementById('skills-status')!;
 
     let activeFilter = 'all';
     let searchQuery  = '';
@@ -85,6 +90,8 @@ const VISIBLE_DEFAULT = 8;
       });
 
       showAllWrap.style.display = !showAll && matching.length > VISIBLE_DEFAULT ? '' : 'none';
+
+      status.textContent = `${matching.length} skill${matching.length === 1 ? '' : 's'} shown`;
     }
 
     filterTabs.forEach(tab => {
@@ -94,7 +101,9 @@ const VISIBLE_DEFAULT = 8;
 
         // CSS handles the visual update via [data-active] attribute selectors
         filterTabs.forEach(t => {
-          t.dataset.active = (t === tab) ? 'true' : 'false';
+          const isActive = t === tab;
+          t.dataset.active = isActive ? 'true' : 'false';
+          t.setAttribute('aria-pressed', isActive ? 'true' : 'false');
         });
 
         applyFilters();

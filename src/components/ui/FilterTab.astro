@@ -12,6 +12,7 @@ const { label, filter, active = false } = Astro.props;
   class="filter-tab"
   data-filter={filter}
   data-active={active ? 'true' : 'false'}
+  aria-pressed={active ? 'true' : 'false'}
 >
   <span class="filter-tab__label type-label-sm">{label}</span>
   <span class="filter-tab__bar"></span>

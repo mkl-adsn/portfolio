@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/ui/Button.astro';
+import Tag from '../../components/ui/Tag.astro';
 
 export async function getStaticPaths() {
   const cases = await getCollection('cases');
@@ -15,7 +16,11 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
 
-<BaseLayout title={`${entry.data.title} — Mikael Andersson`}>
+<BaseLayout
+  title={`${entry.data.title} — Mikael Andersson`}
+  description={entry.data.description}
+  image={entry.data.image}
+>
 
   <div class="case-hero">
     <div class="container">
@@ -29,14 +34,7 @@ const { Content } = await render(entry);
 
       <div class="case-hero__tags">
         {entry.data.tags.map(tag => (
-          <span class="type-label-sm" style="
-            padding: 8px 16px;
-            background-color: var(--grey-900);
-            color: var(--grey-100);
-            border-radius: 4px;
-          ">
-            {tag}
-          </span>
+          <Tag label={tag} variant="dark" />
         ))}
       </div>
 

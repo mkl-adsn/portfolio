@@ -71,6 +71,14 @@
   margin: 0;
 }
 
+/* ─── Dark-background modifier ────────────────────────────────────────────
+   Add alongside any color-bearing .type-* class to flip it for use on a dark
+   (grey-900) background, e.g. class="type-h2 type-on-dark". Must come after
+   the .type-* rules above: same specificity, so cascade order decides. */
+.type-on-dark {
+  color: var(--grey-100);
+}
+
 .type-label {
   font-family: var(--font-sans);
   font-weight: 700;

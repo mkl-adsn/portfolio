@@ -3,8 +3,17 @@ import '../styles/global.css';
 
 export interface Props {
   title?: string;
+  description?: string;
+  image?: string;
 }
-const { title = 'Mikael Andersson — UX/UI Designer' } = Astro.props;
+const {
+  title = 'Mikael Andersson — UX/UI Designer',
+  description = 'Portfolio of Mikael Andersson, a senior UX/UI designer who aligns product vision with technical execution — case studies, CV, and contact details.',
+  image = '/images/favicon/web-app-manifest-512x512.png',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL(image, Astro.site);
 ---
 
 <!doctype html>
@@ -13,12 +22,28 @@ const { title = 'Mikael Andersson — UX/UI Designer' } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/png" href="/images/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/images/favicon/favicon.svg" />
     <link rel="shortcut icon" href="/images/favicon/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
     <link rel="manifest" href="/images/favicon/site.webmanifest" />
     <title>{title}</title>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mikael Andersson" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={socialImageURL} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageURL} />
 
     <!-- Figtree from Google Fonts; Warnock Pro loaded via @font-face in global.css -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

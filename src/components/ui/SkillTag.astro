@@ -7,8 +7,8 @@ export interface Props {
 const { name, level, categories } = Astro.props;
 
 // Light folder = white icons for use on dark (grey-900) background
-const STAR_FILLED  = '/images/Icon/Light/Star%20Filled.svg';
-const STAR_OUTLINE = '/images/Icon/Light/Star%20Outline.svg';
+const STAR_FILLED  = '/images/Icon/Light/star-filled.svg';
+const STAR_OUTLINE = '/images/Icon/Light/star-outline.svg';
 
 const stars = [1, 2, 3].map(i => (i <= level ? STAR_FILLED : STAR_OUTLINE));
 ---
@@ -18,8 +18,11 @@ const stars = [1, 2, 3].map(i => (i <= level ? STAR_FILLED : STAR_OUTLINE));
   data-categories={categories.join(',')}
   data-name={name.toLowerCase()}
 >
-  <span class="skill-tag__name">{name}</span>
-  <span class="skill-tag__stars">
+  <span class="skill-tag__name">
+    {name}
+    <span class="sr-only">, proficiency {level} of 3</span>
+  </span>
+  <span class="skill-tag__stars" aria-hidden="true">
     {stars.map(src => (
       <img src={src} width="16" height="16" alt="" />
     ))}

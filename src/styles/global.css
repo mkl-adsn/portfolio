@@ -5,6 +5,7 @@
 @import "./typography.css";
 @import "./layout.css";
 @import "./components/button.css";
+@import "./components/tag.css";
 @import "./components/skill-tag.css";
 @import "./components/filter-tab.css";
 @import "./components/nav.css";

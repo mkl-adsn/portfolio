@@ -7,23 +7,21 @@ import Button from '../components/ui/Button.astro';
 <section id="cv" class="py-12 md:py-24">
 
   <div class="container flex justify-between gap-x-8 gap-y-6 items-center flex-wrap mb-12 md:mb-24">
-    <h1 class="type-h1 draw-heading">Curriculum Vitae</h1>
-<Button variant="light" icon="Download" href="/cv.pdf" download>
-        <span class="type-label">Download CV</span>
-      </Button>
-      </div>
+    <h2 class="type-h1 draw-heading">Curriculum Vitae</h2>
+    <Button variant="light" icon="Download" href="/cv.pdf" download>
+      <span class="type-label">Download CV</span>
+    </Button>
+  </div>
 
   <div class="container-narrow flex flex-col gap-16 md:gap-24">
 
-
     <!-- Work Experience -->
-
     <div class="flex flex-col gap-12">
-          <h2 class="draw-heading type-h2">Work Experience</h2>
+      <h3 class="draw-heading type-h2">Work Experience</h3>
 
       {workExperience.map(job => (
         <div class="zoom-in flex flex-col gap-6">
-          <h3 class="draw-subheading type-h3">{job.company}, {job.period}</h3>
+          <h4 class="draw-subheading type-h3">{job.company}, {job.period}</h4>
           <div class="flex flex-col type-flow">
             <p class="type-body-bold">{job.role}</p>
             {job.description.map(para => (
@@ -34,22 +32,20 @@ import Button from '../components/ui/Button.astro';
       ))}
     </div>
 
- <!-- Skills -->
+    <!-- Skills -->
     <div class="flex flex-col gap-8 md:gap-12">
-    <h2 class="draw-heading type-h2">Professional Skills</h2>
+      <h3 class="draw-heading type-h2">Professional Skills</h3>
 
-    <SkillsFilter />
-
+      <SkillsFilter />
     </div>
 
     <!-- Education -->
-
     <div class="flex flex-col gap-8 md:gap-12">
-          <h2 class="draw-heading type-h2">Education</h2>
+      <h3 class="draw-heading type-h2">Education</h3>
 
       {education.map(entry => (
         <div class="zoom-in flex flex-col gap-6">
-          <h3 class="draw-subheading type-h3">{entry.institution}, {entry.period}</h3>
+          <h4 class="draw-subheading type-h3">{entry.institution}, {entry.period}</h4>
           <div class="flex flex-col type-flow">
             <p class="type-body-bold">{entry.degree}</p>
             <p class="type-body">{entry.description}</p>
@@ -59,17 +55,22 @@ import Button from '../components/ui/Button.astro';
     </div>
 
     <!-- Languages -->
-
     <div class="flex flex-col gap-8 md:gap-12">
-          <h2 class="draw-heading type-h2">Languages</h2>
+      <h3 class="draw-heading type-h2">Languages</h3>
 
       {languages.map(lang => (
         <div class="zoom-in flex flex-col gap-1">
           <p class="type-body-bold">{lang.name}</p>
-          <p class="type-body" style="color: var(--grey-700);">{lang.level}</p>
+          <p class="type-body cv-lang-level">{lang.level}</p>
         </div>
       ))}
     </div>
 
   </div>
 </section>
+
+<style>
+  .cv-lang-level {
+    color: var(--grey-700);
+  }
+</style>

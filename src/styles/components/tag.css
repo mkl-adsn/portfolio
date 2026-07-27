@@ -1,0 +1,21 @@
+/* ─── Tag pill ────────────────────────────────────────────────────────────── */
+/* Used for case-study discipline/tool labels: the small grey-200 chips on the
+   case list (variant="light") and the larger grey-900 pills on a case's own
+   hero (variant="dark"). */
+.tag {
+  display: inline-flex;
+  align-items: center;
+}
+
+.tag--light {
+  padding: 4px 8px;
+  background-color: var(--grey-200);
+  color: var(--grey-900);
+}
+
+.tag--dark {
+  padding: 8px 16px;
+  background-color: var(--grey-900);
+  color: var(--grey-100);
+  border-radius: 4px;
+}

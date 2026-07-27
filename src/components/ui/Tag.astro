@@ -1,0 +1,12 @@
+---
+export interface Props {
+  label: string;
+  variant?: 'light' | 'dark';
+}
+
+const { label, variant = 'light' } = Astro.props;
+---
+
+<span class:list={['tag', `tag--${variant}`, 'type-label-sm']}>{label}</span>
+
+<!-- Styles: src/styles/components/tag.css (loaded via global.css) -->

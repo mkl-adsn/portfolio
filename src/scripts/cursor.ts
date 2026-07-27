@@ -10,6 +10,8 @@
  * so the nib tracks the exact mouse position.
  */
 
+import { prefersReducedMotion } from './motion';
+
 // Pixel offset from the top-left corner of the cursor image to the pen nib.
 // Tune these if the cursor images are resized.
 const HOTSPOT_X = 68;
@@ -17,7 +19,8 @@ const HOTSPOT_Y = 34;
 
 // Interpolation factor per frame (0–1). Lower = more trail, higher = snappier.
 // At 60 fps, 0.15 gives ~4-5 frames of lag on a fast move.
-const LERP = 0.12;
+// Reduced motion: 1 makes the cursor snap straight to the target with no trail.
+const LERP = prefersReducedMotion() ? 1 : 0.12;
 
 // Stop the animation loop once the cursor is within this many px of the target.
 const SETTLE_THRESHOLD = 0.15;

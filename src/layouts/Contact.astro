@@ -6,10 +6,10 @@ import Button from '../components/ui/Button.astro';
 <section id="contact" class="contact-section overflow-hidden mt-12">
   <div class="container-narrow py-32 md:py-60 flex flex-col gap-10">
 
-    <h2 class="type-h2" style="color: var(--grey-100);">Get in touch</h2>
+    <h2 class="type-h2 type-on-dark">Get in touch</h2>
 
     <div class="zoom-in flex flex-col gap-4">
-      <h3 class="type-h3" style="color: var(--grey-100);">Mikael Andersson</h3>
+      <h3 class="type-h3 type-on-dark">Mikael Andersson</h3>
 
       <ul class="list-none m-0 p-0 flex flex-col gap-4">
         {contacts.map(({ icon, label, href, external }) => (
@@ -27,15 +27,14 @@ import Button from '../components/ui/Button.astro';
             {href ? (
               <a
                 href={href}
-                class="type-body-bold no-underline hover:underline"
-                style="color: var(--grey-100);"
+                class="type-body-bold type-on-dark no-underline hover:underline"
                 target={external ? '_blank' : undefined}
                 rel={external ? 'noopener noreferrer' : undefined}
               >
                 {label}
               </a>
             ) : (
-              <span class="type-body-bold" style="color: var(--grey-100);">{label}</span>
+              <span class="type-body-bold type-on-dark">{label}</span>
             )}
           </li>
         ))}

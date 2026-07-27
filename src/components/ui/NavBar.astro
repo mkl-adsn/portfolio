@@ -19,6 +19,8 @@ import { navItems } from '../../content/data/nav.ts';
 <!-- Styles: src/styles/components/nav.css (loaded via global.css) -->
 
 <script>
+  import { prefersReducedMotion } from '../../scripts/motion';
+
   const tabs = document.querySelectorAll<HTMLElement>('.nav__tab');
   const sectionIds = Array.from(tabs).map(t => t.dataset.section!);
 
@@ -39,7 +41,7 @@ import { navItems } from '../../content/data/nav.ts';
     tab.addEventListener('click', e => {
       e.preventDefault();
       document.getElementById(tab.dataset.section!)
-        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        ?.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
     });
   });
 

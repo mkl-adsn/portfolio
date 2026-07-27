@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Button from '../components/ui/Button.astro';
+import Tag from '../components/ui/Tag.astro';
 
 const allCases = (await getCollection('cases')).sort(
   (a, b) => a.data.order - b.data.order
@@ -28,13 +29,7 @@ const allCases = (await getCollection('cases')).sort(
                 <h2 class="draw-heading type-h2">{c.data.title}</h2>
                 <div class="case-tags">
                   {c.data.tags.map(tag => (
-                    <span class="type-label-sm" style="
-                      padding: 4px 8px;
-                      background-color: var(--grey-200);
-                      color: var(--grey-900);
-                    ">
-                      {tag}
-                    </span>
+                    <Tag label={tag} variant="light" />
                   ))}
                 </div>
               </div>

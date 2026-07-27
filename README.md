@@ -1,43 +1,50 @@
-# Astro Starter Kit: Minimal
+# Portfolio — Mikael Andersson
+
+Personal portfolio site built with [Astro](https://astro.build) (v6) and strict TypeScript: case studies, CV, and contact details, deployed as a static site.
+
+**Worth a look if you're skimming:**
+- [`src/scripts/halftone.ts`](./src/scripts/halftone.ts) — a scroll-scrubbed CMYK halftone reveal built from CSS custom properties + blend modes, no canvas.
+- [`src/scripts/scrollReveal.ts`](./src/scripts/scrollReveal.ts) — heading "draw-in" effect that uses the Range API to detect real rendered line breaks, so it holds up at fractional DPI scaling.
+- `prefers-reduced-motion` is honored throughout ([`src/scripts/motion.ts`](./src/scripts/motion.ts)), and interactive components (lightbox, skill filter) carry real ARIA semantics, not just visual polish.
+- The CV page ([`src/pages/cv.astro`](./src/pages/cv.astro)) and the live site render from the same typed content modules, so the downloadable PDF can't drift from the page.
+
+## Getting started
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The dev server runs at `localhost:4321`.
 
-## 🚀 Project Structure
+## Commands
 
-Inside of your Astro project, you'll see the following folders and files:
+| Command                | Action                                                    |
+| :---------------------- | :--------------------------------------------------------- |
+| `npm run dev`           | Start local dev server at `localhost:4321`                 |
+| `npm run build`         | Build production site to `./dist/`                         |
+| `npm run preview`       | Preview production build locally                           |
+| `npm run astro ...`     | Run Astro CLI commands (e.g. `astro add`, `astro check`)   |
+| `npm run build:cv`      | Full site build **and** regenerate `public/cv.pdf`         |
+| `npm run generate:cv`   | Regenerate `public/cv.pdf` from the existing `dist/` build |
+| `npm run storybook`     | Start Storybook at `localhost:6006`                         |
+| `npm run build-storybook` | Build the static Storybook site                           |
+
+## Project structure
 
 ```text
 /
-├── public/
+├── public/              Static assets served as-is (fonts, images, cv.pdf)
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/ui/   Reusable Astro components (also storied)
+│   ├── content/          Content collections (case studies) and typed data
+│   ├── layouts/           Page-level sections (Hero, Cases, Bio, CV, Contact)
+│   ├── pages/             File-based routes
+│   ├── scripts/           Client-side behaviour (animations, carousel, cursor, lightbox)
+│   ├── stories/           Storybook stories
+│   └── styles/            Design tokens, base styles, and per-component stylesheets
+├── astro.config.mjs
+└── scripts/generate-cv-pdf.mjs   Renders src/pages/cv.astro to public/cv.pdf via headless Chromium
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+See [CLAUDE.md](./CLAUDE.md) for the component/Storybook conventions and the CV PDF build process in more detail.
