@@ -41,6 +41,13 @@
 /* ─── Reset & base ───────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
+/* ─── Keyboard focus ─────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px dashed var(--border-strong);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 /* `transition` isn't inherited — every element needs its own declaration to
    crossfade on theme change. This gives everything a default; components
    with their own hover/press transitions (button.css, nav.css, ...) are
