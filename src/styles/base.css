@@ -41,15 +41,35 @@
 /* ─── Reset & base ───────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
+/* `transition` isn't inherited — every element needs its own declaration to
+   crossfade on theme change. This gives everything a default; components
+   with their own hover/press transitions (button.css, nav.css, ...) are
+   more specific and simply override it for their own elements. */
+*, *::before, *::after {
+  transition: background-color 800ms ease-out, color 800ms ease-out, border-color 800ms ease-out, outline-color 800ms ease-out;
+}
+
+/* Kills every transition (including the page-vignette's own) while present.
+   <html> carries this from first paint until just after the stored theme is
+   applied (see BaseLayout.astro), so resolving that theme on load can't
+   itself animate — otherwise the vignette/colors would visibly crossfade in
+   on every page load, since that's the first time their style is resolved
+   at all. */
+.no-transition,
+.no-transition *,
+.no-transition *::before,
+.no-transition *::after {
+  transition: none !important;
+}
+
 html { scroll-behavior: smooth;}
 
 body {
   margin: 0;
   font-family: var(--font-sans);
-  background-color: var(--grey-100);
-  color: var(--grey-900);
+  background-color: var(--surface-1);
+  color: var(--type-primary);
   overflow-x: hidden;
-
 }
 
 /* ─── Reduced motion ─────────────────────────────────────────────────────── */
@@ -68,15 +88,11 @@ body {
 
 /* ─── Scrollbar ───────────────────────────────────────────────────────────── */
 /* Firefox */
-* {
-  /*scrollbar-width: thin;
-  scrollbar-color: var(--grey-400) var(--grey-200);*/
 
-}
 
 /* Webkit (Chrome, Edge, Safari) */
 .scrollbar::-webkit-scrollbar        { width: 20px;}
-.scrollbar::-webkit-scrollbar-track  { background: var(--grey-200);}
-.scrollbar::-webkit-scrollbar-thumb  { background-color: var(--grey-500); border-radius: 99px; border:7px solid transparent; background-clip: padding-box;}
-.scrollbar::-webkit-scrollbar-thumb:hover { background-color: var(--grey-800); }
+.scrollbar::-webkit-scrollbar-track  { background: var(--surface-2);}
+.scrollbar::-webkit-scrollbar-thumb  { background-color: var(--surface-5); border-radius: 99px; border:7px solid transparent; background-clip: padding-box;}
+.scrollbar::-webkit-scrollbar-thumb:hover { background-color: var(--surface-8); }
 .scrollbar::-webkit-scrollbar-button { display: none; }

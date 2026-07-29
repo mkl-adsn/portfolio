@@ -15,7 +15,7 @@
   font-weight: 400;
   font-size: 60px;
   line-height: 64px;
-  color: var(--grey-900);
+  color: var(--type-primary);
   margin: 0;
 }
 
@@ -29,9 +29,11 @@
   font-weight: 400;
   font-size: 44px;
   line-height: 1;
-  color: var(--grey-900);
+  color: var(--type-primary);
   margin: 0;
 }
+.type-h2 strong,
+.type-h2 b { font-weight: 600; }
 
 .type-h3,
 .case-body h3 {
@@ -39,7 +41,7 @@
   font-weight: 400;
   font-size: 28px;
   line-height: 1;
-  color: var(--grey-700);
+  color: var(--type-secondary);
   margin: 0;
 }
 
@@ -48,7 +50,7 @@
   font-weight: 400;
   font-size: 26px;
   line-height: 1.5;
-  color: var(--grey-900);
+  color: var(--type-primary);
   margin: 0;
 }
 
@@ -58,7 +60,7 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 24px;
-  color: var(--grey-900);
+  color: var(--type-primary);
   margin: 0;
 }
 
@@ -67,7 +69,7 @@
   font-weight: 600;
   font-size: 18px;
   line-height: 1;
-  color: var(--grey-900);
+  color: var(--type-primary);
   margin: 0;
 }
 
@@ -76,7 +78,7 @@
    (grey-900) background, e.g. class="type-h2 type-on-dark". Must come after
    the .type-* rules above: same specificity, so cascade order decides. */
 .type-on-dark {
-  color: var(--grey-100);
+  color: var(--type-inverted-primary);
 }
 
 .type-label {
@@ -137,7 +139,7 @@
   font-family: var(--font-sans);
   font-size: 18px;
   line-height: 24px;
-  color: var(--grey-900);
+  color: var(--type-primary);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -160,7 +162,7 @@
   width: 7px;
   height: 7px;
   border-radius: 2px;
-  background-color: var(--accent);
+  background-color: var(--surface-5);
 }
 
 /* Ordered: serif numerals in the accent colour, echoing the headings. */
@@ -182,12 +184,12 @@
   font-size: 20px;
   line-height: 1;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--surface-5);
 }
 
 /* A bold lead-in at the start of an item reads as a mini-label. */
 .case-body li > strong:first-child {
-  color: var(--grey-900);
+  color: var(--type-primary);
   font-weight: 600;
 }
 

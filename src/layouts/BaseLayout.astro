@@ -1,15 +1,18 @@
 ---
 import '../styles/global.css';
+import ThemeToggle from '../components/ui/ThemeToggle.astro';
 
 export interface Props {
   title?: string;
   description?: string;
   image?: string;
+  bodyClass?: string;
 }
 const {
   title = 'Mikael Andersson — UX/UI Designer',
   description = 'Portfolio of Mikael Andersson, a senior UX/UI designer who aligns product vision with technical execution — case studies, CV, and contact details.',
   image = '/images/favicon/web-app-manifest-512x512.png',
+  bodyClass,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -17,7 +20,7 @@ const socialImageURL = new URL(image, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-transition">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,6 +33,32 @@ const socialImageURL = new URL(image, Astro.site);
     <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
     <link rel="manifest" href="/images/favicon/site.webmanifest" />
     <title>{title}</title>
+
+    <!-- Applied before first paint so navigating between pages doesn't flash
+         the wrong theme. Kept in sync by src/scripts/theme.ts.
+
+         <html> starts with a `no-transition` class (transitions killed via
+         base.css) so applying the stored theme here can't itself animate
+         anything — without it, the vignette/background-color transitions
+         would run on first paint, since this is the first time the browser
+         resolves their style at all. Removed after two rAFs, i.e. once the
+         first real frame has painted, so the toggle's *own* click still
+         animates normally afterwards. -->
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        try {
+          if (localStorage.getItem('theme') === 'dark') {
+            root.dataset.theme = 'dark';
+          }
+        } catch (e) {}
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            root.classList.remove('no-transition');
+          });
+        });
+      })();
+    </script>
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -53,12 +82,21 @@ const socialImageURL = new URL(image, Astro.site);
       rel="stylesheet"
     />
   </head>
-  <body class="page-bg scrollbar">
+  <body class:list={['page-bg', 'scrollbar', bodyClass]}>
+    <!-- Edge vignette, crossfaded between a light and dark gradient on theme
+         change. Real sibling elements rather than .page-bg pseudo-elements
+         so they can each fade via their own opacity without giving <body>
+         a stacking context (see layout.css — that broke mix-blend-mode
+         elsewhere, like the halftone case-image reveal). -->
+    <div class="page-vignette page-vignette--light" aria-hidden="true"></div>
+    <div class="page-vignette page-vignette--dark" aria-hidden="true"></div>
+
     <!-- Custom cursor: two images swapped on mousedown/up. Hidden on touch devices via CSS. -->
     <div id="custom-cursor" aria-hidden="true">
       <img class="cursor-default" src="/images/Cursor/CursorDefault.png" alt="" draggable="false" />
       <img class="cursor-pressed" src="/images/Cursor/CursorPressed.png" alt="" draggable="false" />
     </div>
+    <ThemeToggle />
     <slot />
   </body>
 </html>

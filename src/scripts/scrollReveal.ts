@@ -17,7 +17,7 @@ const _resizeCallbacks: Array<() => void> = [];
 /** Dual-layer draw effect for headings: outline skeleton + clipped fill reveal. */
 function wrapDrawHeading(
   el: HTMLElement,
-  color = 'var(--grey-900)',
+  color = 'var(--type-primary)',
   outlineWidth = '1px',
 ): { fillEl: HTMLElement; outlineEl: HTMLElement } {
   const original = el.innerHTML;
@@ -173,7 +173,7 @@ export function initScrollReveal() {
 
   // Draw-subheading (h3): same effect, grey-700.
   document.querySelectorAll<HTMLElement>('.draw-subheading').forEach(el => {
-    const { fillEl, outlineEl } = wrapDrawHeading(el, 'var(--grey-700)', '0.5px');
+    const { fillEl, outlineEl } = wrapDrawHeading(el, 'var(--type-secondary)', '0.5px');
     buildBodyRowsAndAnimate(fillEl, outlineEl, el, 'top 95%', 'top 30%', 0.4);
   });
 }

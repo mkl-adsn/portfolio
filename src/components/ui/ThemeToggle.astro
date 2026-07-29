@@ -1,0 +1,44 @@
+---
+/**
+ * Light/dark mode toggle — square, icon-only Button. Starts in light mode;
+ * click behavior and icon swapping live in src/scripts/theme.ts.
+ */
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  aria-label="Switch to dark mode"
+  class="btn btn--light btn--icon-only theme-toggle"
+>
+  <span class="btn__face">
+    <img
+      id="theme-toggle-icon"
+      src="/images/Icon/Dark/moon.svg"
+      width="24"
+      height="24"
+      alt=""
+      class="btn__icon"
+    />
+  </span>
+  <span class="btn__edge"></span>
+</button>
+
+<!-- Styles: src/styles/components/button.css (.btn--icon-only) -->
+
+<script>
+  import { initThemeToggle } from '../../scripts/theme';
+  initThemeToggle();
+</script>
+
+<style>
+  /* Absolute (not fixed/sticky) — scrolls away with the page like the rest
+     of the hero content. Positioned against <body>, which .page-bg makes a
+     positioning context. */
+  .theme-toggle {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 4;
+  }
+</style>

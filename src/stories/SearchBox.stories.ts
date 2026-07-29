@@ -7,7 +7,7 @@ function searchBox(placeholder: string, value: string): string {
   return `
     <div class="search-box" style="max-width: 480px;">
       <div class="search-box__face">
-        <img src="/images/Icon/Dark/Search.svg" width="24" height="24" alt="" style="flex-shrink: 0;" />
+        <img src="/images/Icon/Dark/search.svg" width="24" height="24" alt="" style="flex-shrink: 0;" />
         <input type="text" placeholder="${placeholder}" value="${value}" class="search-box__input type-body" autocomplete="off" />
       </div>
       <div class="search-box__edge"></div>
@@ -23,7 +23,7 @@ const meta: Meta<SearchBoxArgs> = {
     value: { control: "text" },
   },
   args: { placeholder: "Type to find skill...", value: "" },
-  decorators: [(story) => `<div style="padding: 48px; background: var(--grey-100);">${story()}</div>`],
+  decorators: [(story) => `<div style="padding: 48px; background: var(--surface-1);">${story()}</div>`],
 };
 
 export default meta;

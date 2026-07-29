@@ -72,7 +72,7 @@ export const workExperience: WorkEntry[] = [
     period: '2009‑2014, 2021‑',
     role: 'Graphic / UX & UI Designer',
     description: [
-      `Engaged by businesses and startups for branding and visual identity, UX/UI design for web and apps, logotypes, and print design.`,
+      `Worked with businesses and startups on branding and visual identity, UX/UI design for web and apps, and print design.`,
     ],
   },
 ];

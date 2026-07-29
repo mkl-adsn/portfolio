@@ -20,12 +20,13 @@ const { Content } = await render(entry);
   title={`${entry.data.title} — Mikael Andersson`}
   description={entry.data.description}
   image={entry.data.image}
+  bodyClass="case-page"
 >
 
   <div class="case-hero">
     <div class="container">
       <div class="case-hero__back">
-        <Button variant="light" href="/#cases" icon="Arrow left">
+        <Button variant="light" href="/#cases" icon="arrow-left">
           <span class="type-label">Back</span>
         </Button>
       </div>
@@ -50,7 +51,7 @@ const { Content } = await render(entry);
     </article>
 
     <div class="case-content__back">
-      <Button variant="light" href="/#cases" icon="Arrow left">
+      <Button variant="light" href="/#cases" icon="arrow-left">
         <span class="type-label">Back</span>
       </Button>
     </div>
@@ -85,7 +86,7 @@ const { Content } = await render(entry);
 <style>
   /* ─── Hero ──────────────────────────────────────────────────────────────── */
   .case-hero {
-    padding-top: 80px;
+    padding-top: 64px;
     padding-bottom: 48px;
   }
 
@@ -99,7 +100,7 @@ const { Content } = await render(entry);
     font-size: 80px;
     line-height: 1;
     letter-spacing: -0.02em;
-    color: var(--grey-900);
+    color: var(--type-primary);
     margin: 0 0 16px;
   }
 @media (max-width: 767px) {
@@ -144,7 +145,7 @@ const { Content } = await render(entry);
   /* ─── Mobile ─────────────────────────────────────────────────────────────── */
   @media (max-width: 767px) {
     .case-hero {
-      padding-top: 48px;
+      padding-top: 16px;
       padding-bottom: 48px;
     }
     .case-hero__back { margin-bottom: 40px; }
@@ -187,7 +188,7 @@ const { Content } = await render(entry);
     font-family: var(--font-sans);
     font-size: 18px;
     line-height: 24px;
-    color: var(--grey-900);
+    color: var(--type-primary);
   }
 
 
@@ -206,7 +207,7 @@ const { Content } = await render(entry);
   :global(.case-image-full figcaption) {
     font-family: var(--font-sans);
     font-size: 16px;
-    color: var(--grey-600);
+    color: var(--type-tertiary);
     text-align: center;
     margin-top: 16px;
   }

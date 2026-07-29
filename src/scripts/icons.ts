@@ -14,8 +14,8 @@
  */
 
 import xCloseRaw from '../../public/images/Icon/Light/x-close.svg?raw';
-import arrowLeftRaw from '../../public/images/Icon/Light/Arrow left.svg?raw';
-import arrowRightRaw from '../../public/images/Icon/Light/Arrow Right.svg?raw';
+import arrowLeftRaw from '../../public/images/Icon/Light/arrow-left.svg?raw';
+import arrowRightRaw from '../../public/images/Icon/Light/arrow-right.svg?raw';
 import zoomInRaw from '../../public/images/Icon/Light/zoom-in.svg?raw';
 import zoomOutRaw from '../../public/images/Icon/Light/zoom-out.svg?raw';
 

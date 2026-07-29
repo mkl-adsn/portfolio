@@ -20,7 +20,7 @@ const meta: Meta<FilterTabArgs> = {
     active: { control: "boolean", description: "Selected state" },
   },
   args: { label: "All Skills", active: false },
-  decorators: [(story) => `<div style="padding: 48px; background: var(--grey-100);">${story()}</div>`],
+  decorators: [(story) => `<div style="padding: 48px; background: var(--surface-1);">${story()}</div>`],
 };
 
 export default meta;
@@ -34,7 +34,7 @@ export const Group: Story = {
   render: () => {
     const cats = ["All Skills", "Application", "Design", "Code", "Other", "Irrelevant"];
     return `
-      <div style="padding: 48px; background: var(--grey-100); display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-end;">
+      <div style="padding: 48px; background: var(--surface-1); display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-end;">
         ${cats.map((c, i) => filterTab(c, i === 0)).join("")}
       </div>
     `;

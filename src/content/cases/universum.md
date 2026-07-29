@@ -3,7 +3,6 @@ title: "Universum"
 description: "Leading a ground-up digital overhaul of one of the world's most established employer-branding agencies, turning three disconnected products into one coherent experience."
 tags: ["Figma", "UX Research", "UI design", "Design Systems", "Product Ownership", "Storyblok CMS", "Front End"]
 image: "/images/Case/universum/thumbnail.webp"
-halftoneImage: "/images/Case/universum/thumbnail-solid.webp"
 imageOrientation: landscape
 order: 1
 
@@ -111,7 +110,7 @@ I redesigned CareerTest end to end, working two problems at once: a smoother, mo
 <div class="case-split case-split--image-left max-w-4xl" data-lightbox>
   <img src="/images/Case/universum/ct-survey.webp" alt="A CareerTest survey question" />
   <div class="case-split__text">
-    <p>I updated the survey visuals to look more fun and modern, and improved the UX to minimize churn. Together with the data scientists I also helped restructure questions with high drop-off rates. To push completions higher, I ran regular A/B experiments on gamification and retention features.</p>
+    <p>I refreshed the survey visuals and improved the UX to minimize churn. Together with the data scientists I also helped restructure questions with high drop-off rates. To push completions higher, I ran regular A/B experiments on gamification and retention features.</p>
   </div>
 </div>
 

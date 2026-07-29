@@ -34,7 +34,7 @@ const meta: Meta<PhoneArgs> = {
     alt: { control: "text" },
   },
   args: { image: "/images/case-placeholder-image.png", alt: "App screen" },
-  decorators: [(story) => `<div style="padding: 48px; background: var(--grey-200);">${story()}</div>`],
+  decorators: [(story) => `<div style="padding: 48px; background: var(--surface-2);">${story()}</div>`],
 };
 
 export default meta;

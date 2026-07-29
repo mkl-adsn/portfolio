@@ -22,7 +22,7 @@ const meta: Meta = {
   title: "UI/Nav Bar",
   parameters: { controls: { disable: true } },
   decorators: [
-    (story) => `<div style="padding: 48px; background: var(--grey-200); display: flex; justify-content: center;">${story()}</div>`,
+    (story) => `<div style="padding: 48px; background: var(--surface-2); display: flex; justify-content: center;">${story()}</div>`,
   ],
 };
 

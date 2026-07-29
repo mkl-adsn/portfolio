@@ -17,7 +17,6 @@ export const skills: Skill[] = [
   { name: 'AI assisted workflows',    categories: ['Dev'],                     level: 2 },
   { name: 'UX Research',              categories: ['Design'],                  level: 2 },
   { name: 'Branding & Identity',      categories: ['Design'],                  level: 2 },
-  // Below Fold
   { name: 'Art Direction',            categories: ['Design'],                  level: 2 },
   { name: 'Illustrator',              categories: ['Application', 'Design'],   level: 2 },
   { name: 'After Effects',            categories: ['Application', 'Design'],   level: 2 },
@@ -33,6 +32,7 @@ export const skills: Skill[] = [
   { name: 'Scrum / Agile',            categories: ['Other'],                   level: 2 },
   { name: 'Jira',                     categories: ['Other'],                   level: 2 },
   { name: 'Game Design/Gamification', categories: ['Design', 'Other'],         level: 2 },
+  { name: 'CSS',                      categories: ['Dev'],                     level: 2 },
   { name: 'Git',                      categories: ['Dev'],                     level: 1 },
   { name: 'Copywriting',              categories: ['Other'],                   level: 1 },
   { name: 'Unity',                    categories: ['Application'],             level: 1 },

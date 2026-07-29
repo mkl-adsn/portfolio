@@ -1,9 +1,8 @@
 ---
-title: "Quizclash 2"
+title: "QuizClash 2"
 description: "Designing the sequel to the world's most played trivia game on mobile."
 tags: ["UI Design", "Art Direction", "Photoshop", "Game Design", "Unity"]
 image: "/images/Case/quizclash/thumbnail.webp"
-halftoneImage: "/images/Case/quizclash/thumbnail-solid.webp"
 imageOrientation: landscape
 order: 3
 comingSoon: true

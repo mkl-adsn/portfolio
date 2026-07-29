@@ -30,7 +30,7 @@
 .lightbox__backdrop {
   position: absolute;
   inset: 0;
-  background-color:var(--grey-900-090);
+  background-color:var(--backdrop-strong);
 }
 
 /* Keep the page from scrolling behind an open lightbox. */
@@ -133,7 +133,7 @@ body.lightbox-open {
   font-family: var(--font-sans);
   font-size: 15px;
   line-height: 1.5;
-  color: var(--grey-300);
+  color: var(--type-inverted-secondary);
   text-align: center;
   max-width: 720px;
 }
@@ -152,14 +152,14 @@ body.lightbox-open {
   padding: 0;
   border: none;
   border-radius: 999px;
-  background-color: var(--grey-900-020);
-  color: var(--grey-100);
+  background-color: var(--backdrop-light);
+  color: var(--type-inverted-primary);
   cursor: pointer;
   transition: background-color 0.15s ease;
 }
 
 .lightbox__close:hover {
-  background-color: var(--grey-900-040);
+  background-color: var(--backdrop-medium);
 }
 
 /* ── Zoom toggle (magnifier) ──────────────────────────────────────────────── */
@@ -177,14 +177,14 @@ body.lightbox-open {
   padding: 0;
   border: none;
   border-radius: 999px;
-  background-color: var(--grey-900-020);
-  color: var(--grey-100);
+  background-color: var(--backdrop-light);
+  color: var(--type-inverted-primary);
   cursor: pointer;
   transition: background-color 0.15s ease;
 }
 
 .lightbox__zoom:hover {
-  background-color: var(--grey-900-040);
+  background-color: var(--backdrop-medium);
 }
 
 /* ── Prev / next arrows ───────────────────────────────────────────────────── */
@@ -201,14 +201,14 @@ body.lightbox-open {
   padding: 0;
   border: none;
   border-radius: 999px;
-  background-color: var(--grey-900-020);
-  color: var(--grey-100);
+  background-color: var(--backdrop-light);
+  color: var(--type-inverted-primary);
   cursor: pointer;
   transition: background-color 0.15s ease;
 }
 
 .lightbox__arrow:hover {
-  background-color: var(--grey-900-040);
+  background-color: var(--backdrop-medium);
 }
 
 .lightbox__arrow--prev {
@@ -236,7 +236,7 @@ body.lightbox-open {
   padding: 0;
   border: none;
   border-radius: 999px;
-  box-shadow: 0 0 0 1px inset var(--grey-100);
+  box-shadow: 0 0 0 1px inset var(--border-inverted);
   cursor: pointer;
   transition: all 0.5s ease;
 }
@@ -245,7 +245,7 @@ body.lightbox-open {
 
 
 .lightbox__dot.is-active {
-  box-shadow: 0 0 0 5px inset var(--grey-100);
+  box-shadow: 0 0 0 5px inset var(--border-inverted);
   transform: scale(1.25);
 }
 

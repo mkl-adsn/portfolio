@@ -10,15 +10,15 @@ type ButtonArgs = {
 
 const ICONS = [
   "None",
-  "Download",
-  "Arrow left",
-  "Mail",
-  "Phone",
-  "Linkedin",
-  "Location",
-  "Search",
-  "Star Filled",
-  "Star Outline",
+  "download",
+  "arrow-left",
+  "mail",
+  "phone",
+  "linkedin",
+  "location",
+  "search",
+  "star-filled",
+  "star-outline",
 ];
 
 function renderButton(args: ButtonArgs): string {
@@ -98,16 +98,16 @@ export const Dark: Story = {
 
 export const LightWithIcon: Story = {
   name: "Light + Icon",
-  args: { variant: "light", label: "Download CV", icon: "Download" },
+  args: { variant: "light", label: "Download CV", icon: "download" },
 };
 
 export const DarkWithIcon: Story = {
   name: "Dark + Icon",
-  args: { variant: "dark", label: "Download CV", icon: "Download" },
+  args: { variant: "dark", label: "Download CV", icon: "download" },
 };
 
 export const Disabled: Story = {
-  args: { variant: "light", label: "View", icon: "Download", disabled: true },
+  args: { variant: "light", label: "View", icon: "download", disabled: true },
 };
 
 export const AllVariants: Story = {
@@ -124,28 +124,28 @@ export const AllVariants: Story = {
       </button>
       <button class="btn btn--light">
         <span class="btn__face">
-          <img src="/images/Icon/Dark/Download.svg" width="24" height="24" alt="" class="btn__icon" />
+          <img src="/images/Icon/Dark/download.svg" width="24" height="24" alt="" class="btn__icon" />
           Light + Icon
         </span>
         <span class="btn__edge"></span>
       </button>
       <button class="btn btn--dark">
         <span class="btn__face">
-          <img src="/images/Icon/Light/Download.svg" width="24" height="24" alt="" class="btn__icon" />
+          <img src="/images/Icon/Light/download.svg" width="24" height="24" alt="" class="btn__icon" />
           Dark + Icon
         </span>
         <span class="btn__edge"></span>
       </button>
       <button class="btn btn--light btn--disabled" disabled aria-disabled="true">
         <span class="btn__face">
-          <img src="/images/Icon/Dark/Download.svg" width="24" height="24" alt="" class="btn__icon" />
+          <img src="/images/Icon/Dark/download.svg" width="24" height="24" alt="" class="btn__icon" />
           Light Disabled
         </span>
         <span class="btn__edge"></span>
       </button>
       <button class="btn btn--dark btn--disabled" disabled aria-disabled="true">
         <span class="btn__face">
-          <img src="/images/Icon/Light/Download.svg" width="24" height="24" alt="" class="btn__icon" />
+          <img src="/images/Icon/Light/download.svg" width="24" height="24" alt="" class="btn__icon" />
           Dark Disabled
         </span>
         <span class="btn__edge"></span>

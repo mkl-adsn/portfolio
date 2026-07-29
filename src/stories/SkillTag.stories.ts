@@ -26,7 +26,7 @@ const meta: Meta<SkillTagArgs> = {
     level: { control: { type: "inline-radio" }, options: [1, 2, 3], description: "Proficiency (1–3 stars)" },
   },
   args: { name: "Figma", level: 3 },
-  decorators: [(story) => `<div style="padding: 48px; background: var(--grey-100);">${story()}</div>`],
+  decorators: [(story) => `<div style="padding: 48px; background: var(--surface-1);">${story()}</div>`],
 };
 
 export default meta;
@@ -39,7 +39,7 @@ export const Familiar: Story = { args: { name: "Astro", level: 1 } };
 export const AllLevels: Story = {
   name: "All Levels",
   render: () => `
-    <div style="padding: 48px; background: var(--grey-100); display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-start;">
+    <div style="padding: 48px; background: var(--surface-1); display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-start;">
       ${skillTag("Figma", 3)}
       ${skillTag("TypeScript", 2)}
       ${skillTag("Astro", 1)}

@@ -10,8 +10,8 @@
   display: inline-block;
   width: 0.2em;
   height: 0.65em;
-  outline: solid var(--grey-900) 0.2em;
-  background: var(--grey-900);
+  outline: solid var(--border-strong) 0.2em;
+  background: var(--surface-9);
   vertical-align: -0em;
   margin-left: 0.25em;
   animation: cursor-blink 1.1s step-end infinite;
@@ -77,6 +77,10 @@
   border: 20px solid #fff;
   box-sizing: border-box;
   overflow: hidden;
+  /* Paper backing: transparent margins in the single case image read as white
+     paper (= "no ink"), so one image serves as the halftone signal in both
+     themes — no separate opaque asset. Invisible behind full-bleed art. */
+  background: #fff;
   /* brightness: scales with bleed so contrast threshold sits near image midtones
      blur(hs×0.1): initial dot-edge spread
      contrast(1000): hard threshold → sharp dots
@@ -189,6 +193,60 @@
   object-fit: cover;
 }
 
+/* ─── Halftone: DARK MODE ──────────────────────────────────────────────────
+   Additive overrides only — every rule above is the untouched light pipeline.
+   Dark mode is the additive dual of the subtractive light effect:
+     screen(a,b) = invert(multiply(invert a, invert b))
+   so we invert the source going in, run the SAME CMYK pipeline, invert the
+   result, and screen it onto the dark page. Concretely vs light:
+     · .case-image blend multiply → screen, plus filter: invert(1)
+     · source media pre-inverted (the leading invert() below)
+     · the 20px white border is dropped: in the dual its blur/contrast halo
+       inverts into a glowing white frame (see halftone-dark-demo lab). With no
+       border the geometry it compensated for goes too — hence the zeroed
+       wrapper margins + reveal inset, so dark stays aligned to the layout slot.
+     · white paper backing so transparent source areas read as "no ink" → "no
+       light" (invisible) after the output inversion.
+   Tuning (baked from the lab): bleed .30, saturate 2, K-bright 1.0,
+   K-contrast 1.1, threshold offset -.05, source brightness .5.
+   Sources swapped to the *-dark.webp asset in halftone.ts. */
+:root[data-theme="dark"] .case-image {
+  mix-blend-mode: screen;
+  filter: invert(1);
+}
+
+:root[data-theme="dark"] .halftone-figure-wrapper {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+:root[data-theme="dark"] .halftone-demo,
+:root[data-theme="dark"] .halftone-demo-k-layer {
+  border-width: 0;                        /* paper backing now shared in the base rule */
+  filter:
+    brightness(calc(0.5 + var(--hb, 0.3) * 0.3 - 0.05))   /* + threshold offset -0.05 */
+    blur(calc(var(--hs, 40px) * 0.1))
+    contrast(1000)
+    blur(0.6px);
+}
+
+/* CMY signal — same invert/brightness/invert tone curve as light, but with a
+   leading source-invert (dual) and source-brightness 0.5 folded in. */
+:root[data-theme="dark"] .halftone-demo > .halftone-media {
+  filter: brightness(0.5) invert(1) invert(1) brightness(0.75) invert(1) saturate(2);
+}
+
+/* K signal — source-invert + brightness 0.5, then grayscale, K-bright 1.0,
+   K-contrast 1.1 (steepens the highlight knee without flooding midtones). */
+:root[data-theme="dark"] .halftone-demo-k-layer > .halftone-media {
+  filter: brightness(0.5) invert(1) grayscale(1) brightness(1) contrast(1.1);
+}
+
+/* No border in dark → reveal fills the whole box instead of the inset-20 hole. */
+:root[data-theme="dark"] .halftone-reveal {
+  inset: 0;
+}
+
 /* Initial state for zoom-in (overridden by GSAP during scroll) */
 /* .zoom-in {
   transform: scale(0);
@@ -197,7 +255,7 @@
 
 /* Legacy static classes (kept for reference; runtime variants built in JS) */
 .draw-text-outline {
-  -webkit-text-stroke: 1px var(--grey-600);
+  -webkit-text-stroke: 1px var(--type-tertiary);
   color: transparent;
   user-select: none;
   pointer-events: none;
@@ -206,7 +264,7 @@
 .draw-text-fill {
   position: absolute;
   inset: 0;
-  color: var(--grey-900);
+  color: var(--type-primary);
   clip-path: inset(0 100% 0 0);
   white-space: inherit;
 }

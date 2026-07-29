@@ -6,7 +6,7 @@ import Button from '../components/ui/Button.astro';
 <section id="contact" class="contact-section overflow-hidden mt-12">
   <div class="container-narrow py-32 md:py-60 flex flex-col gap-10">
 
-    <h2 class="type-h2 type-on-dark">Get in touch</h2>
+    <h2 class="type-h2 type-on-dark"><strong>Get in touch</strong></h2>
 
     <div class="zoom-in flex flex-col gap-4">
       <h3 class="type-h3 type-on-dark">Mikael Andersson</h3>
@@ -41,7 +41,7 @@ import Button from '../components/ui/Button.astro';
       </ul>
     </div>
 
-    <Button variant="light" icon="Download" href="/cv.pdf" download class="self-start">
+    <Button variant="light" icon="download" href="/cv.pdf" download class="self-start">
       <span class="type-label">Download CV</span>
     </Button>
 
@@ -50,12 +50,12 @@ import Button from '../components/ui/Button.astro';
 
 <style>
   .contact-section {
-    background-color: var(--grey-900);
+    background-color: var(--surface-9);
   }
 
   /* Convert white SVG → grey-700 (#525b6c):
      brightness(0) collapses white to black, then the chain tints to the target hue. */
   .contact-icon {
-    filter: brightness(0) saturate(100%) invert(38%) sepia(14%) saturate(450%) hue-rotate(183deg) brightness(94%) contrast(89%);
+    opacity:0.4;
   }
 </style>

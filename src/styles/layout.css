@@ -24,16 +24,64 @@
 }
 
 /* ─── Page background ────────────────────────────────────────────────────── */
+/* Plain color fill — the only layer that needs to crossfade here, and
+   background-color transitions reliably (unlike background-image/gradients,
+   which just snap). The edge vignette lives on separate elements below. */
 .page-bg {
   position: relative;
-  background: linear-gradient(
+  background-color: var(--surface-1);
+  transition: background-color 800ms ease-out;
+}
+
+/*
+  Edge vignette, light and dark versions layered as two real sibling
+  elements (not .page-bg pseudo-elements) so each can crossfade its own
+  opacity independently. That independence matters: both gradients fade to
+  transparent over the same 0%–20%/80%–100% range, so if the light one were
+  simply "covered" by the dark one instead of fading out on its own, the two
+  semi-transparent zones would overlap and bleed a pale band through.
+
+  z-index: -1 puts them behind the real page content — but <body> (.page-bg)
+  deliberately has no z-index/isolation of its own, so this escapes to the
+  root stacking context rather than a local one; giving <body> a stacking
+  context would change what every mix-blend-mode descendant blends against,
+  which broke the halftone case-image reveal (see halftone.ts) and the
+  noise overlay below. Body's own background is used to paint the canvas
+  itself (a CSS special case for <html>/<body>), so it still sits beneath
+  these regardless.
+*/
+.page-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 800ms ease-out;
+}
+
+.page-vignette--light {
+  opacity: 1;
+  background-image: linear-gradient(
     270deg,
     var(--grey-200) 0%,
-    var(--grey-100) 15%,
-    var(--grey-100) 85%,
+    transparent 20%,
+    transparent 80%,
     var(--grey-200) 100%
   );
 }
+
+.page-vignette--dark {
+  opacity: 0;
+  background-image: linear-gradient(
+    270deg,
+    var(--grey-950) 0%,
+    transparent 20%,
+    transparent 80%,
+    var(--grey-950) 100%
+  );
+}
+
+:root[data-theme="dark"] .page-vignette--light { opacity: 0; }
+:root[data-theme="dark"] .page-vignette--dark  { opacity: 1; }
 
 /* Noise grain overlay — scrolls with the page */
 .page-bg::after {
@@ -50,4 +98,13 @@
 }
 .contact-section {
    position: relative;
+}
+/* Case and home pages nudge the theme toggle inward on desktop; mobile stays
+   at the ThemeToggle component's default 16px inset. */
+@media (min-width: 768px) {
+  body.case-page .theme-toggle,
+  body.home-page .theme-toggle {
+    top: 64px;
+    right: 96px;
+  }
 }

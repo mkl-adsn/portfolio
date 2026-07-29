@@ -17,7 +17,7 @@ const meta: Meta<TagArgs> = {
     variant: { control: "radio", options: ["light", "dark"] },
   },
   args: { label: "Figma", variant: "dark" },
-  decorators: [(story) => `<div style="padding: 48px; background: var(--grey-100);">${story()}</div>`],
+  decorators: [(story) => `<div style="padding: 48px; background: var(--surface-1);">${story()}</div>`],
 };
 
 export default meta;
@@ -34,7 +34,7 @@ export const Group: Story = {
   render: () => {
     const tags = ["Figma", "UX Research", "Design Systems", "Prototyping"];
     return `
-      <div style="padding: 48px; background: var(--grey-100); display: flex; gap: 8px; flex-wrap: wrap;">
+      <div style="padding: 48px; background: var(--surface-1); display: flex; gap: 8px; flex-wrap: wrap;">
         ${tags.map((label) => renderTag({ label, variant: "dark" })).join("")}
       </div>
     `;

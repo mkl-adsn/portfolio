@@ -1,0 +1,269 @@
+---
+/*
+  TEMPORARY EXPERIMENT PAGE — dark-mode halftone investigation.
+  Self-contained copy of the halftone pipeline (see src/scripts/halftone.ts and
+  src/styles/animations.css) with `htd-` prefixed classes so nothing here can
+  affect the real effect. Delete this file to revert everything.
+
+  Deliberately does NOT use BaseLayout: the site scripts (animations.ts /
+  halftone.ts) would otherwise grab the images and wrap them themselves.
+
+  Variants shown side by side on a dark background:
+    1. multiply   — current light-mode pipeline as-is (shows the problem)
+    2. screen     — naive blend swap, everything else unchanged
+    3. RGB dual   — invert(source) → light pipeline → invert(output) → screen.
+                    screen(a,b) = inv(mul(inv a, inv b)), so this is the exact
+                    additive dual: pure R/G/B dots + white "light" channel
+                    (the dual of K) on black, which screen makes transparent.
+    4. negative   — output inverted but source NOT inverted (for comparison:
+                    shows why the double inversion is needed)
+*/
+// The solid variants were removed once one image per case became enough; these
+// point at the live production case images (plus one leftover experiment asset).
+const images = [
+  { id: 'quizclash', label: 'QuizClash', src: '/images/Case/quizclash/thumbnail.webp' },
+  { id: 'unionen', label: 'Unionen', src: '/images/Case/unionen/thumbnail.webp' },
+  { id: 'universum', label: 'Universum', src: '/images/Case/universum/thumbnail.webp' },
+  { id: 'quizclash-solid-dark', label: 'QuizClash solid-dark (experiment)', src: '/images/Case/quizclash/thumbnail-solid-dark.webp' },
+];
+
+const panels = [
+  { variant: 'multiply', title: '1 · multiply (current)', note: 'Light-mode pipeline on dark bg' },
+  { variant: 'screen', title: '2 · naive screen', note: 'Only the outer blend swapped' },
+  { variant: 'dual', title: '3 · RGB dual', note: 'invert src → CMYK pipeline → invert out → screen' },
+  { variant: 'dualneg', title: '4 · dual w/o src invert', note: 'Negative — why double inversion matters' },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Halftone dark-mode lab</title>
+  </head>
+  <body>
+    <header class="bar">
+      <strong>Halftone dark-mode lab</strong>
+      <label>
+        Image
+        <select id="ctl-image">
+          {images.map(img => <option value={img.src}>{img.label}</option>)}
+        </select>
+      </label>
+      <label>
+        Background
+        <select id="ctl-bg">
+          <option value="#252c3c" selected>grey-900 (dark page)</option>
+          <option value="#212736">grey-950</option>
+          <option value="#000000">pure black</option>
+          <option value="#f9fafb">grey-100 (light ref)</option>
+        </select>
+      </label>
+      <label>Grid <input id="ctl-hs" type="range" min="4" max="60" step="1" value="24" /> <span data-out="hs">24px</span></label>
+      <label>Bleed <input id="ctl-hb" type="range" min="0.1" max="0.6" step="0.01" value="0.3" /> <span data-out="hb">0.30</span></label>
+      <label>Saturate <input id="ctl-sat" type="range" min="0.5" max="4" step="0.1" value="2" /> <span data-out="sat">2.0</span></label>
+      <label>K bright <input id="ctl-kb" type="range" min="1" max="3.5" step="0.1" value="2" /> <span data-out="kb">2.0</span></label>
+      <label>K contrast <input id="ctl-kcon" type="range" min="1" max="4" step="0.1" value="1" /> <span data-out="kcon">1.0</span></label>
+      <label>Thresh offset <input id="ctl-boff" type="range" min="-0.3" max="0.3" step="0.01" value="0" /> <span data-out="boff">0.00</span></label>
+      <label>Src bright <input id="ctl-srcb" type="range" min="0.5" max="4" step="0.1" value="1" /> <span data-out="srcb">1.0</span></label>
+      <label><input id="ctl-paper" type="checkbox" checked /> Paper backing</label>
+      <label><input id="ctl-border" type="checkbox" /> Legacy white border (shows the frame bug)</label>
+    </header>
+
+    <main id="panels">
+      {panels.map(p => (
+        <section class={`panel panel--${p.variant}`}>
+          <h2>{p.title}</h2>
+          <p>{p.note}</p>
+          <div class="stage">
+            <figure class="htd-figure">
+              <div class="htd-box backing">
+                <div class="htd-demo">
+                  <img class="htd-media" alt="" />
+                  <div class="htd-ink"></div>
+                </div>
+                <div class="htd-k">
+                  <img class="htd-media" alt="" />
+                </div>
+              </div>
+            </figure>
+          </div>
+        </section>
+      ))}
+    </main>
+
+    <style is:global>
+      * { margin: 0; box-sizing: border-box; }
+      body { background: #16181f; color: #e7eaee; font: 14px/1.4 system-ui, sans-serif; padding: 16px; }
+
+      .bar {
+        display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center;
+        padding: 12px 16px; margin-bottom: 16px;
+        background: #252c3c; border-radius: 8px;
+        position: sticky; top: 8px; z-index: 100;
+      }
+      .bar label { display: flex; align-items: center; gap: 8px; font-size: 12px; white-space: nowrap; }
+      .bar input[type="range"] { width: 110px; }
+      .bar span[data-out] { min-width: 40px; font-variant-numeric: tabular-nums; color: #a7afbe; }
+
+      #panels {
+        display: grid; gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      }
+      .panel { border: 1px solid #384051; border-radius: 8px; padding: 12px; }
+      .panel h2 { font-size: 14px; margin-bottom: 2px; }
+      .panel p { font-size: 12px; color: #a7afbe; margin-bottom: 10px; }
+
+      /* Stage replicates the page background the figure blends against.
+         isolation makes it the blending backdrop, like <body> on the real page. */
+      .stage { isolation: isolate; background: var(--stage-bg, #252c3c); padding: 24px; border-radius: 4px; }
+
+      /* ── Copied halftone pipeline (htd- prefix), parameterised with vars ──
+         Sources: .halftone-* rules in src/styles/animations.css.
+         New knobs (all default to the production values):
+           --srcinv  0|1   invert source media before halftoning
+           --outinv  0|1   invert the finished halftone
+           --sat           CMY media saturation           (prod: 2)
+           --kb            K media brightness             (prod: 2)
+           --boff          threshold brightness offset    (prod: 0)  */
+      .htd-figure { margin: 0; }
+
+      .panel--multiply .htd-figure { mix-blend-mode: multiply; }
+      .panel--screen   .htd-figure { mix-blend-mode: screen; }
+      .panel--dual     .htd-figure { mix-blend-mode: screen; filter: invert(1); }
+      .panel--dual     .htd-box    { --srcinv: 1; }
+      .panel--dualneg  .htd-figure { mix-blend-mode: screen; filter: invert(1); }
+
+      /* ── THE DARK-MODE FIX ──────────────────────────────────────────────
+         The 20px white border is a light-mode device: on white paper it blends
+         away (multiply), while giving the blur+contrast threshold neutral
+         context at the image edge. In the dual it backfires — the white border
+         sits at the content boundary, and the blur+contrast(1000) halo there
+         inverts (screen) into a glowing white frame tracing the image edge.
+         (A *black* border is even worse: a solid color inverts straight to a
+         full white margin.) The clean fix is simply to drop the border in the
+         inverted variants; on full-bleed art the dots just reach the edge, and
+         transparent-margin art never touches the edge anyway. Toggle
+         `.legacy-border` to see the original bug. */
+      .panel--dual .htd-demo, .panel--dual .htd-k,
+      .panel--dualneg .htd-demo, .panel--dualneg .htd-k { border-width: 0; }
+      .panel--dual.legacy-border .htd-demo, .panel--dual.legacy-border .htd-k,
+      .panel--dualneg.legacy-border .htd-demo, .panel--dualneg.legacy-border .htd-k { border-width: 20px; }
+
+      .htd-box {
+        --dot: calc(var(--hs, 24px) * var(--hb, 0.3));
+        position: relative; overflow: hidden;
+      }
+
+      .htd-demo, .htd-k {
+        border: 20px solid #fff;
+        box-sizing: border-box;
+        overflow: hidden;
+        filter:
+          brightness(calc(0.5 + var(--hb, 0.3) * 0.3 + var(--boff, 0)))
+          blur(calc(var(--hs, 24px) * 0.1))
+          contrast(1000)
+          blur(0.6px);
+      }
+
+      /* Paper backing: opaque white behind the (possibly transparent) media, so
+         transparent pixels behave exactly like the solid asset's white bg —
+         "no ink" in the light pipeline, hence "no light" after the dual's
+         output inversion. Applied to both layers so K sees it too. */
+      .htd-box.backing .htd-demo,
+      .htd-box.backing .htd-k { background: #fff; }
+
+      .htd-demo { position: relative; }
+      .htd-demo > .htd-media {
+        display: block; width: 100%;
+        filter: brightness(var(--srcb, 1)) invert(var(--srcinv, 0)) invert(1) brightness(0.75) invert(1) saturate(var(--sat, 2));
+      }
+
+      .htd-ink { position: absolute; inset: 0; mix-blend-mode: screen; }
+      .htd-ink::before {
+        content: ""; position: absolute; inset: -50%;
+        background-size: var(--hs, 24px) var(--hs, 24px);
+        background-blend-mode: multiply; mix-blend-mode: multiply;
+        transform: rotate(30deg);
+        background-image:
+          radial-gradient(var(--dot) at 25% 25%, #ff0, #ff6, #fff),
+          radial-gradient(var(--dot) at 75% 75%, #ff0, #ff6, #fff);
+      }
+      .htd-ink::after {
+        content: ""; position: absolute; inset: -50%;
+        background-size: var(--hs, 24px) var(--hs, 24px);
+        background-blend-mode: multiply; mix-blend-mode: multiply;
+        transform: rotate(-21deg) translateX(calc(var(--hs, 24px) * 0.58));
+        background-image:
+          radial-gradient(var(--dot) at 75% 25%, #f0f, #f6f, #fff),
+          radial-gradient(var(--dot) at 25% 75%, #f0f, #f6f, #fff),
+          radial-gradient(var(--dot) at 75% 75%, #0ff, #6ff, #fff),
+          radial-gradient(var(--dot) at 25% 25%, #0ff, #6ff, #fff);
+      }
+
+      .htd-k { position: absolute; inset: 0; mix-blend-mode: multiply; }
+      .htd-k > .htd-media {
+        display: block; width: 100%; height: 100%; object-fit: cover;
+        /* --kcon steepens the K response around the midpoint: lets white
+           highlight dots extend into upper midtones without flooding the
+           whole tonal range the way lowering --kb does. */
+        filter: brightness(var(--srcb, 1)) invert(var(--srcinv, 0)) grayscale(1) brightness(var(--kb, 2)) contrast(var(--kcon, 1));
+      }
+      .htd-k::after {
+        content: ""; position: absolute; inset: -50%;
+        background-size: var(--hs, 24px) var(--hs, 24px);
+        background-blend-mode: multiply; mix-blend-mode: screen;
+        transform: rotate(30deg);
+        background-image:
+          radial-gradient(var(--dot) at 25% 25%, #000, #666, #ccc, #fff),
+          radial-gradient(var(--dot) at 75% 75%, #000, #fff);
+      }
+    </style>
+
+    <script>
+      const root = document.getElementById('panels')!;
+      const $ = (id: string) => document.getElementById(id) as HTMLInputElement | HTMLSelectElement;
+      const out = (name: string) => document.querySelector<HTMLElement>(`[data-out="${name}"]`)!;
+
+      function setImages(src: string) {
+        root.querySelectorAll<HTMLImageElement>('.htd-media').forEach(el => (el.src = src));
+      }
+      function setVar(name: string, value: string) {
+        root.querySelectorAll<HTMLElement>('.htd-box').forEach(el => el.style.setProperty(name, value));
+      }
+      $('ctl-image').addEventListener('input', e => setImages((e.target as HTMLSelectElement).value));
+      $('ctl-paper').addEventListener('input', e => {
+        const on = (e.target as HTMLInputElement).checked;
+        root.querySelectorAll<HTMLElement>('.htd-box').forEach(el => el.classList.toggle('backing', on));
+      });
+      $('ctl-border').addEventListener('input', e => {
+        const on = (e.target as HTMLInputElement).checked;
+        root.querySelectorAll<HTMLElement>('.panel').forEach(el => el.classList.toggle('legacy-border', on));
+      });
+      $('ctl-bg').addEventListener('input', e => {
+        document.querySelectorAll<HTMLElement>('.stage').forEach(s =>
+          s.style.setProperty('--stage-bg', (e.target as HTMLSelectElement).value));
+      });
+
+      const sliders: Array<[string, string, (v: string) => string, (v: string) => string]> = [
+        ['ctl-hs', '--hs', v => `${v}px`, v => `${v}px`],
+        ['ctl-hb', '--hb', v => v, v => Number(v).toFixed(2)],
+        ['ctl-sat', '--sat', v => v, v => Number(v).toFixed(1)],
+        ['ctl-kb', '--kb', v => v, v => Number(v).toFixed(1)],
+        ['ctl-kcon', '--kcon', v => v, v => Number(v).toFixed(1)],
+        ['ctl-boff', '--boff', v => v, v => Number(v).toFixed(2)],
+        ['ctl-srcb', '--srcb', v => v, v => Number(v).toFixed(1)],
+      ];
+      for (const [id, cssVar, toCss, toLabel] of sliders) {
+        $(id).addEventListener('input', e => {
+          const v = (e.target as HTMLInputElement).value;
+          setVar(cssVar, toCss(v));
+          out(id.replace('ctl-', '')).textContent = toLabel(v);
+        });
+      }
+
+      setImages(($('ctl-image') as HTMLSelectElement).value);
+    </script>
+  </body>
+</html>

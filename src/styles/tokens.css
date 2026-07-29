@@ -21,6 +21,11 @@
   /* Colour palette */
   --white:        #ffffff;
   --grey-100:     #f9fafb;
+    --grey-100-006: rgba(249, 250, 251, 0.06);
+    --grey-100-020: rgba(249, 250, 251, 0.2);
+    --grey-100-040: rgba(249, 250, 251, 0.4);
+    --grey-100-060:   rgba(249, 250, 251, 0.6);
+    --grey-100-090: rgba(249, 250, 251, 0.9);
   --grey-200:     #f0f2f4;
   --grey-300:     #E7EAEE;
   --grey-400:     #CACFD8;  
@@ -29,13 +34,82 @@
   --grey-700:     #525b6c;
   --grey-800:     #384051;
   --grey-900:     #252c3c;
-  --accent:       #8793af;
-  --grey-900-006: rgba(37, 44, 60, 0.06);
-  --grey-900-020: rgba(37, 44, 60, 0.2);
-   --grey-900-040: rgba(37, 44, 60, 0.4);
-  --grey-900-090: rgba(37, 44, 60, 0.9);
+    --grey-900-006: rgba(37, 44, 60, 0.06);
+    --grey-900-020: rgba(37, 44, 60, 0.2);
+    --grey-900-040: rgba(37, 44, 60, 0.4);
+    --grey-900-060: rgba(37, 44, 60, 0.6);
+    --grey-900-090: rgba(37, 44, 60, 0.9);
+  --grey-950: #212736;
+
+
+
+
+
+
+  /* Semantic tokens */
+  --type-primary:   var(--grey-900);
+  --type-secondary: var(--grey-700);
+  --type-tertiary:  var(--grey-600);
+  --type-disabled:  var(--grey-500);
+
+  --type-inverted-primary:   var(--grey-100);
+  --type-inverted-secondary: var(--grey-300);
+  --type-inverted-tertiary:  var(--grey-400);
+
+  --surface-0:   var(--white);
+  --surface-1: var(--grey-100);
+  --surface-2: var(--grey-200);
+  --surface-3: var(--grey-300);
+  --surface-5: var(--grey-500);
+  --surface-7: var(--grey-700);
+  --surface-8: var(--grey-800);
+  --surface-9: var(--grey-900);
+
+  --backdrop-strong:   var(--grey-900-090);
+  --backdrop-medium:   var(--grey-900-040);
+  --backdrop-light:    var(--grey-900-020);
+  --backdrop-lightest: var(--grey-900-006);
+  --backdrop-inverted: var(--grey-100-060);
+
+  --border-strong:   var(--grey-900);
+  --border-medium:   var(--grey-600);
+  --border-inverted: var(--grey-100);
 
   /* Typefaces */
   --font-serif: 'Warnock Pro', Georgia, serif;
   --font-sans:  'Figtree', system-ui, sans-serif;
+}
+
+/* ─── Dark mode ──────────────────────────────────────────────────────────── */
+/* Core tokens stay fixed — only the semantic layer remaps, mirroring the grey
+   scale around its midpoint (900↔100, 800↔200, 700↔300, 600↔400, 500 self;
+   white takes grey-900's spot since there's no darker step to pair it with). */
+:root[data-theme="dark"] {
+  --type-primary:   var(--grey-100);
+  --type-secondary: var(--grey-500);
+  --type-tertiary:  var(--grey-600);
+  --type-disabled:  var(--grey-700);
+
+  --type-inverted-primary:   var(--grey-900);
+  --type-inverted-secondary: var(--grey-700);
+  --type-inverted-tertiary:  var(--grey-600);
+
+  --surface-0: var(--black);
+  --surface-1: var(--grey-900);
+  --surface-2: var(--grey-950);
+  --surface-3: var(--grey-700);
+  --surface-5: var(--grey-500);
+  --surface-7: var(--grey-300);
+  --surface-8: var(--grey-200);
+  --surface-9: var(--grey-100);
+
+  --backdrop-strong:   var(--grey-900-090);
+  --backdrop-medium:   var(--grey-100-060);
+  --backdrop-light:    var(--grey-100-040);
+  --backdrop-lightest: var(--grey-100-006);
+  --backdrop-inverted: var(--grey-900-060);
+
+  --border-strong:   var(--grey-100);
+  --border-medium:   var(--grey-500);
+  --border-inverted: var(--grey-900);
 }

@@ -8,7 +8,7 @@ import { initLightbox, openLightbox } from "../scripts/lightbox";
 function panel(inner: string): HTMLElement {
   const wrap = document.createElement("div");
   wrap.style.cssText =
-    "padding: 48px; background: var(--grey-100); max-width: 640px; display: flex; flex-direction: column; gap: 16px;";
+    "padding: 48px; background: var(--surface-1); max-width: 640px; display: flex; flex-direction: column; gap: 16px;";
   wrap.innerHTML = inner;
   return wrap;
 }
@@ -25,10 +25,10 @@ export const SingleImage: Story = {
   name: "Single Image",
   render: () => {
     const el = panel(`
-      <p class="type-label" style="color: var(--grey-600);">Click the image ↓</p>
+      <p class="type-label" style="color: var(--type-tertiary);">Click the image ↓</p>
       <figure class="case-image-full" data-lightbox style="margin: 0;">
         <img src="https://picsum.photos/seed/lightbox-single/1200/760" alt="A demo image" />
-        <figcaption style="font-family: var(--font-sans); font-size: 16px; color: var(--grey-600); text-align: center; margin-top: 12px;">
+        <figcaption style="font-family: var(--font-sans); font-size: 16px; color: var(--type-tertiary); text-align: center; margin-top: 12px;">
           This caption is carried into the lightbox.
         </figcaption>
       </figure>
@@ -48,7 +48,7 @@ export const ImageGroup: Story = {
       caption: `Image ${i + 1} of 4 — use the arrows, dots, or ← → keys.`,
     }));
     const el = panel(`
-      <button type="button" style="align-self: flex-start; padding: 12px 20px; border: none; border-radius: 4px; background: var(--grey-900); color: var(--grey-100); font-family: var(--font-sans); font-weight: 600; font-size: 14px; cursor: pointer;">Open group in lightbox</button>
+      <button type="button" style="align-self: flex-start; padding: 12px 20px; border: none; border-radius: 4px; background: var(--surface-9); color: var(--type-inverted-primary); font-family: var(--font-sans); font-weight: 600; font-size: 14px; cursor: pointer;">Open group in lightbox</button>
     `);
     el.querySelector("button")!.addEventListener("click", () => openLightbox(images, 0));
     return el;

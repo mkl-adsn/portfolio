@@ -16,12 +16,12 @@
 }
 
 .filter-tab__label {
-  color: var(--grey-600);
+  color: var(--type-tertiary);
   transition: color 120ms ease;
 }
 
 .filter-tab__label:hover {
-  color: var(--grey-900);
+  color: var(--type-primary);
 }
 
 .filter-tab__bar {
@@ -33,5 +33,5 @@
 }
 
 /* Active state — driven by data-active attribute toggled from JS */
-.filter-tab[data-active='true'] .filter-tab__label { color: var(--grey-900); }
-.filter-tab[data-active='true'] .filter-tab__bar   { background: var(--grey-900); }
+.filter-tab[data-active='true'] .filter-tab__label { color: var(--type-primary); }
+.filter-tab[data-active='true'] .filter-tab__bar   { background: var(--surface-9); }

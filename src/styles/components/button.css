@@ -54,16 +54,19 @@
 .btn:active .btn__face { transform: translateY(4px); transition-duration: 60ms; }
 
 /* ── Light variant ───────────────────────────────────────────────────────── */
-.btn--light .btn__face        { background-color: var(--grey-100); border-color: var(--grey-700); color: var(--grey-900); }
-.btn--light .btn__edge        { background-color: var(--grey-200); border-color: var(--grey-700); }
-.btn--light:active .btn__face { background-color: var(--grey-200); }
-.btn--light:active .btn__edge { background-color: var(--grey-900); border-color: var(--grey-900); }
+.btn--light .btn__face        { background-color: var(--surface-1); border-color: var(--border-strong); color: var(--type-primary); }
+.btn--light .btn__edge        { background-color: var(--surface-2); border-color: var(--border-strong); }
+.btn--light:active .btn__face { background-color: var(--surface-2); }
+.btn--light:active .btn__edge { background-color: var(--surface-9); border-color: var(--border-strong); }
 
 /* ── Dark variant ────────────────────────────────────────────────────────── */
-.btn--dark .btn__face         { background-color: var(--grey-900); border-color: var(--grey-200); color: var(--grey-100); }
-.btn--dark .btn__edge         { background-color: var(--grey-800); border-color: var(--grey-200); }
-.btn--dark:active .btn__face  { background-color: var(--grey-800); }
-.btn--dark:active .btn__edge  { background-color: var(--grey-100); border-color: var(--grey-100); }
+.btn--dark .btn__face         { background-color: var(--surface-9); border-color: var(--border-inverted); color: var(--type-inverted-primary); }
+.btn--dark .btn__edge         { background-color: var(--surface-8); border-color: var(--border-inverted); }
+.btn--dark:active .btn__face  { background-color: var(--surface-8); }
+.btn--dark:active .btn__edge  { background-color: var(--surface-1); border-color: var(--border-inverted); }
+
+/* ── Icon-only (square) variant ──────────────────────────────────────────── */
+.btn--icon-only .btn__face { width: 48px; padding: 0; gap: 0; }
 
 /* ── Disabled state ──────────────────────────────────────────────────────── */
 /* Muted borders/text and no press movement. Works for <button disabled> and
@@ -82,12 +85,12 @@
 
 /* Light disabled — grey-500 border, edge and label (from Figma) */
 .btn--light:disabled .btn__face,
-.btn--light.btn--disabled .btn__face { background-color: var(--grey-100); border-color: var(--grey-500); color: var(--grey-500); }
+.btn--light.btn--disabled .btn__face { background-color: var(--surface-1); border-color: var(--border-medium); color: var(--type-disabled); }
 .btn--light:disabled .btn__edge,
-.btn--light.btn--disabled .btn__edge { background-color: var(--grey-200); border-color: var(--grey-500); }
+.btn--light.btn--disabled .btn__edge { background-color: var(--surface-2); border-color: var(--border-medium); }
 
 /* Dark disabled — muted navy face, dimmed border and label */
 .btn--dark:disabled .btn__face,
-.btn--dark.btn--disabled .btn__face { background-color: var(--grey-800); border-color: var(--grey-600); color: var(--grey-600); }
+.btn--dark.btn--disabled .btn__face { background-color: var(--surface-8); border-color: var(--border-medium); color: var(--type-tertiary); }
 .btn--dark:disabled .btn__edge,
-.btn--dark.btn--disabled .btn__edge { background-color: var(--grey-800); border-color: var(--grey-600); }
+.btn--dark.btn--disabled .btn__edge { background-color: var(--surface-8); border-color: var(--border-medium); }

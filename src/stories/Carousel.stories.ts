@@ -25,7 +25,7 @@ function slidesMarkup(slides: Slide[]): string {
 function carousel(slides: Slide[]): HTMLElement {
   const wrap = document.createElement("div");
   wrap.style.cssText =
-    "padding: 48px; background: var(--grey-100); max-width: 760px;";
+    "padding: 48px; background: var(--surface-1); max-width: 760px;";
   wrap.innerHTML = `
     <div class="carousel" data-carousel>
       <div class="carousel__viewport">

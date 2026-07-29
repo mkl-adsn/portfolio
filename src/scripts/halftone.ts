@@ -29,11 +29,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 /** Builds the leanrada separate-K DOM structure around a .draw-image element. */
 function setupHalftoneDOM(img: HTMLElement): { box: HTMLElement; reveal: HTMLElement } {
-  const revealSrc   = (img as HTMLImageElement).src;
-  const halftoneSrc = (img as HTMLImageElement).dataset.halftoneSrc ?? revealSrc;
-  const alt         = (img as HTMLImageElement).alt ?? '';
+  // A single case image drives everything: the CMY + K halftone signal AND the
+  // final reveal, in both themes. The white paper backing (see animations.css)
+  // lets any transparent margin read as "no ink", so no separate solid asset is
+  // needed; the light↔dark difference is pure CSS (multiply vs inverted screen).
+  const src = (img as HTMLImageElement).src;
+  const alt = (img as HTMLImageElement).alt ?? '';
 
-  function makeImg(src: string, extraClass?: string): HTMLImageElement {
+  function makeImg(extraClass?: string): HTMLImageElement {
     const el = document.createElement('img');
     el.src = src;
     el.alt = alt;
@@ -41,23 +44,23 @@ function setupHalftoneDOM(img: HTMLElement): { box: HTMLElement; reveal: HTMLEle
     return el;
   }
 
-  // CMY wrapper — uses halftone-specific image (solid, no alpha)
+  // CMY wrapper
   const cmy = document.createElement('div');
   cmy.className = 'halftone-demo';
-  cmy.appendChild(makeImg(halftoneSrc));
+  cmy.appendChild(makeImg());
   const ink = document.createElement('div');
   ink.className = 'halftone-demo-ink';
   cmy.appendChild(ink);
 
-  // K layer — same halftone image
+  // K layer — same image
   const kLayer = document.createElement('div');
   kLayer.className = 'halftone-demo-k-layer';
-  kLayer.appendChild(makeImg(halftoneSrc));
+  kLayer.appendChild(makeImg());
 
-  // Reveal — original image (may have transparency), fades in during final phase
+  // Reveal — same image, fades in over the halftone during the final scroll phase
   const reveal = document.createElement('div');
   reveal.className = 'halftone-reveal';
-  reveal.appendChild(makeImg(revealSrc));
+  reveal.appendChild(makeImg());
 
   // Wrap the figure so reveal can live outside .case-image (and therefore
   // outside its mix-blend-mode: multiply stacking context) while staying
