@@ -20,15 +20,29 @@
  */
 
 import { openLightbox, type LightboxImage } from './lightbox';
-import { ARROW_LEFT_SVG, ARROW_RIGHT_SVG } from './icons';
 
 // Drag distance (fraction of viewport width) needed to advance a slide.
 const SWIPE_THRESHOLD = 0.15;
 // Pointer travel (px) beyond which a press counts as a drag, not a click.
 const DRAG_SLOP = 8;
 
-// Arrows come from public/images/Icon/Light/ via src/scripts/icons.ts, inlined
-// so they inherit `currentColor` from the button.
+// Arrow glyphs are folder-based icons (like buttons): a plain <img> pointing at
+// /images/Icon/Light|Dark/, which src/scripts/theme.ts swaps between folders on
+// a theme flip so the glyph stays legible against the pill as its fill inverts.
+// We seed the folder for the current theme and record the Light-folder path in
+// data-light-src — the base theme.ts inverts from — so it works no matter which
+// init runs first.
+function arrowIcon(name: 'arrow-left' | 'arrow-right'): HTMLImageElement {
+  const lightSrc = `/images/Icon/Light/${name}.svg`;
+  const dark = document.documentElement.dataset.theme === 'dark';
+  const img = document.createElement('img');
+  img.src = dark ? lightSrc.replace('/Light/', '/Dark/') : lightSrc;
+  img.dataset.lightSrc = lightSrc;
+  img.width = 24;
+  img.height = 24;
+  img.alt = '';
+  return img;
+}
 
 function slidesOf(root: HTMLElement): HTMLElement[] {
   return Array.from(root.querySelectorAll<HTMLElement>('.carousel__slide'));
@@ -64,13 +78,13 @@ function setupCarousel(root: HTMLElement) {
     prev.type = 'button';
     prev.className = 'carousel__arrow carousel__arrow--prev';
     prev.setAttribute('aria-label', 'Previous image');
-    prev.innerHTML = ARROW_LEFT_SVG;
+    prev.appendChild(arrowIcon('arrow-left'));
 
     const next = document.createElement('button');
     next.type = 'button';
     next.className = 'carousel__arrow carousel__arrow--next';
     next.setAttribute('aria-label', 'Next image');
-    next.innerHTML = ARROW_RIGHT_SVG;
+    next.appendChild(arrowIcon('arrow-right'));
 
     prev.addEventListener('click', () => go(index - 1));
     next.addEventListener('click', () => go(index + 1));

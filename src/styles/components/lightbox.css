@@ -21,6 +21,25 @@
   /* No padding here: the viewport (clip region) spans the whole screen so a
      zoomed image can expand to the edges. The fit-state inset lives on the
      slide instead. */
+
+  /* The open lightbox is a self-contained dark modal that always looks the same
+     regardless of the page theme. Pin every semantic token it uses to its
+     light-mode value here so dark mode's remap can't reach inside — its chrome
+     (pills, caption, dots) stays light-on-dark in both themes. Icons are the
+     Light-folder variant, held there by `data-theme-static` (see lightbox.ts). */
+  --type-inverted-primary:   var(--grey-100);
+  --type-inverted-secondary: var(--grey-300);
+  --backdrop-strong: var(--grey-800-090);
+  --backdrop-light:  var(--grey-900-020);
+  --backdrop-medium: var(--grey-900-040);
+  --border-inverted: var(--grey-100);
+}
+
+/* Chrome glyphs: folder-based <img>, always the Light variant (see lightbox.ts). */
+.lightbox__icon {
+  display: block;
+  width: 24px;
+  height: 24px;
 }
 
 .lightbox.is-open {
@@ -131,9 +150,9 @@ body.lightbox-open {
 
 .lightbox__caption {
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
-  color: var(--type-inverted-secondary);
+  color: var(--type-inverted-tertiary);
   text-align: center;
   max-width: 720px;
 }

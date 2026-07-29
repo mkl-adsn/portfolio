@@ -77,10 +77,19 @@
   border: none;
   border-radius: 999px;
   background-color: var(--backdrop-light);
-  color: var(--surface-0);
   cursor: pointer;
   transition: background-color 0.15s ease, transform 0.15s ease;
   z-index: 2;
+}
+
+/* Arrow glyph is a folder-based <img> (see carousel.ts), swapped Light/Dark by
+   theme.ts — so its colour comes from the SVG file, not currentColor. The extra
+   `.carousel` qualifier outranks the page's `.case-image-full img { width:100% }`
+   content-image rule, which would otherwise stretch the glyph to the pill width. */
+.carousel .carousel__arrow img {
+  display: block;
+  width: 24px;
+  height: 24px;
 }
 
 .carousel__arrow:hover {

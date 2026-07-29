@@ -32,10 +32,12 @@ function invertIconPath(src: string): string {
 }
 
 // Swaps every icon's Dark/Light variant to match the new theme, skipping the
-// toggle button's own icon (that one also changes glyph, handled separately).
+// toggle button's own icon (that one also changes glyph, handled separately)
+// and any icon marked `data-theme-static` — e.g. lightbox chrome, which always
+// sits on the dark backdrop and so stays the Light variant in both themes.
 function applyIconTheme(dark: boolean): void {
   document.querySelectorAll<HTMLImageElement>(ICON_SELECTOR).forEach(img => {
-    if (img.id === TOGGLE_ICON_ID) return;
+    if (img.id === TOGGLE_ICON_ID || img.dataset.themeStatic !== undefined) return;
     const lightSrc = img.dataset.lightSrc ?? img.getAttribute('src')!;
     img.dataset.lightSrc = lightSrc;
     img.setAttribute('src', dark ? invertIconPath(lightSrc) : lightSrc);

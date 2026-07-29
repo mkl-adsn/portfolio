@@ -15,7 +15,19 @@
  * on the empty backdrop, or a tap outside the image all close it.
  */
 
-import { CLOSE_SVG, ARROW_LEFT_SVG, ARROW_RIGHT_SVG, zoomSvg } from './icons';
+// Chrome glyphs are folder-based icons (like buttons). The lightbox always sits
+// on the dark backdrop, so they're always the Light-folder variant — `alt=""`
+// + `data-theme-static` keeps theme.ts from swapping them to Dark in dark mode.
+function iconTag(name: string, cls: string): string {
+  return (
+    `<img src="/images/Icon/Light/${name}.svg" width="24" height="24" ` +
+    `alt="" class="${cls}" data-theme-static>`
+  );
+}
+// The magnifier flips its glyph between fit/zoomed states; toggle its <img> src.
+function setZoomIcon(zoomed: boolean): void {
+  zoomBtn.querySelector('img')?.setAttribute('src', `/images/Icon/Light/${zoomed ? 'zoom-out' : 'zoom-in'}.svg`);
+}
 
 export interface LightboxImage {
   src: string;
@@ -59,9 +71,6 @@ let historyPushed = false;
 const SWIPE_THRESHOLD = 0.15; // fraction of viewport width to advance a slide
 const DRAG_SLOP = 8; // px of travel before a press counts as a drag
 
-// Icons (close, arrows, zoom magnifier) come from public/images/Icon/Light/ via
-// src/scripts/icons.ts — inlined so they inherit `currentColor` from the button.
-
 function buildOverlay() {
   overlay = document.createElement('div');
   overlay.className = 'lightbox';
@@ -70,13 +79,13 @@ function buildOverlay() {
   overlay.setAttribute('aria-modal', 'true');
   overlay.innerHTML = `
     <div class="lightbox__backdrop" data-lightbox-close></div>
-    <button class="lightbox__zoom" type="button" aria-label="Zoom in">${zoomSvg(true)}</button>
-    <button class="lightbox__close" type="button" aria-label="Close">${CLOSE_SVG}</button>
-    <button class="lightbox__arrow lightbox__arrow--prev" type="button" aria-label="Previous image">${ARROW_LEFT_SVG}</button>
+    <button class="lightbox__zoom" type="button" aria-label="Zoom in">${iconTag('zoom-in', 'lightbox__icon')}</button>
+    <button class="lightbox__close" type="button" aria-label="Close">${iconTag('x-close', 'lightbox__icon')}</button>
+    <button class="lightbox__arrow lightbox__arrow--prev" type="button" aria-label="Previous image">${iconTag('arrow-left', 'lightbox__icon')}</button>
     <div class="lightbox__viewport">
       <div class="lightbox__track"></div>
     </div>
-    <button class="lightbox__arrow lightbox__arrow--next" type="button" aria-label="Next image">${ARROW_RIGHT_SVG}</button>
+    <button class="lightbox__arrow lightbox__arrow--next" type="button" aria-label="Next image">${iconTag('arrow-right', 'lightbox__icon')}</button>
     <div class="lightbox__dots" aria-hidden="true"></div>
   `;
   document.body.appendChild(overlay);
@@ -295,7 +304,7 @@ function applyTransform(animate: boolean) {
   if (zoomed !== zoomedNow) {
     zoomedNow = zoomed;
     overlay!.classList.toggle('is-zoomed', zoomed);
-    zoomBtn.innerHTML = zoomSvg(!zoomed);
+    setZoomIcon(zoomed);
     zoomBtn.setAttribute('aria-label', zoomed ? 'Zoom out' : 'Zoom in');
   }
 }

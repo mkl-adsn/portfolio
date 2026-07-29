@@ -46,7 +46,11 @@
    with their own hover/press transitions (button.css, nav.css, ...) are
    more specific and simply override it for their own elements. */
 *, *::before, *::after {
-  transition: background-color 800ms ease-out, color 800ms ease-out, border-color 800ms ease-out, outline-color 800ms ease-out;
+  transition:
+  background-color 800ms ease-out,
+  color 800ms ease-out,
+  border-color 800ms ease-out,
+  outline-color 800ms ease-out;
 }
 
 /* Kills every transition (including the page-vignette's own) while present.
