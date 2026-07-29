@@ -32,7 +32,7 @@ already have one up to date, but `build:cv` is the safe default. The deploy
 
 ## Architecture
 
-This is a minimal [Astro](https://astro.build) project (v6) using strict TypeScript.
+This is a minimal [Astro](https://astro.build) project (v6).
 
 - **Routing**: File-based. Any `.astro` or `.md` file in `src/pages/` becomes a route matching its filename.
 - **Components**: Place reusable Astro/React/Vue/Svelte/Preact components in `src/components/`. Also add them to Storybook (see below).

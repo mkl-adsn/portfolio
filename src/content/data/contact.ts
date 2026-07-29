@@ -1,5 +1,5 @@
 export interface ContactItem {
-  /** Filename (no extension) of the icon in /images/Icon/Light/ */
+  /** Filename (no extension) of the icon in /images/icon/light/ */
   icon: string;
   label: string;
   href: string | null;

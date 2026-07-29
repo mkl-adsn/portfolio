@@ -18,7 +18,7 @@ const _resizeCallbacks: Array<() => void> = [];
 function wrapDrawHeading(
   el: HTMLElement,
   color = 'var(--type-primary)',
-  outlineWidth = '1px',
+  outlineWidth = 'var(--draw-outline-width)',
 ): { fillEl: HTMLElement; outlineEl: HTMLElement } {
   const original = el.innerHTML;
 
@@ -173,7 +173,7 @@ export function initScrollReveal() {
 
   // Draw-subheading (h3): same effect, grey-700.
   document.querySelectorAll<HTMLElement>('.draw-subheading').forEach(el => {
-    const { fillEl, outlineEl } = wrapDrawHeading(el, 'var(--type-secondary)', '0.5px');
+    const { fillEl, outlineEl } = wrapDrawHeading(el, 'var(--type-secondary)', 'var(--draw-outline-width-sub)');
     buildBodyRowsAndAnimate(fillEl, outlineEl, el, 'top 95%', 'top 30%', 0.4);
   });
 }

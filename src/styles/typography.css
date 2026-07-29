@@ -10,6 +10,11 @@
     Label sm  Figtree 700          13px  ls 1.95px  uppercase
 */
 
+:root {
+  --draw-outline-width:     1px;
+  --draw-outline-width-sub: 0.5px;
+}
+
 .type-h1 {
   font-family: var(--font-serif);
   font-weight: 400;
@@ -207,6 +212,39 @@
 .type-flow > .type-body + .type-body,
 .type-flow > .type-body-bold + .type-body {
   margin-top: 12px;
+}
+
+/* ─── Dark-mode typography tweaks ─────────────────────────────────────────
+   Light-on-dark text reads visually heavier than dark-on-light at the same
+   nominal weight (irradiation/simultaneous-contrast + subpixel bloom), so
+   dark mode gets slightly reduced values to look optically matched. */
+:root[data-theme="dark"] {
+  --draw-outline-width:     0.4px;
+  --draw-outline-width-sub: 0.25px;
+}
+
+/* Figtree (--font-sans) weights, each dropped one step for the same reason. */
+:root[data-theme="dark"] .type-preamble,
+:root[data-theme="dark"] .type-body,
+:root[data-theme="dark"] .case-body p,
+:root[data-theme="dark"] .case-body ul,
+:root[data-theme="dark"] .case-body ol {
+  font-weight: 300;
+}
+
+:root[data-theme="dark"] .type-body-bold,
+:root[data-theme="dark"] .case-body strong,
+:root[data-theme="dark"] .case-body li > strong:first-child {
+  font-weight: 400;
+}
+
+:root[data-theme="dark"] .type-label,
+:root[data-theme="dark"] .type-label-sm {
+  font-weight: 600;
+}
+
+:root[data-theme="dark"] .nav__tab.active {
+  font-weight: 700;
 }
 
 /* ─── Mobile typography (≤767px) ─────────────────────────────────────────── */

@@ -1,8 +1,7 @@
 /* ─── Design tokens ──────────────────────────────────────────────────────── */
 @font-face {
   font-family: 'Warnock Pro';
-  src: url('/fonts/WarnockPro-Regular.woff2') format('woff2'),
-       url('/fonts/WarnockPro-Regular.otf')   format('opentype');
+  src: url('/fonts/WarnockPro-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -10,8 +9,7 @@
 
 @font-face {
   font-family: 'Warnock Pro';
-  src: url('/fonts/WarnockPro-Semibold.woff2') format('woff2'),
-       url('/fonts/WarnockPro-Semibold.otf')   format('opentype');
+  src: url('/fonts/WarnockPro-Semibold.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
   font-display: swap;

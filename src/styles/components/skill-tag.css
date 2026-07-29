@@ -1,7 +1,7 @@
 /* ─── Skill tag ──────────────────────────────────────────────────────────── */
 /*
   A pill listing a skill name with a 1–3 star rating. Always dark (grey-900)
-  with light text; star glyphs come from /images/Icon/Light.
+  with light text; star glyphs come from /images/icon/light.
 */
 
 .skill-tag {

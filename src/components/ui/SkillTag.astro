@@ -7,8 +7,8 @@ export interface Props {
 const { name, level, categories } = Astro.props;
 
 // Light folder = white icons for use on dark (grey-900) background
-const STAR_FILLED  = '/images/Icon/Light/star-filled.svg';
-const STAR_OUTLINE = '/images/Icon/Light/star-outline.svg';
+const STAR_FILLED  = '/images/icon/light/star-filled.svg';
+const STAR_OUTLINE = '/images/icon/light/star-outline.svg';
 
 const stars = [1, 2, 3].map(i => (i <= level ? STAR_FILLED : STAR_OUTLINE));
 ---

@@ -6,7 +6,6 @@ import "../src/styles/components/tag.css";
 import "../src/styles/components/skill-tag.css";
 import "../src/styles/components/filter-tab.css";
 import "../src/styles/components/nav.css";
-import "../src/styles/components/phone.css";
 import "../src/styles/components/search-box.css";
 import "../src/styles/components/carousel.css";
 import "../src/styles/components/lightbox.css";

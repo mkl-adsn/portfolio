@@ -1,6 +1,6 @@
 # Portfolio — Mikael Andersson
 
-Personal portfolio site built with [Astro](https://astro.build) (v6) and strict TypeScript: case studies, CV, and contact details, deployed as a static site.
+Personal portfolio site built with [Astro](https://astro.build) (v6): case studies, CV, and contact details, deployed as a static site.
 
 **Worth a look if you're skimming:**
 - [`src/scripts/halftone.ts`](./src/scripts/halftone.ts) — a scroll-scrubbed CMYK halftone reveal built from CSS custom properties + blend modes, no canvas.

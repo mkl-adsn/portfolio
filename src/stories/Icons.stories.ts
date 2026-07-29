@@ -10,7 +10,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-// Icon files live in /public/images/Icon/{Dark,Light}. Dark = dark glyphs for
+// Icon files live in /public/images/icon/{dark,light}. Dark = dark glyphs for
 // light backgrounds; Light = white glyphs for dark backgrounds. Most files are
 // named "Title Case.svg", but the star glyphs are "kebab-case.svg" — file is
 // the real basename on disk, label is just the display name.
@@ -26,7 +26,7 @@ const ICONS = [
   { label: "Star Outline", file: "star-outline" },
 ];
 
-const cell = (label: string, file: string, folder: "Dark" | "Light"): string => `
+const cell = (label: string, file: string, folder: "dark" | "light"): string => `
   <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
     <div style="
       width: 72px;
@@ -35,16 +35,16 @@ const cell = (label: string, file: string, folder: "Dark" | "Light"): string => 
       align-items: center;
       justify-content: center;
       border-radius: 8px;
-      background: ${folder === "Light" ? "var(--surface-9)" : "var(--surface-0)"};
+      background: ${folder === "light" ? "var(--surface-9)" : "var(--surface-0)"};
       border: 1px solid var(--grey-300);
     ">
-      <img src="/images/Icon/${folder}/${encodeURIComponent(file)}.svg" width="24" height="24" alt="${label}" />
+      <img src="/images/icon/${folder}/${encodeURIComponent(file)}.svg" width="24" height="24" alt="${label}" />
     </div>
     <span style="font-family: var(--font-sans); font-size: 12px; color: var(--type-tertiary);">${label}</span>
   </div>
 `;
 
-const grid = (folder: "Dark" | "Light"): string => `
+const grid = (folder: "dark" | "light"): string => `
   <div style="
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
@@ -60,11 +60,11 @@ export const All: Story = {
     <div style="padding: 40px; background: var(--surface-1); display: flex; flex-direction: column; gap: 40px;">
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <h3 class="type-label" style="color: var(--type-tertiary);">Dark — for light backgrounds</h3>
-        ${grid("Dark")}
+        ${grid("dark")}
       </div>
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <h3 class="type-label" style="color: var(--type-tertiary);">Light — for dark backgrounds</h3>
-        ${grid("Light")}
+        ${grid("light")}
       </div>
     </div>
   `,

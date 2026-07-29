@@ -1,5 +1,7 @@
 {
-  "name": "c-users-admin-project",
+  "name": "portfolio",
+  "description": "Personal portfolio site of Mikael Andersson, built with Astro.",
+  "private": true,
   "type": "module",
   "version": "0.0.1",
   "engines": {

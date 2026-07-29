@@ -29,10 +29,10 @@ function renderButton(args: ButtonArgs): string {
     args.disabled && tag === "button" ? "disabled" : "";
   const ariaDisabled = args.disabled ? 'aria-disabled="true"' : "";
   const classes = `btn btn--${args.variant}${args.disabled ? " btn--disabled" : ""}`;
-  const iconFolder = args.variant === "dark" ? "Light" : "Dark";
+  const iconFolder = args.variant === "dark" ? "light" : "dark";
   const iconHtml =
     args.icon && args.icon !== "None"
-      ? `<img src="/images/Icon/${iconFolder}/${args.icon}.svg" width="24" height="24" alt="" class="btn__icon" />`
+      ? `<img src="/images/icon/${iconFolder}/${args.icon}.svg" width="24" height="24" alt="" class="btn__icon" />`
       : "";
 
   return `
@@ -124,28 +124,28 @@ export const AllVariants: Story = {
       </button>
       <button class="btn btn--light">
         <span class="btn__face">
-          <img src="/images/Icon/Dark/download.svg" width="24" height="24" alt="" class="btn__icon" />
+          <img src="/images/icon/dark/download.svg" width="24" height="24" alt="" class="btn__icon" />
           Light + Icon
         </span>
         <span class="btn__edge"></span>
       </button>
       <button class="btn btn--dark">
         <span class="btn__face">
-          <img src="/images/Icon/Light/download.svg" width="24" height="24" alt="" class="btn__icon" />
+          <img src="/images/icon/light/download.svg" width="24" height="24" alt="" class="btn__icon" />
           Dark + Icon
         </span>
         <span class="btn__edge"></span>
       </button>
       <button class="btn btn--light btn--disabled" disabled aria-disabled="true">
         <span class="btn__face">
-          <img src="/images/Icon/Dark/download.svg" width="24" height="24" alt="" class="btn__icon" />
+          <img src="/images/icon/dark/download.svg" width="24" height="24" alt="" class="btn__icon" />
           Light Disabled
         </span>
         <span class="btn__edge"></span>
       </button>
       <button class="btn btn--dark btn--disabled" disabled aria-disabled="true">
         <span class="btn__face">
-          <img src="/images/Icon/Light/download.svg" width="24" height="24" alt="" class="btn__icon" />
+          <img src="/images/icon/light/download.svg" width="24" height="24" alt="" class="btn__icon" />
           Dark Disabled
         </span>
         <span class="btn__edge"></span>

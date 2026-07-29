@@ -5,7 +5,7 @@
  * variant  'dark'  filled navy face, lighter navy edge
  *          'light' light face, grey border, dark grey edge
  *
- * icon     filename from /images/Icon/ (without extension), e.g. "download"
+ * icon     filename from /images/icon/ (without extension), e.g. "download"
  */
 export interface Props {
   variant?: 'dark' | 'light';
@@ -33,8 +33,8 @@ const Tag = href && !disabled ? 'a' : 'button';
 // Light variant sits on a light face → needs dark icon
 const iconSrc = icon
   ? variant === 'dark'
-    ? `/images/Icon/Light/${icon}.svg`
-    : `/images/Icon/Dark/${icon}.svg`
+    ? `/images/icon/light/${icon}.svg`
+    : `/images/icon/dark/${icon}.svg`
   : null;
 ---
 

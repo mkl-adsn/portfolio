@@ -27,16 +27,16 @@ const SWIPE_THRESHOLD = 0.15;
 const DRAG_SLOP = 8;
 
 // Arrow glyphs are folder-based icons (like buttons): a plain <img> pointing at
-// /images/Icon/Light|Dark/, which src/scripts/theme.ts swaps between folders on
+// /images/icon/light|dark/, which src/scripts/theme.ts swaps between folders on
 // a theme flip so the glyph stays legible against the pill as its fill inverts.
 // We seed the folder for the current theme and record the Light-folder path in
 // data-light-src — the base theme.ts inverts from — so it works no matter which
 // init runs first.
 function arrowIcon(name: 'arrow-left' | 'arrow-right'): HTMLImageElement {
-  const lightSrc = `/images/Icon/Light/${name}.svg`;
+  const lightSrc = `/images/icon/light/${name}.svg`;
   const dark = document.documentElement.dataset.theme === 'dark';
   const img = document.createElement('img');
-  img.src = dark ? lightSrc.replace('/Light/', '/Dark/') : lightSrc;
+  img.src = dark ? lightSrc.replace('/light/', '/dark/') : lightSrc;
   img.dataset.lightSrc = lightSrc;
   img.width = 24;
   img.height = 24;

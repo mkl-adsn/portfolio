@@ -20,13 +20,13 @@
 // + `data-theme-static` keeps theme.ts from swapping them to Dark in dark mode.
 function iconTag(name: string, cls: string): string {
   return (
-    `<img src="/images/Icon/Light/${name}.svg" width="24" height="24" ` +
+    `<img src="/images/icon/light/${name}.svg" width="24" height="24" ` +
     `alt="" class="${cls}" data-theme-static>`
   );
 }
 // The magnifier flips its glyph between fit/zoomed states; toggle its <img> src.
 function setZoomIcon(zoomed: boolean): void {
-  zoomBtn.querySelector('img')?.setAttribute('src', `/images/Icon/Light/${zoomed ? 'zoom-out' : 'zoom-in'}.svg`);
+  zoomBtn.querySelector('img')?.setAttribute('src', `/images/icon/light/${zoomed ? 'zoom-out' : 'zoom-in'}.svg`);
 }
 
 export interface LightboxImage {

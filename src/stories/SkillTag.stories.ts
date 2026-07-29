@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/html";
 
 // CSS: src/styles/components/skill-tag.css (imported globally in preview.ts).
-const STAR_FILLED = "/images/Icon/Light/star-filled.svg";
-const STAR_OUTLINE = "/images/Icon/Light/star-outline.svg";
+const STAR_FILLED = "/images/icon/light/star-filled.svg";
+const STAR_OUTLINE = "/images/icon/light/star-outline.svg";
 
 type SkillTagArgs = { name: string; level: 1 | 2 | 3 };
 

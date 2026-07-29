@@ -13,7 +13,7 @@
  * future clicks in sync with that.
  */
 
-const ICON_SELECTOR = 'img[src*="/images/Icon/"]';
+const ICON_SELECTOR = 'img[src*="/images/icon/"]';
 const TOGGLE_ICON_ID = 'theme-toggle-icon';
 const STORAGE_KEY = 'theme';
 
@@ -26,8 +26,8 @@ function setStoredTheme(dark: boolean): void {
 }
 
 function invertIconPath(src: string): string {
-  if (src.includes('/images/Icon/Dark/')) return src.replace('/images/Icon/Dark/', '/images/Icon/Light/');
-  if (src.includes('/images/Icon/Light/')) return src.replace('/images/Icon/Light/', '/images/Icon/Dark/');
+  if (src.includes('/images/icon/dark/')) return src.replace('/images/icon/dark/', '/images/icon/light/');
+  if (src.includes('/images/icon/light/')) return src.replace('/images/icon/light/', '/images/icon/dark/');
   return src;
 }
 
@@ -51,7 +51,7 @@ function applyToggleIcon(dark: boolean): void {
   const icon = document.getElementById(TOGGLE_ICON_ID) as HTMLImageElement | null;
   const button = document.getElementById('theme-toggle');
   if (!icon || !button) return;
-  icon.src = dark ? '/images/Icon/Light/sun.svg' : '/images/Icon/Dark/moon.svg';
+  icon.src = dark ? '/images/icon/light/sun.svg' : '/images/icon/dark/moon.svg';
   button.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
 }
 

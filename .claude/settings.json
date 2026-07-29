@@ -1,7 +1,19 @@
 {
   "permissions": {
-    "defaultMode": "bypassPermissions",
-    "allow": ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
-  },
-  "skipDangerousModePermissionPrompt": true
+    "defaultMode": "default",
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Edit",
+      "Write",
+      "Bash(npm run:*)",
+      "Bash(npm install:*)",
+      "Bash(npx astro:*)",
+      "Bash(git status)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)"
+    ]
+  }
 }

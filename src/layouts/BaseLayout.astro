@@ -37,6 +37,11 @@ const socialImageURL = new URL(image, Astro.site);
     <!-- Applied before first paint so navigating between pages doesn't flash
          the wrong theme. Kept in sync by src/scripts/theme.ts.
 
+         Falls back to the OS/browser `prefers-color-scheme` when the user
+         hasn't clicked the toggle yet (no stored choice) — only an explicit
+         click writes to localStorage, so this fallback keeps applying on
+         every page load until they do.
+
          <html> starts with a `no-transition` class (transitions killed via
          base.css) so applying the stored theme here can't itself animate
          anything — without it, the vignette/background-color transitions
@@ -48,7 +53,9 @@ const socialImageURL = new URL(image, Astro.site);
       (function () {
         var root = document.documentElement;
         try {
-          if (localStorage.getItem('theme') === 'dark') {
+          var stored = localStorage.getItem('theme');
+          var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (dark) {
             root.dataset.theme = 'dark';
           }
         } catch (e) {}
@@ -78,7 +85,7 @@ const socialImageURL = new URL(image, Astro.site);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -93,8 +100,8 @@ const socialImageURL = new URL(image, Astro.site);
 
     <!-- Custom cursor: two images swapped on mousedown/up. Hidden on touch devices via CSS. -->
     <div id="custom-cursor" aria-hidden="true">
-      <img class="cursor-default" src="/images/Cursor/CursorDefault.png" alt="" draggable="false" />
-      <img class="cursor-pressed" src="/images/Cursor/CursorPressed.png" alt="" draggable="false" />
+      <img class="cursor-default" src="/images/cursor/cursor-default.png" alt="" draggable="false" />
+      <img class="cursor-pressed" src="/images/cursor/cursor-pressed.png" alt="" draggable="false" />
     </div>
     <ThemeToggle />
     <slot />

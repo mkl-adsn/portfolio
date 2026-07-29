@@ -18,8 +18,9 @@ import '../styles/tokens.css';
 
 const skillGroups = groupSkillsForPrint();
 
-const email = contacts.find(c => c.icon === 'Mail')?.label ?? '';
-const phone = contacts.find(c => c.icon === 'Phone')?.label ?? '';
+const email = contacts.find(c => c.icon === 'mail')?.label ?? '';
+const phone = contacts.find(c => c.icon === 'phone')?.label ?? '';
+const location = contacts.find(c => c.icon === 'location')?.label ?? '';
 ---
 
 <!doctype html>
@@ -102,7 +103,7 @@ const phone = contacts.find(c => c.icon === 'Phone')?.label ?? '';
         line-height: 1.4;
         white-space: nowrap;
       }
-      .cv-visit-url { font-weight: 700; color: var(--type-primary); }
+      .cv-visit-url { font-weight: 700; color: var(--type-primary); text-decoration: none; }
       .cv-visit-note { font-weight: 400; color: var(--type-primary); }
       .cv-visit-contact { font-weight: 700; color: var(--type-primary); margin-top:6pt; }
 
@@ -198,10 +199,10 @@ const phone = contacts.find(c => c.icon === 'Phone')?.label ?? '';
         <div class="cv-name-row">
           <h1 class="cv-name">Mikael Andersson</h1>
           <span class="cv-visit">
-            <span class="cv-visit-url">www.mikael.work</span>
-            <span class="cv-visit-note">Visit to see portfolio and cases</span>
+            <span class="cv-visit-note">For cases, visit <a class="cv-visit-url" href="https://mikael.work">www.mikael.work</a></span>
             <span class="cv-visit-contact">{email}</span>
             <span class="cv-visit-contact">{phone}</span>
+            <span class="cv-visit-contact">{location}</span>
           </span>
         </div>
         <div class="cv-intro">
