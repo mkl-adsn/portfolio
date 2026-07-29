@@ -53,6 +53,17 @@ const allCases = (await getCollection('cases')).sort(
 </section>
 
 <style>
+  /* The halftone case images bleed -20px each side (see .halftone-figure-wrapper
+     in animations.css) so their artwork — inset inside a transparent frame —
+     lines up with the text column. At mobile the container padding is only 16px,
+     so that bleed pokes 4px past the viewport → horizontal page scroll. Clip it
+     here on the section (a plain block, unlike body/html whose overflow is
+     subject to viewport-propagation quirks that let the scroll leak). The
+     overhang is transparent frame, so clipping is visually lossless. */
+  #cases {
+    overflow-x: clip;
+  }
+
   .case-tags {
     display: flex;
     flex-wrap: wrap;
