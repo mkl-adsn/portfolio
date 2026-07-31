@@ -74,8 +74,17 @@ const allCases = (await getCollection('cases')).sort(
     flex-shrink: 0;
     margin: 0;
     overflow: hidden;
-    z-index: 10;
-    mix-blend-mode: multiply;
+    z-index: var(--z-foreground);
+  }
+
+  /* The multiply blend is part of the halftone ink-on-paper illusion, which
+     only runs when motion is allowed (see animations.ts / halftone.ts). Under
+     reduced motion the halftone DOM is never built, so blending the plain image
+     would just darken it against the page — leave it un-blended. */
+  @media (prefers-reduced-motion: no-preference) {
+    .case-image {
+      mix-blend-mode: multiply;
+    }
   }
 
   .case-image img {

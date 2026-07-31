@@ -22,36 +22,34 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 0 24px;
+  gap: var(--space-8);
+  padding: 0 var(--space-24);
   height: 48px;
-  border-radius: 4px;
+  border-radius: var(--border-radius-default);
   border: 1px solid;
   overflow: hidden;
   margin-bottom: -4px;
   transform: translateY(0);
-  transition: transform 120ms ease, background-color 80ms ease;
-  font-family: var(--font-sans);
-  font-weight: 700;
-  font-size: 15px;
-  letter-spacing: 2.25px;
-  text-transform: uppercase;
-  white-space: nowrap;
-  line-height: 1;
+  transition: transform var(--duration-fast) var(--ease-standard), background-color var(--duration-quick) var(--ease-standard);
+  /* Label typography (font/size/tracking/uppercase) comes from .type-label in
+     typography.css, which this selector is part of. Layout + colour only here. */
 }
 
 .btn__edge {
   position: relative;
   z-index: 1;
   height: 8px;
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 var(--border-radius-default) var(--border-radius-default);
   border-width: 0 1px 1px 1px;
   border-style: solid;
-  transition: background-color 80ms ease, border-color 80ms ease;
+  /* Only background-color animates on press. The edge's border-color is the
+     same across default/active, so it's left out — on theme change it then
+     crossfades with the page (base.css 800ms) instead of snapping at 60ms. */
+  transition: background-color var(--duration-quick) var(--ease-standard);
 }
 
 .btn:hover .btn__face  { transform: translateY(3px); }
-.btn:active .btn__face { transform: translateY(4px); transition-duration: 60ms; }
+.btn:active .btn__face { transform: translateY(4px); transition-duration: var(--duration-quick); }
 
 /* ── Light variant ───────────────────────────────────────────────────────── */
 .btn--light .btn__face        { background-color: var(--surface-1); border-color: var(--border-strong); color: var(--type-primary); }
@@ -78,7 +76,7 @@
 }
 
 .btn:disabled .btn__face,
-.btn--disabled .btn__face { transform: translateY(5px); }
+.btn--disabled .btn__face { transform: translateY(4px); }
 
 .btn:disabled .btn__icon,
 .btn--disabled .btn__icon { opacity: 0.45; }

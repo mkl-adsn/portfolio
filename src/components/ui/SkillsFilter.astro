@@ -2,9 +2,9 @@
 import { skills } from '../../content/data/skills.ts';
 import SkillTag from './SkillTag.astro';
 import FilterTab from './FilterTab.astro';
+import Icon from './Icon.astro';
 
 const categories = ['All Skills', 'Application', 'Design', 'Dev', 'Other'];
-const VISIBLE_DEFAULT = 8;
 ---
 
 <div class="flex flex-col gap-4">
@@ -13,7 +13,7 @@ const VISIBLE_DEFAULT = 8;
   <div class="search-box">
     <label for="skill-search" class="sr-only">Search skills</label>
     <div class="search-box__face">
-      <img src="/images/icon/dark/search.svg" width="24" height="24" alt="" class="flex-shrink-0" />
+      <Icon name="search" tone="strong" />
       <input
         id="skill-search"
         type="text"
@@ -28,8 +28,14 @@ const VISIBLE_DEFAULT = 8;
   <!-- Announces the filtered count to screen readers; visually hidden -->
   <p id="skills-status" class="sr-only" role="status" aria-live="polite"></p>
 
-  <!-- Category filter tabs -->
-  <div id="skill-filters" class="flex gap-x-6 gap-y-4 items-end flex-wrap mb-2">
+  <!-- Category filter tabs — a single-select set, exposed as a radiogroup so
+       assistive tech announces "pick one of N" and arrow keys move between. -->
+  <div
+    id="skill-filters"
+    role="radiogroup"
+    aria-label="Filter skills by category"
+    class="flex gap-x-6 gap-y-4 items-end flex-wrap mb-2"
+  >
     {categories.map((cat, i) => (
       <FilterTab
         label={cat}
@@ -63,7 +69,7 @@ const VISIBLE_DEFAULT = 8;
 
   document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('skill-search') as HTMLInputElement;
-    const filterTabs  = document.querySelectorAll<HTMLButtonElement>('.filter-tab');
+    const filterTabs  = Array.from(document.querySelectorAll<HTMLButtonElement>('.filter-tab'));
     const tags        = Array.from(document.querySelectorAll<HTMLElement>('.skill-tag'));
     const showAllWrap = document.getElementById('show-all-wrap')!;
     const showAllBtn  = document.getElementById('show-all-btn')!;
@@ -94,19 +100,43 @@ const VISIBLE_DEFAULT = 8;
       status.textContent = `${matching.length} skill${matching.length === 1 ? '' : 's'} shown`;
     }
 
-    filterTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        activeFilter = tab.dataset.filter ?? 'all';
-        showAll = false;
+    // Select one tab: update filter state, the active styling ([data-active]),
+    // the radiogroup checked state, and the roving tabindex (only the checked
+    // radio is a tab stop; arrows move between the rest).
+    function selectTab(tab: HTMLButtonElement, { focus = false } = {}) {
+      activeFilter = tab.dataset.filter ?? 'all';
+      showAll = false;
 
-        // CSS handles the visual update via [data-active] attribute selectors
-        filterTabs.forEach(t => {
-          const isActive = t === tab;
-          t.dataset.active = isActive ? 'true' : 'false';
-          t.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-        });
+      filterTabs.forEach(t => {
+        const isActive = t === tab;
+        t.dataset.active = isActive ? 'true' : 'false';
+        t.setAttribute('aria-checked', isActive ? 'true' : 'false');
+        t.tabIndex = isActive ? 0 : -1;
+      });
 
-        applyFilters();
+      if (focus) tab.focus();
+      applyFilters();
+    }
+
+    filterTabs.forEach((tab, i) => {
+      // Native button activation (click / Enter / Space) selects the tab.
+      tab.addEventListener('click', () => selectTab(tab));
+
+      // Radiogroup keyboard model: arrows (with wrap) + Home/End move focus to
+      // the next tab and select it in one step.
+      tab.addEventListener('keydown', (e: KeyboardEvent) => {
+        let next: number;
+        switch (e.key) {
+          case 'ArrowRight':
+          case 'ArrowDown': next = (i + 1) % filterTabs.length; break;
+          case 'ArrowLeft':
+          case 'ArrowUp':   next = (i - 1 + filterTabs.length) % filterTabs.length; break;
+          case 'Home':      next = 0; break;
+          case 'End':       next = filterTabs.length - 1; break;
+          default: return;
+        }
+        e.preventDefault();
+        selectTab(filterTabs[next], { focus: true });
       });
     });
 

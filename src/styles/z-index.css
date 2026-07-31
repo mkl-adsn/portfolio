@@ -1,0 +1,15 @@
+/* ─── Z-index scale ──────────────────────────────────────────────────────────
+   The only values that compete on the page's ROOT stacking context, ordered
+   back-to-front. Anything outside this list is local sibling layering inside a
+   component's own stacking context (e.g. a button face over its edge, lightbox
+   chrome over the image) — those stay small literals (1, 2, …) and must NOT be
+   promoted here: they mean "above my sibling", not "level N of the page".
+*/
+:root {
+  --z-behind:     -1;   /* page vignette, behind all content */
+  --z-grain:       5;   /* full-page noise grain overlay */
+  --z-foreground: 10;   /* content lifted above the grain (.case-image, .case-split) */
+  --z-nav:       100;   /* sticky nav bar */
+  --z-modal:    1000;   /* lightbox overlay */
+  --z-cursor:   9999;   /* custom cursor, always topmost */
+}

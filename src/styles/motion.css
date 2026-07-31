@@ -1,0 +1,19 @@
+/* ─── Motion ─────────────────────────────────────────────────────────────────
+   Durations and easings for transitions/animations. JS/GSAP timings (typewriter,
+   scroll reveals) live in their scripts and aren't covered here; one-off keyframe
+   timings (e.g. cursor-blink) stay literal. Reduced motion is handled globally in
+   base.css (durations collapsed to ~0), so these values are the full-motion path.
+*/
+:root {
+  /* Easing */
+  --ease-standard:   ease;                            /* default UI micro-interactions */
+  --ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);  /* decelerating slide (carousel/lightbox) */
+  --ease-crossfade:  ease-out;                        /* ambient theme/vignette fade */
+
+  /* Duration */
+  --duration-quick:   60ms;   /* button press feedback — face/edge background + active */
+  --duration-fast:   120ms;   /* hover/press transitions — nav, tabs, search, button, chrome */
+  --duration-medium: 250ms;   /* lightbox zoom/pan */
+  --duration-slide:  400ms;   /* content slide — carousel/lightbox track + dots */
+  --duration-slow:   800ms;   /* ambient crossfade — theme + vignette */
+}

@@ -10,6 +10,28 @@
     Label sm  Figtree 700          13px  ls 1.95px  uppercase
 */
 
+/* ─── Fonts ──────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Warnock Pro';
+  src: url('/fonts/WarnockPro-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Warnock Pro';
+  src: url('/fonts/WarnockPro-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-serif: 'Warnock Pro', Georgia, serif;
+  --font-sans:  'Figtree', system-ui, sans-serif;
+}
+
 :root {
   --draw-outline-width:     1px;
   --draw-outline-width-sub: 0.5px;
@@ -39,7 +61,8 @@
   margin: 0;
 }
 .type-h2 strong,
-.type-h2 b { font-weight: 600; }
+.type-h2 b { font-weight: 600;
+}
 
 .type-h3,
 .case-body h3 {
@@ -61,7 +84,8 @@
 }
 
 .type-body,
-.case-body p {
+.case-body p,
+.case-split__text {
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: 18px;
@@ -82,12 +106,15 @@
 /* ─── Dark-background modifier ────────────────────────────────────────────
    Add alongside any color-bearing .type-* class to flip it for use on a dark
    (grey-900) background, e.g. class="type-h2 type-on-dark". Must come after
-   the .type-* rules above: same specificity, so cascade order decides. */
+   the .type-* rules above: same specificity, so cascade order decides.
+────────────────────────────────────────────────────────────────────────── */
+
 .type-on-dark {
   color: var(--type-inverted-primary);
 }
 
-.type-label {
+.type-label,
+.btn__face {
   font-family: var(--font-sans);
   font-weight: 700;
   font-size: 15px;
@@ -97,7 +124,8 @@
   white-space: nowrap;
 }
 
-.type-label-sm {
+.type-label-sm,
+.skill-tag__name {
   font-family: var(--font-sans);
   font-weight: 700;
   font-size: 13px;
@@ -107,12 +135,29 @@
   white-space: nowrap;
 }
 
+/* Caption — small sans text for figure/figcaption content (case images,
+   carousel, lightbox). Colour and alignment stay with each component, since
+   they're context-dependent (light vs dark backdrop). */
+.type-caption,
+.carousel__slide figcaption,
+.lightbox__caption,
+.case-image-full figcaption {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.nav__tab.active,
+.btn--dark > .btn__face > .type-label {
+  font-weight: 600;
+}
+
 /* ─── Prose flow (markdown-generated `.case-body` HTML) ──────────────────── */
 /* Base vertical rhythm between direct children; specific pairs below refine it. */
 .case-body {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-24);
 }
 
 .case-body strong {
@@ -126,17 +171,17 @@
 
 /* h3 breathing room: 48px above (p before), 24px below (base gap). */
 .case-body p + h3 {
-  margin-top: 24px;
+  margin-top: var(--space-24);
 }
 
 /* 48px below h2 (base flex gap is 24px). */
 .case-body h2 + * {
-  margin-top: 24px;
+  margin-top: var(--space-24);
 }
 
 /* New section break: 96px before an h2 (base flex gap is 24px). */
 .case-body > * + h2 {
-  margin-top: 72px;
+  margin-top: var(--space-96);
 }
 
 /* ─── Prose lists (markdown-generated `.case-body` HTML) ─────────────────── */
@@ -151,12 +196,12 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-16);
 }
 
 .case-body li {
   position: relative;
-  padding-left: 32px;
+  padding-left: var(--space-32);
 }
 
 /* Unordered: a small accent square, optically aligned to the first line. */
@@ -167,7 +212,7 @@
   top: 0.52em;
   width: 7px;
   height: 7px;
-  border-radius: 2px;
+  border-radius: var(--border-radius-small);
   background-color: var(--surface-5);
 }
 
@@ -178,7 +223,7 @@
 
 .case-body ol > li {
   counter-increment: case-ol;
-  padding-left: 40px;
+  padding-left: var(--space-32);
 }
 
 .case-body ol > li::before {
@@ -202,8 +247,8 @@
 /* Nested lists tuck in without extra vertical gap. */
 .case-body li ul,
 .case-body li ol {
-  margin-top: 12px;
-  gap: 12px;
+  margin-top: var(--space-12);
+  gap: var(--space-12);
 }
 
 /* ─── Prose flow (index-page component text, non-markdown) ───────────────── */
@@ -211,13 +256,15 @@
    since these contexts have no base flex gap to offset. */
 .type-flow > .type-body + .type-body,
 .type-flow > .type-body-bold + .type-body {
-  margin-top: 12px;
+  margin-top: var(--space-12);
 }
 
 /* ─── Dark-mode typography tweaks ─────────────────────────────────────────
    Light-on-dark text reads visually heavier than dark-on-light at the same
    nominal weight (irradiation/simultaneous-contrast + subpixel bloom), so
-   dark mode gets slightly reduced values to look optically matched. */
+   dark mode gets slightly reduced values to look optically matched.
+───────────────────────────────────────────────────────────────────────── */
+
 :root[data-theme="dark"] {
   --draw-outline-width:     0.4px;
   --draw-outline-width-sub: 0.25px;
@@ -226,6 +273,7 @@
 /* Figtree (--font-sans) weights, each dropped one step for the same reason. */
 :root[data-theme="dark"] .type-preamble,
 :root[data-theme="dark"] .type-body,
+:root[data-theme="dark"] .case-split__text,
 :root[data-theme="dark"] .case-body p,
 :root[data-theme="dark"] .case-body ul,
 :root[data-theme="dark"] .case-body ol {
@@ -243,11 +291,15 @@
   font-weight: 600;
 }
 
-:root[data-theme="dark"] .nav__tab.active {
+:root[data-theme="dark"] .nav__tab.active,
+:root[data-theme="dark"] .tag--dark,
+:root[data-theme="dark"] .btn--dark > .btn__face > .type-label {
   font-weight: 700;
 }
 
+/* ────────────────────────────────────────────────────────────────────────── */
 /* ─── Mobile typography (≤767px) ─────────────────────────────────────────── */
+/* ────────────────────────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
   .type-h1 {
     font-size: 38px;

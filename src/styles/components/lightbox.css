@@ -14,7 +14,7 @@
 .lightbox {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: var(--z-modal);
   display: none;
   align-items: center;
   justify-content: center;
@@ -35,9 +35,8 @@
   --border-inverted: var(--grey-100);
 }
 
-/* Chrome glyphs: folder-based <img>, always the Light variant (see lightbox.ts). */
+/* Chrome glyphs: inline SVG icons, fixed-light tone (see lightbox.ts + icon.css). */
 .lightbox__icon {
-  display: block;
   width: 24px;
   height: 24px;
 }
@@ -71,7 +70,7 @@ body.lightbox-open {
 .lightbox__track {
   display: flex;
   height: 100%;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--duration-slide) var(--ease-emphasized);
   will-change: transform;
 }
 
@@ -94,7 +93,7 @@ body.lightbox-open {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: var(--space-16);
   width: 100%;
   height: 100%;
 }
@@ -148,10 +147,8 @@ body.lightbox-open {
   visibility: hidden;
 }
 
+/* Type from .type-caption (typography.css); colour/alignment/width only here. */
 .lightbox__caption {
-  font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.5;
   color: var(--type-inverted-tertiary);
   text-align: center;
   max-width: 720px;
@@ -170,11 +167,11 @@ body.lightbox-open {
   justify-content: center;
   padding: 0;
   border: none;
-  border-radius: 999px;
+  border-radius: var(--border-radius-full);
   background-color: var(--backdrop-light);
   color: var(--type-inverted-primary);
   cursor: pointer;
-  transition: background-color 0.15s ease;
+  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
 .lightbox__close:hover {
@@ -195,11 +192,11 @@ body.lightbox-open {
   justify-content: center;
   padding: 0;
   border: none;
-  border-radius: 999px;
+  border-radius: var(--border-radius-full);
   background-color: var(--backdrop-light);
   color: var(--type-inverted-primary);
   cursor: pointer;
-  transition: background-color 0.15s ease;
+  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
 .lightbox__zoom:hover {
@@ -219,11 +216,11 @@ body.lightbox-open {
   justify-content: center;
   padding: 0;
   border: none;
-  border-radius: 999px;
+  border-radius: var(--border-radius-full);
   background-color: var(--backdrop-light);
   color: var(--type-inverted-primary);
   cursor: pointer;
-  transition: background-color 0.15s ease;
+  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
 .lightbox__arrow:hover {
@@ -246,7 +243,7 @@ body.lightbox-open {
   transform: translateX(-50%);
   z-index: 2;
   display: flex;
-  gap: 10px;
+  gap: var(--space-8);
 }
 
 .lightbox__dot {
@@ -254,10 +251,10 @@ body.lightbox-open {
   height: 10px;
   padding: 0;
   border: none;
-  border-radius: 999px;
+  border-radius: var(--border-radius-full);
   box-shadow: 0 0 0 1px inset var(--border-inverted);
   cursor: pointer;
-  transition: all 0.5s ease;
+  transition: all var(--duration-slide) var(--ease-standard);
 }
 
 

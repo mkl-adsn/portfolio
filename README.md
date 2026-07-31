@@ -42,9 +42,15 @@ The dev server runs at `localhost:4321`.
 │   ├── pages/             File-based routes
 │   ├── scripts/           Client-side behaviour (animations, carousel, cursor, lightbox)
 │   ├── stories/           Storybook stories
-│   └── styles/            Design tokens, base styles, and per-component stylesheets
+│   └── styles/            Design tokens (one file per concern) + base/layout + per-component stylesheets
 ├── astro.config.mjs
 └── scripts/generate-cv-pdf.mjs   Renders src/pages/cv.astro to public/cv.pdf via headless Chromium
 ```
 
-See [CLAUDE.md](./CLAUDE.md) for the component/Storybook conventions and the CV PDF build process in more detail.
+## Conventions
+
+- **[docs/frontend.md](./docs/frontend.md)** — the frontend & design-system guide:
+  the styles file map, design-token system, typography ownership, and the
+  component/Storybook workflow. Read this before working on CSS, tokens, or components.
+- **[CLAUDE.md](./CLAUDE.md)** — a condensed version of the above plus the CV PDF build
+  process, aimed at AI agents (and a quick human reference).

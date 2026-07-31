@@ -1,26 +1,8 @@
-/* ─── Design tokens ──────────────────────────────────────────────────────── */
-@font-face {
-  font-family: 'Warnock Pro';
-  src: url('/fonts/WarnockPro-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Warnock Pro';
-  src: url('/fonts/WarnockPro-Semibold.woff2') format('woff2');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ─── Typefaces ──────────────────────────────────────────────────────────── */
-:root {
-  --font-serif: 'Warnock Pro', Georgia, serif;
-  --font-sans:  'Figtree', system-ui, sans-serif;
-}
-
+/* ─── Colour tokens ──────────────────────────────────────────────────────────
+   Primitive greyscale + alpha overlays, then the semantic aliases (type,
+   surface, backdrop, border, symbol) remapped for dark mode. Sibling token
+   files: typography.css (fonts), spacing.css, border-radius.css, z-index.css,
+   motion.css. */
 
 /* ─── Core Color Palette ──────────────────────────────────────────────────────────── */
 :root {
@@ -36,7 +18,7 @@
   --grey-300: #E7EAEE;
   --grey-400: #CACFD8;  
   --grey-500: #A7AFBE;
-  --grey-600: #768193;
+  --grey-600: #6A7486;
   --grey-700: #525b6c;
   --grey-800: #384051;
     --grey-800-090: rgba(56, 64, 81, 0.9);
@@ -63,7 +45,9 @@
   --surface-1: var(--grey-100);
   --surface-2: var(--grey-200);
   --surface-3: var(--grey-300);
+  --surface-4: var(--grey-400);
   --surface-5: var(--grey-500);
+  --surface-6: var(--grey-600);
   --surface-7: var(--grey-700);
   --surface-8: var(--grey-800);
   --surface-9: var(--grey-900);
@@ -75,8 +59,12 @@
   --backdrop-inverted: var(--grey-100-060);
 
   --border-strong:   var(--grey-900);
-  --border-medium:   var(--grey-600);
+  --border-medium:   var(--grey-500);
   --border-inverted: var(--grey-100);
+
+  --symbol-strong:   var(--grey-900);
+  --symbol-medium: var(--grey-600);
+  --symbol-inverted:  var(--grey-100);
 }
 
 /* ─── Semantic Color Tokens – Dark mode ──────────────────────────────────────────────────────────── */
@@ -95,7 +83,9 @@
   --surface-1: var(--grey-900);
   --surface-2: var(--grey-950);
   --surface-3: var(--grey-700);
+  --surface-4: var(--grey-600);
   --surface-5: var(--grey-500);
+  --surface-6: var(--grey-400);
   --surface-7: var(--grey-300);
   --surface-8: var(--grey-200);
   --surface-9: var(--grey-100);
@@ -107,6 +97,10 @@
   --backdrop-inverted: var(--grey-900-060);
 
   --border-strong:   var(--grey-100);
-  --border-medium:   var(--grey-500);
+  --border-medium:   var(--grey-700);
   --border-inverted: var(--grey-900);
+
+  --symbol-strong:   var(--grey-100);
+  --symbol-medium: var(--grey-500);
+  --symbol-inverted:  var(--grey-900);
 }

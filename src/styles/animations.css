@@ -183,6 +183,8 @@
   inset: 20px;
   opacity: 0;
   pointer-events: none;
+  /* Local: sits above its sibling .case-image figure inside the wrapper. Not
+     the global --z-foreground despite the matching value. */
   z-index: 10;
 }
 
@@ -210,9 +212,15 @@
    Tuning (baked from the lab): bleed .30, saturate 2, K-bright 1.0,
    K-contrast 1.1, threshold offset -.05, source brightness .5.
    Sources swapped to the *-dark.webp asset in halftone.ts. */
-:root[data-theme="dark"] .case-image {
-  mix-blend-mode: screen;
-  filter: invert(1);
+/* Blend + output inversion — the final step of the halftone dual. Gated on
+   motion: under reduced motion the pipeline isn't built (see animations.ts), so
+   applying screen + invert(1) to the plain image would just render a washed-out
+   negative. Falls back to the un-blended image (base .case-image) instead. */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-theme="dark"] .case-image {
+    mix-blend-mode: screen;
+    filter: invert(1);
+  }
 }
 
 :root[data-theme="dark"] .halftone-figure-wrapper {

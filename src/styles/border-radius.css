@@ -1,0 +1,9 @@
+/* ─── Border radius ──────────────────────────────────────────────────────────
+   The only valid corner radii. `full` is an arbitrarily large value that fully
+   rounds any pill-shaped element. */
+:root {
+  --border-radius-small:   2px;   /* micro-details: list-marker accent square */
+  --border-radius-default: 4px;   /* buttons, tags, inputs, nav item, focus ring */
+  --border-radius-large:   8px;   /* larger surfaces: nav pill, carousel media */
+  --border-radius-full:    9999px; /* pills / fully-rounded: lightbox chrome, dots, scrollbar */
+}

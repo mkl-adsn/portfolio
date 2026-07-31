@@ -1,9 +1,14 @@
 @import "tailwindcss";
 
-@import "./tokens.css";
+@import "./colors.css";
+@import "./border-radius.css";
+@import "./spacing.css";
+@import "./z-index.css";
+@import "./motion.css";
 @import "./base.css";
 @import "./typography.css";
 @import "./layout.css";
+@import "./components/icon.css";
 @import "./components/button.css";
 @import "./components/tag.css";
 @import "./components/skill-tag.css";

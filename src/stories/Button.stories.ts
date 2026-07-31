@@ -1,14 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/html";
+import { iconMarkup, type IconName } from "../scripts/icons";
 
 type ButtonArgs = {
   variant: "light" | "dark";
   label: string;
-  icon: string;
+  icon: IconName | "None";
   asLink: boolean;
   disabled: boolean;
 };
 
-const ICONS = [
+const ICONS: (IconName | "None")[] = [
   "None",
   "download",
   "arrow-left",
@@ -29,10 +30,10 @@ function renderButton(args: ButtonArgs): string {
     args.disabled && tag === "button" ? "disabled" : "";
   const ariaDisabled = args.disabled ? 'aria-disabled="true"' : "";
   const classes = `btn btn--${args.variant}${args.disabled ? " btn--disabled" : ""}`;
-  const iconFolder = args.variant === "dark" ? "light" : "dark";
+  const iconTone = args.variant === "dark" ? "inverted" : "strong";
   const iconHtml =
     args.icon && args.icon !== "None"
-      ? `<img src="/images/icon/${iconFolder}/${args.icon}.svg" width="24" height="24" alt="" class="btn__icon" />`
+      ? iconMarkup(args.icon, { tone: iconTone, class: "btn__icon" })
       : "";
 
   return `
@@ -124,28 +125,28 @@ export const AllVariants: Story = {
       </button>
       <button class="btn btn--light">
         <span class="btn__face">
-          <img src="/images/icon/dark/download.svg" width="24" height="24" alt="" class="btn__icon" />
+          ${iconMarkup("download", { tone: "strong", class: "btn__icon" })}
           Light + Icon
         </span>
         <span class="btn__edge"></span>
       </button>
       <button class="btn btn--dark">
         <span class="btn__face">
-          <img src="/images/icon/light/download.svg" width="24" height="24" alt="" class="btn__icon" />
+          ${iconMarkup("download", { tone: "inverted", class: "btn__icon" })}
           Dark + Icon
         </span>
         <span class="btn__edge"></span>
       </button>
       <button class="btn btn--light btn--disabled" disabled aria-disabled="true">
         <span class="btn__face">
-          <img src="/images/icon/dark/download.svg" width="24" height="24" alt="" class="btn__icon" />
+          ${iconMarkup("download", { tone: "strong", class: "btn__icon" })}
           Light Disabled
         </span>
         <span class="btn__edge"></span>
       </button>
       <button class="btn btn--dark btn--disabled" disabled aria-disabled="true">
         <span class="btn__face">
-          <img src="/images/icon/light/download.svg" width="24" height="24" alt="" class="btn__icon" />
+          ${iconMarkup("download", { tone: "inverted", class: "btn__icon" })}
           Dark Disabled
         </span>
         <span class="btn__edge"></span>

@@ -22,7 +22,7 @@
 
 .carousel__viewport {
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: var(--border-radius-large);
   touch-action: pan-y; /* allow vertical page scroll; we handle horizontal drag */
   cursor: grab;
 }
@@ -33,7 +33,7 @@
 
 .carousel__track {
   display: flex;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--duration-slide) var(--ease-emphasized);
   will-change: transform;
 }
 
@@ -43,22 +43,21 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-16);
 }
 
 .carousel__slide img {
   width: 100%;
   display: block;
-  border-radius: 8px;
+  border-radius: var(--border-radius-large);
   object-fit: cover;
   user-select: none;
   -webkit-user-drag: none;
   cursor: zoom-in;
 }
 
+/* Type from .type-caption (typography.css); colour + alignment only here. */
 .carousel__slide figcaption {
-  font-family: var(--font-sans);
-  font-size: 16px;
   color: var(--type-tertiary);
   text-align: center;
 }
@@ -75,22 +74,16 @@
   justify-content: center;
   padding: 0;
   border: none;
-  border-radius: 999px;
+  border-radius: var(--border-radius-full);
   background-color: var(--backdrop-light);
   cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.15s ease;
+  transition: background-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
   z-index: 2;
 }
 
-/* Arrow glyph is a folder-based <img> (see carousel.ts), swapped Light/Dark by
-   theme.ts — so its colour comes from the SVG file, not currentColor. The extra
-   `.carousel` qualifier outranks the page's `.case-image-full img { width:100% }`
-   content-image rule, which would otherwise stretch the glyph to the pill width. */
-.carousel .carousel__arrow img {
-  display: block;
-  width: 24px;
-  height: 24px;
-}
+/* Arrow glyph is an inline SVG icon (see carousel.ts), coloured by the inverted
+   symbol token. The `.icon` element carries its own fixed size, so it's immune
+   to the page's `.case-image-full img { width:100% }` content-image rule. */
 
 .carousel__arrow:hover {
   background-color: var(--backdrop-medium);
@@ -113,8 +106,8 @@
 .carousel__dots {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
+  gap: var(--space-8);
+  margin-top: var(--space-20);
 }
 
 .carousel__dot {
@@ -122,9 +115,9 @@
   height: 10px;
   padding: 0;
   box-shadow: 0 0 0 1px inset var(--border-strong);
-  border-radius: 999px;
+  border-radius: var(--border-radius-full);
   cursor: pointer;
-  transition: all 0.5s ease;
+  transition: all var(--duration-slide) var(--ease-standard);
 }
 
 .carousel__dot.is-active {

@@ -7,7 +7,7 @@
 .filter-tab {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-4);
   align-items: flex-start;
   cursor: pointer;
   background: transparent;
@@ -17,7 +17,7 @@
 
 .filter-tab__label {
   color: var(--type-tertiary);
-  transition: color 120ms ease;
+  transition: color var(--duration-fast) var(--ease-standard);
 }
 
 .filter-tab__label:hover {
@@ -29,7 +29,7 @@
   width: 100%;
   height: 2px;
   background: transparent;
-  transition: background 120ms ease;
+  transition: background var(--duration-fast) var(--ease-standard);
 }
 
 /* Active state — driven by data-active attribute toggled from JS */

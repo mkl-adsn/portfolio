@@ -5,7 +5,7 @@ type FilterTabArgs = { label: string; active: boolean };
 
 function filterTab(label: string, active: boolean): string {
   return `
-    <button class="filter-tab" data-active="${active}">
+    <button type="button" role="radio" class="filter-tab" data-active="${active}" aria-checked="${active}" tabindex="${active ? 0 : -1}">
       <span class="filter-tab__label type-label-sm">${label}</span>
       <span class="filter-tab__bar"></span>
     </button>
@@ -34,7 +34,7 @@ export const Group: Story = {
   render: () => {
     const cats = ["All Skills", "Application", "Design", "Code", "Other", "Irrelevant"];
     return `
-      <div style="padding: 48px; background: var(--surface-1); display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-end;">
+      <div role="radiogroup" aria-label="Filter skills by category" style="padding: 48px; background: var(--surface-1); display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-end;">
         ${cats.map((c, i) => filterTab(c, i === 0)).join("")}
       </div>
     `;

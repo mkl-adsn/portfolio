@@ -1,0 +1,31 @@
+---
+/**
+ * Inline SVG icon, coloured by a symbol token via `currentColor`.
+ *
+ * Artwork is a single `.svg` file in src/icons/ (see src/scripts/icons.ts) —
+ * edit that file and every <Icon> using it updates. Decorative by default
+ * (aria-hidden); pair with adjacent text or an sr-only label for meaning.
+ *
+ * tone  strong (default) · medium · inverted · fixed-light
+ * size  px, drives both width and height (default 24)
+ */
+import { iconSvg, type IconName, type IconTone } from '../../scripts/icons';
+
+export interface Props {
+  name: IconName;
+  tone?: IconTone;
+  size?: number;
+  class?: string;
+}
+
+const { name, tone = 'strong', size = 24, class: className = '' } = Astro.props;
+const svg = iconSvg(name);
+---
+
+<span
+  class:list={['icon', `icon--${tone}`, className]}
+  style={`--icon-size: ${size}px`}
+  aria-hidden="true"
+  set:html={svg}
+/>
+<!-- Styles: src/styles/components/icon.css (loaded via global.css) -->

@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "check": "astro check",
     "build": "astro build",
     "build:cv": "astro build && node scripts/generate-cv-pdf.mjs",
     "generate:cv": "node scripts/generate-cv-pdf.mjs",
@@ -25,9 +26,11 @@
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@storybook/addon-docs": "^10.4.2",
     "@storybook/html-vite": "^10.4.2",
     "playwright": "^1.61.1",
-    "storybook": "^10.4.2"
+    "storybook": "^10.4.2",
+    "typescript": "^5.9.3"
   }
 }

@@ -1,0 +1,26 @@
+/* ─── Spacing ────────────────────────────────────────────────────────────────
+   A 4px-based ramp, value-named (--space-16 = 16px). This is the same grid
+   Tailwind's spacing utilities use in the markup, so `gap-6` (utility) and
+   var(--space-24) (CSS) both resolve to 24px — one grid, two entry points.
+   Component CSS should draw from these; genuine optical one-offs (negative
+   paragraph pulls, marker alignment, press-depth offsets) stay as literals. */
+:root {
+  --space-2:    2px;
+  --space-4:    4px;
+  --space-8:    8px;
+  --space-12:  12px;
+  --space-16:  16px;
+  --space-20:  20px;
+  --space-24:  24px;
+  --space-32:  32px;
+  --space-48:  48px;
+  --space-64:  64px;
+  --space-96:  96px;
+  --space-128: 128px;
+
+  /* Semantic. Only the horizontal gutter earns an alias so far: it recurs with
+     one stable value (the container side padding). Vertical section rhythm is
+     deliberately NOT tokenized — it genuinely varies per section (48–240px)
+     and lives in the layout markup, so a single --space-section would lie. */
+  --space-gutter: var(--space-96);
+}

@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/html";
+import { iconMarkup } from "../scripts/icons";
 
 // CSS: src/styles/components/skill-tag.css (imported globally in preview.ts).
-const STAR_FILLED = "/images/icon/light/star-filled.svg";
-const STAR_OUTLINE = "/images/icon/light/star-outline.svg";
-
 type SkillTagArgs = { name: string; level: 1 | 2 | 3 };
 
 function skillTag(name: string, level: 1 | 2 | 3): string {
   const stars = [1, 2, 3]
-    .map((i) => `<img src="${i <= level ? STAR_FILLED : STAR_OUTLINE}" width="16" height="16" alt="" />`)
+    .map((i) =>
+      iconMarkup(i <= level ? "star-filled" : "star-outline", { tone: "inverted", size: 16 })
+    )
     .join("");
   return `
     <div class="skill-tag">

@@ -1,6 +1,7 @@
 ---
 import { contacts } from '../content/data/contact.ts';
 import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
 ---
 
 <section id="contact" class="contact-section overflow-hidden mt-12">
@@ -14,15 +15,7 @@ import Button from '../components/ui/Button.astro';
       <ul class="list-none m-0 p-0 flex flex-col gap-4">
         {contacts.map(({ icon, label, href, external }) => (
           <li class="flex items-center gap-3">
-            <span class="w-6 h-6 flex-shrink-0">
-              <img
-                class="contact-icon"
-                src={`/images/icon/light/${icon}.svg`}
-                width="24"
-                height="24"
-                alt=""
-              />
-            </span>
+            <Icon name={icon} tone="medium" />
 
             {href ? (
               <a
@@ -51,11 +44,5 @@ import Button from '../components/ui/Button.astro';
 <style>
   .contact-section {
     background-color: var(--surface-9);
-  }
-
-  /* Convert white SVG → grey-700 (#525b6c):
-     brightness(0) collapses white to black, then the chain tints to the target hue. */
-  .contact-icon {
-    opacity:0.4;
   }
 </style>

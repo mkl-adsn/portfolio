@@ -39,16 +39,29 @@ This is a minimal [Astro](https://astro.build) project (v6).
 - **Static assets**: Files in `public/` are served as-is from the root (e.g. `public/favicon.svg` → `/favicon.svg`).
 - **Config**: `astro.config.mjs` is the main Astro configuration entry point.
 
-## Components & Storybook
+## Frontend & design system
 
-Storybook uses the HTML renderer (`@storybook/html`), so stories cannot import `.astro` files — they write the component's markup as an HTML string and rely on its CSS being loaded globally. To keep one source of truth for both the app and Storybook, every reusable component's CSS lives in a standalone stylesheet, **not** in an Astro scoped `<style>` block.
+The full conventions live in **[`docs/frontend.md`](./docs/frontend.md)** — read it
+before non-trivial CSS, token, or component work. The load-bearing rules:
 
-When adding or refactoring a reusable UI component:
+- **Tokens, not literals.** Colour, spacing, radius, z-index, and motion are
+  tokenised in `src/styles/{colors,spacing,border-radius,z-index,motion}.css`. Use the
+  tokens; keep raw values only for genuine one-offs (optical nudges, mechanism
+  offsets, local sibling z-index) and comment them. Add a *semantic* alias only when a
+  value recurs with one stable meaning.
+- **Type lives in `typography.css`.** Components compose the `.type-*` classes (or add
+  a selector to a type rule) and override only deltas (weight/colour) — they never
+  restate font-family/size/tracking.
+- **Component CSS → `src/styles/components/<name>.css`** (plain unscoped BEM-ish
+  classes, not Astro scoped `<style>` — stories can't import `.astro`). The `.astro`
+  file is markup-only; register the stylesheet in `src/styles/global.css` **only**
+  (Storybook loads the same `global.css`); add a `src/stories/<Name>.stories.ts` that
+  renders the real class names. Catalogs under `Design System/`, components under
+  `UI/`. Catalog stories read token values **live from the CSS** — never hardcode.
+- **Theme** via `:root[data-theme="dark"]` remapping semantic colour aliases only;
+  components don't branch on theme. Storybook has a light/dark toolbar — check both.
+- **Verify** frontend changes by driving the app (computed styles / behaviour), and
+  keep `astro check` + `build-storybook` green (CI enforces both).
 
-1. Put the component's CSS in `src/styles/components/<name>.css` (plain, unscoped classes — use a BEM-ish prefix like `.skill-tag__name` to avoid collisions). The `.astro` file carries only markup, with a comment pointing to its stylesheet.
-2. Import that stylesheet in **both**:
-   - `src/styles/global.css` (loads it for the app), and
-   - `.storybook/preview.ts` (loads it for Storybook).
-3. Add a story at `src/stories/<Name>.stories.ts` that renders the real class names (no inlined `<style>`). Design tokens (`--grey-900`, `--font-sans`, …) come from `tokens.css`, which preview.ts already loads.
-
-Design-system primitives (colors, icons, typography) live as catalog stories under the `Design System/` title; components under `UI/`. The page-level sections in `src/layouts/` (alongside `BaseLayout.astro`) are content/animation-coupled compositions and are not storied.
+Page-level sections in `src/layouts/` (alongside `BaseLayout.astro`) are
+content/animation-coupled compositions and are not storied.

@@ -1,3 +1,32 @@
+<!-- Figtree from Google Fonts — same weights the site loads in BaseLayout
+     (incl. 300, which dark-mode typography drops to). Warnock Pro loads via
+     @font-face in typography.css, pulled in through global.css. -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  /* Storybook-only cursor restore.
+
+     The site hides the native cursor (base.css: `cursor: none` on fine
+     pointers) because BaseLayout swaps in a custom image cursor. Storybook has
+     no such element, so importing global.css would otherwise leave the canvas
+     with no cursor at all. This lives only in the Storybook iframe — it is
+     never shipped to the site. Selectors are `:root`-prefixed so they out-
+     specify base.css's universal `* { cursor: none !important }`. */
+  @media (pointer: fine) {
+    :root *,
+    :root *::before,
+    :root *::after { cursor: auto !important; }
+
+    :root a,
+    :root button,
+    :root [role="button"],
+    :root label,
+    :root summary,
+    :root select { cursor: pointer !important; }
+
+    :root input,
+    :root textarea { cursor: text !important; }
+  }
+</style>

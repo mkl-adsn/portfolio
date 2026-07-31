@@ -1,6 +1,8 @@
+import type { IconName } from '../../scripts/icons';
+
 export interface ContactItem {
-  /** Filename (no extension) of the icon in /images/icon/light/ */
-  icon: string;
+  /** Icon name (no extension) from src/icons/ */
+  icon: IconName;
   label: string;
   href: string | null;
   external?: boolean;

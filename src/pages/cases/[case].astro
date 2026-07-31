@@ -94,6 +94,9 @@ const { Content } = await render(entry);
     margin-bottom: 64px;
   }
 
+  /* One-off display size, larger than any ramp style (bigger than .type-h1's
+     60px) and used only for the case hero — intentionally local, not a shared
+     type style. */
   .case-hero__title {
     font-family: var(--font-serif);
     font-weight: 600;
@@ -162,7 +165,7 @@ const { Content } = await render(entry);
     left: 50%;
     transform: translateX(-50%);
     width: min(1536px, calc(100vw - 192px));
-    z-index: 10;
+    z-index: var(--z-foreground);
   }
 
   :global(.case-split) {
@@ -181,13 +184,12 @@ const { Content } = await render(entry);
     display: block;
   }
 
+  /* Body type comes from .type-body (typography.css, which lists this
+     selector); layout + colour only here. */
   :global(.case-split__text) {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    font-family: var(--font-sans);
-    font-size: 18px;
-    line-height: 24px;
     color: var(--type-primary);
   }
 
@@ -204,9 +206,8 @@ const { Content } = await render(entry);
     display: block;
   }
 
+  /* Type from .type-caption (typography.css); colour/alignment/spacing here. */
   :global(.case-image-full figcaption) {
-    font-family: var(--font-sans);
-    font-size: 16px;
     color: var(--type-tertiary);
     text-align: center;
     margin-top: 16px;

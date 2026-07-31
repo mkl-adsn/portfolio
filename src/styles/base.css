@@ -1,7 +1,9 @@
 /* ─── Custom cursor ───────────────────────────────────────────────────────── */
 
- /*Hide the native cursor on mouse/trackpad devices. */
-@media (pointer: fine) {
+ /* Hide the native cursor only where the custom cursor is active: fine pointers
+    AND motion allowed. Under prefers-reduced-motion we keep the system cursor
+    (see the reduced-motion block below, and the early return in cursor.ts). */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
   *, *::before, *::after { cursor: none !important; }
 }
 
@@ -11,7 +13,7 @@
   left: 0;
   width: 164px;
   pointer-events: none;
-  z-index: 9999;
+  z-index: var(--z-cursor);
   /* Positioned off-screen until the first mousemove fires. */
   transform: translate(-400px, -400px);
   will-change: transform;
@@ -45,7 +47,7 @@
 :focus-visible {
   outline: 2px dashed var(--border-strong);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: var(--border-radius-default);
 }
 
 /* `transition` isn't inherited — every element needs its own declaration to
@@ -54,10 +56,10 @@
    more specific and simply override it for their own elements. */
 *, *::before, *::after {
   transition:
-  background-color 800ms ease-out,
-  color 800ms ease-out,
-  border-color 800ms ease-out,
-  outline-color 800ms ease-out;
+  background-color var(--duration-slow) var(--ease-crossfade),
+  color var(--duration-slow) var(--ease-crossfade),
+  border-color var(--duration-slow) var(--ease-crossfade),
+  outline-color var(--duration-slow) var(--ease-crossfade);
 }
 
 /* Kills every transition (including the page-vignette's own) while present.
@@ -95,6 +97,10 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  /* Remove the custom cursor entirely; the native cursor stays (it's no longer
+     hidden — see the gated `cursor: none` rule above). */
+  #custom-cursor { display: none; }
 }
 
 /* ─── Scrollbar ───────────────────────────────────────────────────────────── */
@@ -104,6 +110,6 @@ body {
 /* Webkit (Chrome, Edge, Safari) */
 .scrollbar::-webkit-scrollbar        { width: 20px;}
 .scrollbar::-webkit-scrollbar-track  { background: var(--surface-2);}
-.scrollbar::-webkit-scrollbar-thumb  { background-color: var(--surface-5); border-radius: 99px; border:7px solid transparent; background-clip: padding-box;}
+.scrollbar::-webkit-scrollbar-thumb  { background-color: var(--surface-5); border-radius: var(--border-radius-full); border:7px solid transparent; background-clip: padding-box;}
 .scrollbar::-webkit-scrollbar-thumb:hover { background-color: var(--surface-8); }
 .scrollbar::-webkit-scrollbar-button { display: none; }

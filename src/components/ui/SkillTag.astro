@@ -1,4 +1,7 @@
 ---
+import Icon from './Icon.astro';
+import type { IconName } from '../../scripts/icons';
+
 export interface Props {
   name: string;
   level: 1 | 2 | 3;
@@ -6,11 +9,8 @@ export interface Props {
 }
 const { name, level, categories } = Astro.props;
 
-// Light folder = white icons for use on dark (grey-900) background
-const STAR_FILLED  = '/images/icon/light/star-filled.svg';
-const STAR_OUTLINE = '/images/icon/light/star-outline.svg';
-
-const stars = [1, 2, 3].map(i => (i <= level ? STAR_FILLED : STAR_OUTLINE));
+// The pill is always dark (surface-9) → inverted (light) star glyphs.
+const stars: IconName[] = [1, 2, 3].map(i => (i <= level ? 'star-filled' : 'star-outline'));
 ---
 
 <div
@@ -23,8 +23,8 @@ const stars = [1, 2, 3].map(i => (i <= level ? STAR_FILLED : STAR_OUTLINE));
     <span class="sr-only">, proficiency {level} of 3</span>
   </span>
   <span class="skill-tag__stars" aria-hidden="true">
-    {stars.map(src => (
-      <img src={src} width="16" height="16" alt="" />
+    {stars.map(name => (
+      <Icon name={name} tone="inverted" size={16} />
     ))}
   </span>
 </div>

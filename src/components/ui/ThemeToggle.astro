@@ -1,8 +1,9 @@
 ---
 /**
  * Light/dark mode toggle — square, icon-only Button. Starts in light mode;
- * click behavior and icon swapping live in src/scripts/theme.ts.
+ * click behavior and glyph swapping (moon ↔ sun) live in src/scripts/theme.ts.
  */
+import Icon from './Icon.astro';
 ---
 
 <button
@@ -12,14 +13,7 @@
   class="btn btn--light btn--icon-only theme-toggle"
 >
   <span class="btn__face">
-    <img
-      id="theme-toggle-icon"
-      src="/images/icon/dark/moon.svg"
-      width="24"
-      height="24"
-      alt=""
-      class="btn__icon"
-    />
+    <Icon name="moon" tone="strong" class="btn__icon" />
   </span>
   <span class="btn__edge"></span>
 </button>
@@ -35,10 +29,12 @@
   /* Absolute (not fixed/sticky) — scrolls away with the page like the rest
      of the hero content. Positioned against <body>, which .page-bg makes a
      positioning context. */
+  /* No z-index: as a positioned element it already paints above the static
+     hero content, and the grain / nav / cursor sit above it via their own
+     positive z-index tokens (so the grain textures the toggle too). */
   .theme-toggle {
     position: absolute;
     top: 16px;
     right: 16px;
-    z-index: 4;
   }
 </style>

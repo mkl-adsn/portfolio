@@ -15,18 +15,18 @@
  * on the empty backdrop, or a tap outside the image all close it.
  */
 
-// Chrome glyphs are folder-based icons (like buttons). The lightbox always sits
-// on the dark backdrop, so they're always the Light-folder variant — `alt=""`
-// + `data-theme-static` keeps theme.ts from swapping them to Dark in dark mode.
-function iconTag(name: string, cls: string): string {
-  return (
-    `<img src="/images/icon/light/${name}.svg" width="24" height="24" ` +
-    `alt="" class="${cls}" data-theme-static>`
-  );
+import { iconMarkup, iconSvg, type IconName } from './icons';
+
+// Chrome glyphs are inline SVG icons. The lightbox always sits on the dark
+// backdrop (in both themes), so they use the `fixed-light` tone rather than a
+// theme-flipping token — keeping them legible regardless of theme.
+function iconTag(name: IconName, cls: string): string {
+  return iconMarkup(name, { tone: 'fixed-light', class: cls });
 }
-// The magnifier flips its glyph between fit/zoomed states; toggle its <img> src.
+// The magnifier flips its glyph between fit/zoomed states; swap the SVG inside.
 function setZoomIcon(zoomed: boolean): void {
-  zoomBtn.querySelector('img')?.setAttribute('src', `/images/icon/light/${zoomed ? 'zoom-out' : 'zoom-in'}.svg`);
+  const icon = zoomBtn.querySelector('.icon');
+  if (icon) icon.innerHTML = iconSvg(zoomed ? 'zoom-out' : 'zoom-in');
 }
 
 export interface LightboxImage {
@@ -298,7 +298,7 @@ function clampPan() {
 
 function applyTransform(animate: boolean) {
   if (!activeImg) return;
-  activeImg.style.transition = animate ? 'transform 0.25s ease' : 'none';
+  activeImg.style.transition = animate ? 'transform var(--duration-medium) var(--ease-standard)' : 'none';
   activeImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
   const zoomed = isZoomed();
   if (zoomed !== zoomedNow) {

@@ -1,0 +1,29 @@
+/* ─── Icon ───────────────────────────────────────────────────────────────── */
+/*
+  Inline SVG icons coloured by symbol tokens. The SVG artwork (src/icons/*.svg)
+  uses `currentColor`, so the icon's colour is just this element's `color` —
+  driven by the tone modifier below. Size comes from --icon-size.
+*/
+
+.icon {
+  display: inline-flex;
+  width: var(--icon-size, 24px);
+  height: var(--icon-size, 24px);
+  flex-shrink: 0;
+  color: var(--symbol-strong);
+}
+
+.icon > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Tones ───────────────────────────────────────────────────────────────── */
+.icon--strong   { color: var(--symbol-strong); }
+.icon--medium   { color: var(--symbol-medium); }
+.icon--inverted { color: var(--symbol-inverted); }
+
+/* Lightbox chrome sits on a backdrop that is dark in both themes, so it needs
+   a fixed light colour rather than a theme-flipping token. */
+.icon--fixed-light { color: var(--grey-100); }
