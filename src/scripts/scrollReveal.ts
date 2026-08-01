@@ -36,8 +36,19 @@ function wrapDrawHeading(
   });
 
   // Fill layer — row spans built by buildBodyRowsAndAnimate via Range API on
-  // the outline layer. WebkitTextStroke matches outline so glyph metrics are
-  // identical and line breaks land in the same positions.
+  // the outline layer.
+  //
+  // This used to carry `WebkitTextStroke: <outlineWidth> transparent` to "match
+  // the outline so glyph metrics are identical". That was doing nothing useful:
+  // -webkit-text-stroke is paint-only in Blink (no effect on advance widths or
+  // line breaking), and the fill rows can't re-wrap anyway — each row span holds
+  // exactly one pre-measured line (see buildBodyRowsAndAnimate). A transparent
+  // stroke also paints nothing, since fill is drawn first and source-over with
+  // zero alpha is a no-op.
+  //
+  // What it DID do is push every fill row onto Blink's path-based text raster
+  // route instead of the glyph atlas — on the one layer that repaints every
+  // scroll frame as its clip-path advances.
   const fillEl = document.createElement('span');
   fillEl.className = 'draw-fill-layer';
   Object.assign(fillEl.style, {
@@ -47,7 +58,6 @@ function wrapDrawHeading(
     color,
     whiteSpace: 'inherit',
     clipPath: 'inset(0 100% 0 0)',
-    WebkitTextStroke: `${outlineWidth} transparent`,
   });
 
   el.style.position = 'relative';
