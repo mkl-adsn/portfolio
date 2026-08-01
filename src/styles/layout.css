@@ -83,7 +83,23 @@
 :root[data-theme="dark"] .page-vignette--light { opacity: 0; }
 :root[data-theme="dark"] .page-vignette--dark  { opacity: 1; }
 
-/* Noise grain overlay — scrolls with the page */
+/* Noise grain overlay — scrolls with the page.
+   TEMPORARILY DISABLED while profiling mobile scroll performance.
+
+   Suspected cause of whole-page scroll jank on mobile: `inset: 0` on .page-bg
+   (<body>) sizes this to the full *document* height, and it carries both a
+   `filter` (forces its own render surface) and `mix-blend-mode` (forces the
+   backdrop to be kept as a separately readable texture). Together those stop
+   the content beneath from being a plain composited layer the compositor can
+   just translate on scroll — every repaint underneath (e.g. the per-frame
+   clip-path writes of the .draw-heading reveal) has to be re-blended, re-running
+   the 3-stage filter chain over the dirty rect. On a long case page the
+   document-height filter surface is also real GPU memory pressure.
+
+   If this confirms the diagnosis, the fix is to re-enable it as a viewport-sized
+   `position: fixed` layer with the brightness/contrast/grayscale baked into the
+   SVG data URI instead of a live CSS filter. */
+/*
 .page-bg::after {
   content: '';
   position: absolute;
@@ -91,11 +107,12 @@
   z-index: var(--z-grain);
   pointer-events: none;
   opacity: 0.15;
-  mix-blend-mode: hard-light;  
+  mix-blend-mode: hard-light;
   background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   filter: brightness(75%) contrast(120%) grayscale(0.8);
   background-size: 500px 500px;
 }
+*/
 .contact-section {
    position: relative;
 }
