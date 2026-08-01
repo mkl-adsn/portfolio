@@ -49,6 +49,9 @@
   position: absolute;
   inset: 0;
   background-color:var(--backdrop-strong);
+  /* Same 12px frost as the nav bar (nav.css) so both scrims read alike. */
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
 }
 
 /* Keep the page from scrolling behind an open lightbox. */

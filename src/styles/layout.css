@@ -83,30 +83,42 @@
 :root[data-theme="dark"] .page-vignette--light { opacity: 0; }
 :root[data-theme="dark"] .page-vignette--dark  { opacity: 1; }
 
-/* Noise grain overlay — scrolls with the page (page-anchored paper texture, NOT
-   a fixed screen overlay: it has to travel with the content it's texturing).
+/* ─── Noise grain overlay ─────────────────────────────────────────────────── */
+/*
+  Paper-texture grain, page-anchored: it scrolls WITH the content it textures.
+  Deliberately not `position: fixed` — that reads as a static grainy screen
+  sitting in front of the page rather than a texture on it.
 
-   PERF PROBE — the `filter` line is deliberately removed right now.
+  The tonal adjustment is baked into the SVG's own filter chain instead of being
+  applied as a CSS `filter`. A CSS filter forces a render surface sized to the
+  element, and `inset: 0` on .page-bg (<body>) makes that the full DOCUMENT
+  height — so every repaint beneath it (e.g. the per-frame clip-path writes of
+  the .draw-heading reveal) drags that surface along. That was the confirmed
+  cause of whole-page scroll jank on mobile. Baked into the SVG, the same
+  adjustment runs once when the texture is rasterized, then stays cached.
 
-   A `filter` forces its own render surface sized to the element, and `inset: 0`
-   on .page-bg (<body>) makes that the full DOCUMENT height. That surface has to
-   be composited separately, so every repaint beneath it (e.g. the per-frame
-   clip-path writes of the .draw-heading reveal) drags the whole thing along —
-   this was confirmed as the cause of whole-page scroll jank on mobile.
+  The bake, from the original `brightness(75%) contrast(120%)`:
+    out = (0.75·in)·1.2 + (0.5 − 0.5·1.2) = 0.9·in − 0.1
+  hence feComponentTransfer linear, slope 0.9, intercept −0.1 — on R/G/B only,
+  since CSS brightness/contrast leave alpha alone (no feFuncA).
 
-   `position: absolute` and `mix-blend-mode` are believed innocent by comparison:
-   a repeating background at document height only rasterizes visible tiles, and
-   because the grain is page-anchored it scrolls *together* with its backdrop, so
-   the blended result is stable and can rasterize into the scrolling tiles.
+  Then `grayscale(0.8)` → `feColorMatrix type='saturate' values='0.2'`. This one
+  earns its keep: feTurbulence writes independent R/G/B/A channels, so the source
+  noise is chromatic, not grayscale, and without this the grain carries a colour
+  cast.
 
-   Grain therefore renders untinted (too bright, too colourful) until the
-   brightness/contrast/grayscale is baked into the SVG filter chain itself:
-     brightness(.75) then contrast(1.2)  →  feComponentTransfer linear,
-                                            slope 0.9, intercept -0.1
-     grayscale(0.8)                      →  feColorMatrix saturate 0.2
-   Both need color-interpolation-filters="sRGB" (CSS filters are sRGB, SVG
-   filters default to linearRGB) — but NOT the feTurbulence, which currently
-   generates in linearRGB. Needs a side-by-side A/B when it lands. */
+  `color-interpolation-filters='sRGB'` sits on the feComponentTransfer and the
+  feColorMatrix, but NOT on the <filter> itself. CSS filters operate in sRGB
+  while SVG filters default to linearRGB, so each primitive that stands in for a
+  CSS filter function needs it individually — while feTurbulence must keep
+  generating in linearRGB to produce the same noise it always has.
+
+  Shared with .nav::after (nav.css) so the two grains can't drift apart.
+*/
+:root {
+  --grain-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeComponentTransfer color-interpolation-filters='sRGB'%3E%3CfeFuncR type='linear' slope='0.9' intercept='-0.1'/%3E%3CfeFuncG type='linear' slope='0.9' intercept='-0.1'/%3E%3CfeFuncB type='linear' slope='0.9' intercept='-0.1'/%3E%3C/feComponentTransfer%3E%3CfeColorMatrix type='saturate' values='0.2' color-interpolation-filters='sRGB'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
 .page-bg::after {
   content: '';
   position: absolute;
@@ -115,7 +127,7 @@
   pointer-events: none;
   opacity: 0.15;
   mix-blend-mode: hard-light;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background: var(--grain-image);
   background-size: 500px 500px;
 }
 .contact-section {
