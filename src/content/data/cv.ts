@@ -82,7 +82,7 @@ export const education: EducationEntry[] = [
     institution: 'Linköping University',
     period: '2009‑2012',
     degree: 'Graphic Design and Communication (Grafisk Design och Kommunikation)',
-    description: `A theory-focused programme covering design history, visual rhetoric, information design, HCI/UX, intellectual property law, and marketing communications — the conceptual groundwork underpinning my design practice.`,
+    description: `A theory-focused programme covering design history, visual rhetoric, information design, HCI/UX, intellectual property law, and marketing communications.`,
   },
   {
     institution: 'Törnströmska Gymnasiet',

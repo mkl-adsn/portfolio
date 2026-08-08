@@ -1,0 +1,57 @@
+/* ─── Device frame ───────────────────────────────────────────────────────── */
+/*
+  A phone shell (<img>) with a screen recording (<video>) composited on top of
+  it. The shell is the sizing basis: it fills whatever width the layout gives
+  the frame, and the screen is positioned in *percentages of the shell*, so the
+  two scale together as one element at any size.
+
+  Markup:
+
+    <div class="device-frame" style="--screen-y: 4%;">
+      <img class="device-frame__shell" src="…/phone.png" alt="" />
+      <video class="device-frame__screen" src="…/clip.mp4" …></video>
+    </div>
+
+  Position the screen with --screen-x / --screen-y / --screen-w below — set them
+  inline on the .device-frame element (as above) to tune one instance without
+  touching this file. They're percentages of the shell, so a nudge holds at
+  every viewport width.
+*/
+
+.device-frame {
+  /* Shell's intrinsic pixel size. Also drives the aspect ratio, and lets a
+     layout cap the frame by height (see .case-split in pages/cases/[case].astro). */
+  --frame-w: 400;
+  --frame-h: 820;
+
+  /* Screen width, as a share of the shell's width. Default 90% = a 360px-wide
+     recording on a 400px-wide shell. */
+  --screen-w: 90%;
+  /* Horizontal position of the screen's *centre*: 50% = centred on the shell. */
+  --screen-x: 50%;
+  /* Vertical position of the screen's *top edge*: 0% = flush with the top. */
+  --screen-y: 0%;
+
+  position: relative;
+  /* Declared up front so the percentage offsets resolve — and the box holds its
+     height — before the shell image has loaded. */
+  aspect-ratio: var(--frame-w) / var(--frame-h);
+}
+
+.device-frame__shell {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Sits above the shell: these recordings are of the screen content only, and
+   the shell PNG carries no glass/bezel layer that needs to show through. */
+.device-frame__screen {
+  position: absolute;
+  left: var(--screen-x);
+  top: var(--screen-y);
+  transform: translateX(-50%);
+  width: var(--screen-w);
+  height: auto;
+  display: block;
+}

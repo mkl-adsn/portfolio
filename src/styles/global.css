@@ -16,5 +16,6 @@
 @import "./components/nav.css";
 @import "./components/search-box.css";
 @import "./components/carousel.css";
+@import "./components/device-frame.css";
 @import "./components/lightbox.css";
 @import "./animations.css";

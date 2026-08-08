@@ -176,7 +176,13 @@ const { Content } = await render(entry);
     margin: 48px auto;
   }
 
-  :global(.case-split img) {
+  /* A split's media slot is an <img>, a <video>, or a .device-frame wrapper —
+     all size the same: scale down to the column, capped at 60vh so a tall
+     portrait screenshot can't outgrow the viewport. The intrinsic width/height
+     attributes hold the box before the media loads. Direct children only, so
+     the cap doesn't reach the media *inside* a .device-frame. */
+  :global(.case-split > img),
+  :global(.case-split > video) {
     width: auto;
     max-width: 100%;
     height: auto;
@@ -184,17 +190,27 @@ const { Content } = await render(entry);
     display: block;
   }
 
+  /* A .device-frame is a block box whose height follows from its width via
+     aspect-ratio, so max-height wouldn't shrink it — cap the *width* instead,
+     at whatever makes the derived height land on the same 60vh. */
+  :global(.case-split > .device-frame) {
+    width: min(100%, calc(60vh * var(--frame-w) / var(--frame-h)));
+    margin-inline: auto;
+  }
+
   /* Body type comes from .type-body (typography.css, which lists this
      selector); layout + colour only here. */
   :global(.case-split__text) {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 24px;
     color: var(--type-primary);
   }
 
 
-  :global(.case-split--image-right img) { order: 2; }
+  :global(.case-split--image-right > img),
+  :global(.case-split--image-right > video),
+  :global(.case-split--image-right > .device-frame) { order: 2; }
   :global(.case-split--image-right .case-split__text) { order: 1; }
 
   :global(.case-image-full) {
@@ -228,7 +244,9 @@ const { Content } = await render(entry);
       grid-template-columns: 1fr;
       gap: 32px;
     }
-    :global(.case-split--image-right img) { order: unset; }
+    :global(.case-split--image-right > img),
+    :global(.case-split--image-right > video),
+    :global(.case-split--image-right > .device-frame) { order: unset; }
     :global(.case-split--image-right .case-split__text) { order: unset; }
   }
 </style>
