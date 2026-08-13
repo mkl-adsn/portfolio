@@ -1,6 +1,6 @@
 ---
 title: "QuizDuel 2"
-description: "A ground-up redesign of one of Sweden's biggest mobile games, taken from bare technical demo to closed beta in under six months."
+description: "A redesign of one of Sweden's biggest mobile games, taken from bare technical demo to closed beta in under six months."
 tags: ["UI Design", "Art Direction", "Game Design", "Photoshop", "Illustrator", "After Effects", "Unity"]
 image: "/images/case/quizduel/thumbnail.webp"
 imageOrientation: landscape

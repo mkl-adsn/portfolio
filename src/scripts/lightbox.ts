@@ -239,8 +239,13 @@ function setActiveImage() {
 function geom() {
   const img = activeImg;
   if (!img || !img.naturalWidth) return null;
-  const boxW = img.clientWidth;
-  const boxH = img.clientHeight;
+  // Layout box at subpixel precision: clientWidth/clientHeight round to whole
+  // pixels, and half a pixel of error in the fit size puts the "native" scale
+  // just off 1:1, which resamples the image. Computed style is the used value
+  // and — unlike getBoundingClientRect — ignores the zoom transform.
+  const cs = getComputedStyle(img);
+  const boxW = parseFloat(cs.width) || img.clientWidth;
+  const boxH = parseFloat(cs.height) || img.clientHeight;
   const ar = img.naturalWidth / img.naturalHeight;
   let contentW: number;
   let contentH: number;
@@ -251,8 +256,19 @@ function geom() {
     contentW = boxW;
     contentH = boxW / ar;
   }
-  const maxScale = Math.max(1, img.naturalWidth / contentW);
-  return { boxW, boxH, contentW, contentH, maxScale };
+  // The zoom cap wants one source pixel per *physical* pixel — the point where
+  // all the detail is on screen and nothing is resampled. On a HiDPI or
+  // fractionally-scaled display that is dpr× smaller than native CSS size, so a
+  // `naturalWidth / contentW` cap makes the compositor upscale by dpr and the
+  // "100%" view looks soft.
+  const dpr = window.devicePixelRatio || 1;
+  const crispScale = img.naturalWidth / (contentW * dpr);
+  // …unless the fit box already has more physical pixels than the source has
+  // pixels. There's no crisp stop to land on then, so fall back to native CSS
+  // size so zooming still magnifies (it just can't be pixel-exact).
+  const crisp = crispScale > 1 + ZOOM_EPS;
+  const maxScale = crisp ? crispScale : Math.max(1, img.naturalWidth / contentW);
+  return { boxW, boxH, contentW, contentH, maxScale, crisp, dpr };
 }
 
 // Screen-space centre of the active image at its fit position (tx/ty = 0). The
@@ -294,12 +310,50 @@ function clampPan() {
   } else {
     ty = vp.top + vp.height / 2 - fitCy;
   }
+
+  // Sitting on the crisp cap, nudge the content onto the physical pixel grid:
+  // even an exact 1:1 scale is resampled (and softened) when the image's edges
+  // land mid-pixel. The shift is under one device pixel, so it reads as nothing.
+  if (g.crisp && scale >= g.maxScale - 1e-4) {
+    const left = fitCx + tx - halfW;
+    const top = fitCy + ty - halfH;
+    tx += Math.round(left * g.dpr) / g.dpr - left;
+    ty += Math.round(top * g.dpr) / g.dpr - top;
+  }
+}
+
+// `will-change: transform` pins a composited layer's raster scale: the browser
+// keeps the texture it rasterised at the fit size and stretches it, so a zoomed
+// image stays soft no matter how exact the transform is. So the hint is held
+// only while the transform is actually moving (gestures, the zoom transition)
+// and dropped afterwards, letting the layer re-rasterise at the settled scale.
+let rasterHintTimer = 0;
+
+function holdRasterHint() {
+  clearTimeout(rasterHintTimer);
+  if (activeImg) activeImg.style.willChange = 'transform';
+}
+
+// Clears the hint on every slide, so a hint left behind by a gesture that ended
+// in a navigation (active image swapped out) goes with it.
+function dropRasterHint(afterMs = 0) {
+  clearTimeout(rasterHintTimer);
+  rasterHintTimer = window.setTimeout(() => {
+    track.querySelectorAll<HTMLElement>('.lightbox__image').forEach((el) => {
+      el.style.willChange = '';
+    });
+  }, afterMs);
 }
 
 function applyTransform(animate: boolean) {
   if (!activeImg) return;
   activeImg.style.transition = animate ? 'transform var(--duration-medium) var(--ease-standard)' : 'none';
   activeImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+  if (animate) {
+    holdRasterHint();
+    // Read the duration back off the element rather than restating the token.
+    dropRasterHint(parseFloat(getComputedStyle(activeImg).transitionDuration) * 1000 || 0);
+  }
   const zoomed = isZoomed();
   if (zoomed !== zoomedNow) {
     zoomedNow = zoomed;
@@ -389,6 +443,7 @@ function attachSwipe() {
     mode = isZoomed() ? 'pan' : 'swipe';
     track.style.transition = 'none';
     if (activeImg) activeImg.style.transition = 'none';
+    holdRasterHint();
   }
 
   function beginPinch() {
@@ -402,6 +457,7 @@ function attachSwipe() {
     track.style.transition = 'none';
     track.style.transform = `translateX(${-index * 100}%)`;
     if (activeImg) activeImg.style.transition = 'none';
+    holdRasterHint();
   }
 
   function handleTap(x: number, y: number) {
@@ -486,6 +542,9 @@ function attachSwipe() {
     if (mode === 'pan') {
       if (pointers.size === 0) {
         mode = 'none';
+        // Dropped before the tap: if it turns out to be a double-tap zoom, the
+        // animated transform re-holds the hint for the duration.
+        dropRasterHint();
         if (!moved) handleTap(e.clientX, e.clientY);
         else applyTransform(true);
       }
@@ -495,6 +554,7 @@ function attachSwipe() {
     // Swipe end.
     mode = 'none';
     track.style.transition = '';
+    dropRasterHint();
     if (!moved) {
       handleTap(e.clientX, e.clientY);
       if (onImage) position();

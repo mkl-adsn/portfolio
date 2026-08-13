@@ -113,10 +113,12 @@ body.lightbox-open {
   display: block;
   user-select: none;
   -webkit-user-drag: none;
-  /* Zoom/pan transform is applied inline by the script; scale about the centre
-     and hint the compositor. */
+  /* Zoom/pan transform is applied inline by the script; scale about the centre.
+     Deliberately no `will-change: transform` here — a standing hint pins the
+     layer's raster scale, which leaves a zoomed image stretched from its
+     fit-size texture (i.e. blurry). lightbox.ts sets the hint inline for the
+     duration of a gesture/transition instead. */
   transform-origin: center center;
-  will-change: transform;
 }
 
 /* Multi-image groups can be dragged/swiped between slides. */
