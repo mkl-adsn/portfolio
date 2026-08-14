@@ -25,11 +25,17 @@
   height: auto;
 }
 
-/* Default: show default, hide pressed */
+/* Only one of the three frames is ever displayed. Default is the resting one;
+   is-hover (pointer over something clickable) and is-pressed layer on top, with
+   pressed winning so a click on a link doesn't show the hover frame. */
+#custom-cursor .cursor-hover,
 #custom-cursor .cursor-pressed { display: none; }
 
-/* Pressed state: swap images */
-#custom-cursor.is-pressed .cursor-default { display: none; }
+#custom-cursor.is-hover .cursor-default { display: none; }
+#custom-cursor.is-hover .cursor-hover { display: block; }
+
+#custom-cursor.is-pressed .cursor-default,
+#custom-cursor.is-pressed .cursor-hover { display: none; }
 #custom-cursor.is-pressed .cursor-pressed { display: block; }
 
 /* Pointer left the browser window */

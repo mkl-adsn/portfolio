@@ -143,6 +143,11 @@ are **not** storied.
 - Interactive components carry real ARIA — the skills filter is a `radiogroup` with
   roving arrow-key focus; the lightbox manages focus and labels. Keyboard focus uses
   `:focus-visible`. Keep that bar for anything new.
+- The custom cursor (`cursor.ts` + `base.css`) has three frames — default, hover,
+  pressed — swapping on `is-hover` / `is-pressed`. Natively interactive elements get
+  the hover frame for free; anything made clickable by JS needs adding to
+  `CLICKABLE_SELECTOR` or marking `data-cursor="hover"`. All three PNGs share one @2x
+  canvas, so the nib hotspot is a single constant.
 
 ## Quality gates
 

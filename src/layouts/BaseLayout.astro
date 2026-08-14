@@ -98,9 +98,10 @@ const socialImageURL = new URL(image, Astro.site);
     <div class="page-vignette page-vignette--light" aria-hidden="true"></div>
     <div class="page-vignette page-vignette--dark" aria-hidden="true"></div>
 
-    <!-- Custom cursor: two images swapped on mousedown/up. Hidden on touch devices via CSS. -->
+    <!-- Custom cursor: three images swapped on hover and mousedown/up. Hidden on touch devices via CSS. -->
     <div id="custom-cursor" aria-hidden="true">
       <img class="cursor-default" src="/images/cursor/cursor-default.png" alt="" draggable="false" />
+      <img class="cursor-hover" src="/images/cursor/cursor-hover.png" alt="" draggable="false" />
       <img class="cursor-pressed" src="/images/cursor/cursor-pressed.png" alt="" draggable="false" />
     </div>
     <ThemeToggle />

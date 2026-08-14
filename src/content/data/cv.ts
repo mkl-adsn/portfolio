@@ -39,8 +39,8 @@ export const workExperience: WorkEntry[] = [
     period: '2017‑2018',
     role: 'UX/UI Game Artist',
     description: [
-      `Designed a new admin panel interface for Quizkampen Business (the enterprise version of QuizClash), enabling clients to manage their quizzes and question databases. Also produced brochures, flyers, and landing pages for the sales team.`,
-      `Worked as lead designer for QuizClash 2. Created the new visual identity, wireframes, and UI art, and implemented them in Unity alongside the development team. Contributed visual effects, animations, and game design.`,
+      `Designed a new admin panel interface for Quizkampen Business (the enterprise version of QuizDuel), enabling clients to manage their quizzes and question databases. Also produced brochures, flyers, and landing pages for the sales team.`,
+      `Worked as lead designer for QuizDuel 2. Created the new visual identity, wireframes, and UI art, and implemented them in Unity alongside the development team. Contributed visual effects, animations, and game design.`,
     ],
   },
   {

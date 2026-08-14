@@ -5,6 +5,11 @@
  * Touch / coarse-pointer devices keep the native cursor and the
  * #custom-cursor element is hidden entirely via CSS.
  *
+ * Three frames (default / hover / pressed) swapped via classes in base.css:
+ * `is-hover` while the pointer is over something clickable, `is-pressed` while
+ * the button is down. All three PNGs share the same @2x canvas, so the hotspot
+ * below holds for every frame.
+ *
  * The cursor image has the pen nib at a fixed pixel offset from its
  * top-left corner (HOTSPOT_X, HOTSPOT_Y). The transform is adjusted
  * so the nib tracks the exact mouse position.
@@ -16,6 +21,26 @@ import { prefersReducedMotion } from './motion';
 // Tune these if the cursor images are resized.
 const HOTSPOT_X = 68;
 const HOTSPOT_Y = 34;
+
+// What counts as "clickable" for the hover frame: natively interactive
+// elements, the two things JS makes clickable (lightbox triggers and carousel
+// slides — both open the lightbox), and `data-cursor="hover"` as an opt-in hook
+// for anything added later. Disabled controls set `pointer-events: none`, so
+// they never fire these events in the first place.
+const CLICKABLE_SELECTOR = [
+  'a[href]',
+  'button',
+  'summary',
+  'select',
+  'label[for]',
+  '[role="button"]',
+  '[role="link"]',
+  '[role="radio"]',
+  '[role="tab"]',
+  '[data-lightbox]',
+  '.carousel__slide',
+  '[data-cursor="hover"]',
+].join(',');
 
 // Interpolation factor per frame (0–1). Lower = more trail, higher = snappier.
 // At 60 fps, 0.12 gives ~4-5 frames of lag on a fast move.
@@ -104,7 +129,23 @@ export function initCustomCursor() {
   document.addEventListener('pointercancel', clearPressed);
   window.addEventListener('blur', clearPressed);
 
-  // Hide the cursor element when the pointer leaves the browser window.
-  document.addEventListener('mouseleave', () => el!.classList.add('is-outside'));
+  // Hover frame. `pointerover` alone covers both directions: it fires on every
+  // element the pointer enters, so leaving a link fires it on whatever is
+  // underneath and `closest` comes back null. Re-deriving the state on each
+  // event (rather than toggling on over/out pairs) also means moving between
+  // children of the same link never flickers the frame off and on.
+  const syncHover = (target: EventTarget | null) => {
+    const over = target instanceof Element && target.closest(CLICKABLE_SELECTOR) !== null;
+    el!.classList.toggle('is-hover', over);
+  };
+
+  document.addEventListener('pointerover', (e) => syncHover(e.target), { passive: true });
+
+  // Hide the cursor element when the pointer leaves the browser window, and
+  // drop the hover frame with it — no `pointerover` follows on the way out.
+  document.addEventListener('mouseleave', () => {
+    el!.classList.add('is-outside');
+    el!.classList.remove('is-hover');
+  });
   document.addEventListener('mouseenter', () => el!.classList.remove('is-outside'));
 }

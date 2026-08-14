@@ -1,6 +1,6 @@
 ---
 title: "Unionen"
-description: "Helping Sweden's largest trade union through their digitalization journey, improving the digital experience for both members and elected representatives."
+description: "Helping Sweden's largest trade union through their digitalisation journey, improving the digital experience for both members and elected representatives."
 tags: ["Figma", "UI Design", "Design Systems", "UX Research", "Drupal CMS"]
 image: "/images/case/unionen/thumbnail.webp"
 imageOrientation: landscape
@@ -13,12 +13,12 @@ comingSoon: false
 In 2018 with the launch of their new website, Unionen stepped up its digitalisation efforts, moving services online so that members and elected representatives could get the help they need without phoning in or filling out a paper form. Between 2019 and 2022 I worked as a consultant on that journey, embedded in several development teams and taking each project from brief to launch: research, concept and requirements, prototyping and user testing, final design, and QA alongside the developers.
 
 * **Member and representative services:** Designed and redesigned services for both sides of the organisation, from a work-law knowledge base, a salary coach and a collective agreement reader for members who visit the site rarely and usually under stress, to the administrative tools used by Unionen's 27,000 elected representatives, of which the Annual Meeting Tool was the largest.
-* **Unionen UI:** Established and maintained Unionen's Figma design system, including a hand-drawn library icons and responsive components mapped to the front-end's Sass variables and naming conventions.
+* **Unionen UI:** Established and maintained Unionen's Figma design system, including a hand-drawn library of icons and responsive components mapped to the front-end's Sass variables and naming conventions.
 * **Working within constraints:** Much of the work meant designing on top of an established backend and an existing visual language, finding the best experience achievable within what was already there rather than what could be built from scratch.
 
 
 <div class="case-split case-split--image-left">
-  <img src="/images/case/unionen/unionen-logo.webp" alt="The Universum logo"/>
+  <img src="/images/case/unionen/unionen-logo.webp" alt="The Unionen logo"/>
   <div class="case-split__text">
     <h2>The organisation</h2>
     <p>Unionen is Sweden's largest trade union, representing more than 600,000 members and 27,000 elected representatives across some 88,000 private-sector workplaces. Its members are white-collar professionals in almost every industry in the country, and its role in their working lives ranges from providing salary statistics to backing them through a redundancy or a dispute with an employer.</p>
@@ -54,18 +54,18 @@ It covered colours, typography, shadows, icons and components, together with doc
     <div class="carousel__track">
       <figure class="carousel__slide">
         <img src="/images/case/unionen/icons.webp" alt="Icons from the design system" />
-        <figcaption>Set of icons from Unionen UI. Most icons in the deisgn system was drawn with between two and three levels of detail, 16, 24, and 40px.</figcaption>
+        <figcaption>Set of icons from Unionen UI. Most icons in the design system were drawn with between two and three levels of detail, 16, 24, and 40px.</figcaption>
       </figure>
       <figure class="carousel__slide">
         <img src="/images/case/unionen/icons-documentation.webp" alt="Example of design system documentation" />
-        <figcaption>The Figma design system contains documentation for to help designers and developers use the icons correctly.</figcaption>
+        <figcaption>The Figma design system contains documentation to help designers and developers use the icons correctly.</figcaption>
       </figure>
        <figure class="carousel__slide">
         <img src="/images/case/unionen/components.webp" alt="A selection of components from the design system" />
                 <figcaption>A selection of components from the design system.</figcaption>
       </figure>
       <figure class="carousel__slide">
-        <img src="/images/case/unionen/colors.webp" alt="Excerpt from the Color page in the design system" />
+        <img src="/images/case/unionen/colors.webp" alt="Excerpt from the Colour page in the design system" />
       </figure>
     </div>
   </div>
@@ -99,7 +99,7 @@ I led the UI and UX work on the tool, supported by one of Unionen's service desi
 
 
 <div class="case-split case-split--image-right max-w-6xl" data-lightbox>
-  <img src="/images/case/unionen/under-motet.webp" alt="Live protcol" />
+  <img src="/images/case/unionen/under-motet.webp" alt="Live protocol" />
   <div class="case-split__text">
     <p>During the meeting, that agenda becomes a live protocol the secretary fills in as each item is dealt with, keeping the meeting on track and saving continuously so nothing is lost if a laptop closes or a connection drops.</p>
   </div>

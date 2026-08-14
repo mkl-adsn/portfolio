@@ -50,7 +50,7 @@ I was the in-house UX/UI designer responsible for the design of all three produc
 
 ### Tools & approach
 
-Figma was my main design tool, where I built and maintained tokenized design systems for all three products. This helped keep the work structured and much easier to implement, acting as a single source of truth, speeding up design and hand-off, and  ensuring tight parity between design and code to ensure what shipped was what was designed.
+Figma was my main design tool, where I built and maintained tokenised design systems for all three products. This helped keep the work structured and much easier to implement, acting as a single source of truth, speeding up design and hand-off, and ensuring tight parity between design and code to ensure what shipped was what was designed.
 
 For the company website I extended this into UX-engineering, configuring the CMS Storyblok and using Claude Code with the Figma MCP to take my designs straight into production code myself.
 
@@ -109,7 +109,7 @@ I redesigned CareerTest end to end, working two problems at once: a smoother, mo
 <div class="case-split case-split--image-left max-w-6xl" data-lightbox>
   <img src="/images/case/universum/ct-survey.webp" alt="Mobile design for the CareerTest landing page and a survey question" />
   <div class="case-split__text">
-    <p>I refreshed the survey visuals and improved the UX to minimize churn. Together with the data scientists I also helped restructure questions with high drop-off rates. To push completions higher, I ran regular A/B experiments on gamification and retention features.</p>
+    <p>I refreshed the survey visuals and improved the UX to minimise churn. Together with the data scientists I also helped restructure questions with high drop-off rates. To push completions higher, I ran regular A/B experiments on gamification and retention features.</p>
   </div>
 </div>
 
@@ -142,7 +142,7 @@ Finally, I supported the digital marketing team by creating image and video ad t
 
 ### Outcome
 
-The redesign improved conversion, with more users completing the test, which lowered the cost of one of Universum’s biggest expenses, data collection. User satisfaction with the result-page content improved markedly which contributed to more organic shares, and the Mixpanel tracking gave the team an in depth view of the user journey to guide further improvements.
+The redesign improved conversion, with more users completing the test, which lowered the cost of one of Universum’s biggest expenses, data collection. User satisfaction with the result-page content improved markedly which contributed to more organic shares, and the Mixpanel tracking gave the team an in-depth view of the user journey to guide further improvements.
 
 
 ---
@@ -158,7 +158,7 @@ The Insights Platform was a young product, built up fast, where the priority had
 
 ### Approach & solution
 
-I conducted in-depth interviews with several clients, both power users and those who only used the platform occasionally, to learn about their needs and pain points. I also talked extensively with the product owner, sales, and other internal stakeholders to understand their perspectives. Based on the feedback, I realigned both the platform UI and the exportable Powerpoint with the Universum brand and reworked the navigation and page structure around how clients used the platform when looking for answers.
+I conducted in-depth interviews with several clients, both power users and those who only used the platform occasionally, to learn about their needs and pain points. I also talked extensively with the product owner, sales, and other internal stakeholders to understand their perspectives. Based on the feedback, I realigned both the platform UI and the exportable PowerPoint with the Universum brand and reworked the navigation and page structure around how clients used the platform when looking for answers.
 
 <div class="carousel case-image-full" data-carousel>
   <div class="carousel__viewport">
@@ -181,7 +181,7 @@ I conducted in-depth interviews with several clients, both power users and those
 
 
 <div class="case-split case-split--image-right max-w-6xl" data-lightbox>
-  <img src="/images/case/universum/uip-filters.webp" alt="Closeup of the desktop esign for the filters side panel" />
+  <img src="/images/case/universum/uip-filters.webp" alt="Close-up of the desktop design for the filters side panel" />
   <div class="case-split__text">
     <p>I redesigned and expanded the filters and moved them in a side panel to make them available from everywhere in the platform. The improved filters allowed clients to easily explore and slice the data by the dimensions that mattered to them.</p>
   </div>
@@ -190,8 +190,8 @@ I conducted in-depth interviews with several clients, both power users and those
 Working closely with stakeholders and data engineers, I shaped and designed several new insights modules that packaged the raw data into clear, actionable stories and redesigned and expanded several existing ones to better serve the clients’ needs. The result is a modern, on-brand, self-serve platform that helps clients get to their insight without needing to contact their key account manager to guide them through the process.
 
 <div class="case-image-full" data-lightbox>
-  <img src="/images/case/universum/uip-powerpoint.webp" alt="A collection of Powerpoint slides exported by the Insights Platform" />
-  <figcaption>Clients can export everything to Powerpoint for easy presentation. All market and filter settings made on the platform are kept in the export.</figcaption>
+  <img src="/images/case/universum/uip-powerpoint.webp" alt="A collection of PowerPoint slides exported by the Insights Platform" />
+  <figcaption>Clients can export everything to PowerPoint for easy presentation. All market and filter settings made on the platform are kept in the export.</figcaption>
 </div>
 
 ### Outcome
@@ -202,6 +202,6 @@ The redesigned platform made it easier for clients to explore their data, and th
 
 Working across all three products gave me an end-to-end view of a data business, from the survey that collects the data, to the website that markets it, to the platform that delivers it to clients. The through-line was the same each time: take something complex and data-heavy and repackage it into something that is clear, on-brand, and genuinely useful to its users.
 
-A big takeaway is how much of design happens before the first wireframe. To design any one of these products well, you first had to understand the business as a whole: where the data comes from, the cost to collect it, how it is packaged and sold, and how it fits together. Understanding those connections is what allowed me to prioritize the work that had the most impact rather than what was simply most visible.
+A big takeaway is how much of design happens before the first wireframe. To design any one of these products well, you first had to understand the business as a whole: where the data comes from, the cost to collect it, how it is packaged and sold, and how it fits together. Understanding those connections is what allowed me to prioritise the work that had the most impact rather than what was simply most visible.
 
 That understanding can only come from talking to people in very different roles. Internally I worked with product managers, engineers, data scientists, sales, marketing, brand, and key account managers, each of whom held a different piece of the puzzle and what they considered to be most important. Externally I interviewed clients, from power users to occasional ones, and listened to the students and professionals taking CareerTest. Learning to ask the right questions of each group and reconcile conflicting priorities into one coherent direction turned out to be just as central as anything I did in Figma.

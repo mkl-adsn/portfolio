@@ -63,7 +63,7 @@ Complex animations were mocked up in After Effects before anything was implement
   <img src="/images/case/quizduel/avatar-chat.webp" alt="Mobile design for the avatar workshop and chat interface" />
   <div class="case-split__text">
     <h2>Express yourself</h2>
-    <p>I planned and designed a customisation system built from hundreds of combinable parts, including hair, eyes, mouths, skin tones, headwear and accessories. The avatar art was created by our in-house artist. I modified the supplied assets and created filters that could be applied programmatically to allow for further customization of individual art assets.</p>
+    <p>I planned and designed a customisation system built from hundreds of combinable parts, including hair, eyes, mouths, skin tones, headwear and accessories. The avatar art was created by our in-house artist. I modified the supplied assets and created filters that could be applied programmatically to allow for further customisation of individual art assets.</p>
     <p>Rather than being a separate window as in the original QuizDuel, the chat was rebuilt to be available throughout the app so the conversation could be kept going everywhere, even during play.</p>
   </div>
 </div>
@@ -94,7 +94,7 @@ During that beta, our studio and its portfolio of games were acquired by another
 
 When working on a game, it's clear that an interface has another job apart from being functional and frictionless; it also has to be entertaining and feel good to use in its own right. That is not a lesson confined to games, since any product is better when an interface feels rewarding to use, and it is something I have taken with me into work that has nothing to do with play. Much of that lives in the timing. A few hundred milliseconds of easing on a button, a short pause before a gift opens, or a bounce that settles at just the right moment. None of it shows up in a static mockup but it is what decides whether a screen feels alive or inert and is why I did the final pass inside the engine.
 
-The other lesson was restraint. A good part of the work was identifying what could not be touched, in this case the gameplay loop and the existing library of questions, and figure our how to work around it.
+The other lesson was restraint. A good part of the work was identifying what could not be touched, in this case the gameplay loop and the existing library of questions, and figure out how to work around it.
 
 QuizDuel 2 might never have shipped, but it changed how I have approached every product I have worked on since.
 
