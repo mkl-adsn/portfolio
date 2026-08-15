@@ -1,15 +1,3 @@
-/* ─── Typography ─────────────────────────────────────────────────────────── */
-/*
-  Scale (from Figma):
-    H1        Warnock Pro 400/600  60px  line-height 64px
-    H2        Warnock Pro 600      48px  line-height 1
-    H3        Warnock Pro 600      28px  line-height 1
-    Body md   Figtree 400          18px  line-height 24px
-    Body bold Figtree 600          18px  line-height 1
-    Label md  Figtree 700          15px  ls 2.25px  uppercase
-    Label sm  Figtree 700          13px  ls 1.95px  uppercase
-*/
-
 /* ─── Fonts ──────────────────────────────────────────────────────────────── */
 @font-face {
   font-family: 'Warnock Pro';
@@ -56,7 +44,7 @@
   font-family: var(--font-serif);
   font-weight: 400;
   font-size: 44px;
-  line-height: 1;
+  line-height: 44px;
   color: var(--type-primary);
   margin: 0;
 }
@@ -69,7 +57,7 @@
   font-family: var(--font-serif);
   font-weight: 400;
   font-size: 28px;
-  line-height: 1;
+  line-height: 28px;
   color: var(--type-secondary);
   margin: 0;
 }
@@ -78,7 +66,7 @@
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: 26px;
-  line-height: 1.5;
+  line-height: 36px;
   color: var(--type-primary);
   margin: 0;
 }
@@ -98,7 +86,7 @@
   font-family: var(--font-sans);
   font-weight: 600;
   font-size: 18px;
-  line-height: 1;
+  line-height: 24px;
   color: var(--type-primary);
   margin: 0;
 }
@@ -113,12 +101,16 @@
   color: var(--type-inverted-primary);
 }
 
+.type-body-bold.type-on-dark {
+  font-weight: 400;
+}
+
 .type-label,
 .btn__face {
   font-family: var(--font-sans);
   font-weight: 700;
   font-size: 15px;
-  line-height: 1;
+  line-height: 14px;
   letter-spacing: 2.25px;
   text-transform: uppercase;
   white-space: nowrap;
@@ -129,7 +121,7 @@
   font-family: var(--font-sans);
   font-weight: 700;
   font-size: 13px;
-  line-height: 1;
+  line-height: 12px;
   letter-spacing: 2px;
   text-transform: uppercase;
   white-space: nowrap;
@@ -144,7 +136,7 @@
 .case-image-full figcaption {
   font-family: var(--font-sans);
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 20px;
 }
 
 .nav__tab.active,
@@ -233,7 +225,7 @@
   top: 0.05em;
   font-family: var(--font-serif);
   font-size: 20px;
-  line-height: 1;
+  line-height: 20px;
   font-weight: 600;
   color: var(--surface-5);
 }
@@ -287,7 +279,8 @@
 }
 
 :root[data-theme="dark"] .type-label,
-:root[data-theme="dark"] .type-label-sm {
+:root[data-theme="dark"] .type-label-sm,
+:root[data-theme="dark"] .type-on-dark {
   font-weight: 600;
 }
 
@@ -309,18 +302,18 @@
   .type-h2,
   .case-body h2 {
     font-size: 32px;
-    line-height: 1;
+    line-height: 32px;
   }
 
   .type-h3,
   .case-body h3 {
     font-size: 24px;
-    line-height: 1;
+    line-height: 24px;
   }
 
   .type-preamble {
     font-size: 22px;
-    line-height: 1.5;
+    line-height: 36px;
   }
 
   /* p before h2: 8px tighter than desktop. */

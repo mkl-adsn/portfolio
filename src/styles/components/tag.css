@@ -14,7 +14,8 @@
 }
 
 .tag--dark {
-  padding: var(--space-8) var(--space-16);
+  padding: var(--space-8) var(--space-12);
+  height: 32px;
   background-color: var(--surface-9);
   color: var(--type-inverted-primary);
   border-radius: var(--border-radius-default);

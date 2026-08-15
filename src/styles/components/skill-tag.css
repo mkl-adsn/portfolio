@@ -8,9 +8,9 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-8);
-  height: 40px;
-  padding-left: var(--space-16);
-  padding-right: var(--space-12);
+  height: 32px;
+  padding-left: var(--space-12);
+  padding-right: var(--space-8);
   background-color: var(--surface-9);
   border-radius: var(--border-radius-default);
   flex-shrink: 0;

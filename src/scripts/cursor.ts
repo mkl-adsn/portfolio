@@ -13,6 +13,10 @@
  * The cursor image has the pen nib at a fixed pixel offset from its
  * top-left corner (HOTSPOT_X, HOTSPOT_Y). The transform is adjusted
  * so the nib tracks the exact mouse position.
+ *
+ * Over the scrollbar (and outside the window) the browser sends no mouse
+ * events, so the illustration is hidden and the system cursor is restored for
+ * the duration — see the mouseleave/mouseenter handlers at the bottom.
  */
 
 import { prefersReducedMotion } from './motion';
@@ -141,11 +145,30 @@ export function initCustomCursor() {
 
   document.addEventListener('pointerover', (e) => syncHover(e.target), { passive: true });
 
-  // Hide the cursor element when the pointer leaves the browser window, and
-  // drop the hover frame with it — no `pointerover` follows on the way out.
-  document.addEventListener('mouseleave', () => {
+  // Hide the cursor element whenever the pointer is somewhere the illustration
+  // can't follow it, and drop the hover frame with it — no `pointerover`
+  // follows on the way out.
+  //
+  // That's two places: outside the browser window, and on the scrollbar. The
+  // scrollbar isn't outside the *document* — the browser hit-tests that strip
+  // as <html>, so listening on `document` never fires. It is outside <body>,
+  // which is the signal used here: crossing onto the scrollbar fires
+  // `mouseleave` on body with `relatedTarget` == <html>. Leaving the window
+  // fires the same event, so one pair of handlers covers both.
+  //
+  // The illustration can't be used there either way — the browser paints the
+  // scrollbar above all page content, so the image would be occluded by it —
+  // hence `native-cursor` on <html>, which drops the `cursor: none` rule (see
+  // base.css) and hands the pointer back to the OS until we're back on the page.
+  const root = document.documentElement;
+
+  document.body.addEventListener('mouseleave', () => {
     el!.classList.add('is-outside');
     el!.classList.remove('is-hover');
+    root.classList.add('native-cursor');
   });
-  document.addEventListener('mouseenter', () => el!.classList.remove('is-outside'));
+  document.body.addEventListener('mouseenter', () => {
+    el!.classList.remove('is-outside');
+    root.classList.remove('native-cursor');
+  });
 }

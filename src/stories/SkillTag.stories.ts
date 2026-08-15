@@ -7,7 +7,7 @@ type SkillTagArgs = { name: string; level: 1 | 2 | 3 };
 function skillTag(name: string, level: 1 | 2 | 3): string {
   const stars = [1, 2, 3]
     .map((i) =>
-      iconMarkup(i <= level ? "star-filled" : "star-outline", { tone: "inverted", size: 16 })
+      iconMarkup(i <= level ? "star-filled" : "star-outline", { tone: "inverted", size: 12 })
     )
     .join("");
   return `

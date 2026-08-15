@@ -46,7 +46,7 @@ const categories = ['All Skills', 'Application', 'Design', 'Dev', 'Other'];
   </div>
 
   <!-- Skill tags -->
-  <div id="skills-grid" class="flex flex-wrap gap-2">
+  <div id="skills-grid" class="flex flex-wrap gap-1">
     {skills.map(skill => (
       <SkillTag name={skill.name} level={skill.level} categories={skill.categories} />
     ))}

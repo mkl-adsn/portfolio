@@ -2,9 +2,20 @@
 
  /* Hide the native cursor only where the custom cursor is active: fine pointers
     AND motion allowed. Under prefers-reduced-motion we keep the system cursor
-    (see the reduced-motion block below, and the early return in cursor.ts). */
+    (see the reduced-motion block below, and the early return in cursor.ts).
+
+    `.native-cursor` on <html> is the escape hatch for the scrollbar, which the
+    illustration can't cover: the browser paints it above all page content, so
+    the image would be occluded. cursor.ts sets the class while the pointer is
+    on the scrollbar (or outside the window) and the system cursor takes over
+    instead of nothing showing at all. <html> is named explicitly rather than
+    left to `*` because the browser hit-tests the scrollbar strip as <html>,
+    so that's the element whose `cursor` governs it. */
 @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  *, *::before, *::after { cursor: none !important; }
+  html:not(.native-cursor),
+  html:not(.native-cursor) *,
+  html:not(.native-cursor) *::before,
+  html:not(.native-cursor) *::after { cursor: none !important; }
 }
 
 #custom-cursor {
