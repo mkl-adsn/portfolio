@@ -25,8 +25,8 @@ The dev server runs at `localhost:4321`.
 | `npm run build`         | Build production site to `./dist/`                         |
 | `npm run preview`       | Preview production build locally                           |
 | `npm run astro ...`     | Run Astro CLI commands (e.g. `astro add`, `astro check`)   |
-| `npm run build:cv`      | Full site build **and** regenerate `public/cv.pdf`         |
-| `npm run generate:cv`   | Regenerate `public/cv.pdf` from the existing `dist/` build |
+| `npm run build:cv`      | Full site build **and** regenerate `public/Mikael_Andersson_CV.pdf`         |
+| `npm run generate:cv`   | Regenerate `public/Mikael_Andersson_CV.pdf` from the existing `dist/` build |
 | `npm run storybook`     | Start Storybook at `localhost:6006`                         |
 | `npm run build-storybook` | Build the static Storybook site                           |
 
@@ -34,7 +34,7 @@ The dev server runs at `localhost:4321`.
 
 ```text
 /
-├── public/              Static assets served as-is (fonts, images, cv.pdf)
+├── public/              Static assets served as-is (fonts, images, Mikael_Andersson_CV.pdf)
 ├── src/
 │   ├── components/ui/   Reusable Astro components (also storied)
 │   ├── content/          Content collections (case studies) and typed data
@@ -44,7 +44,7 @@ The dev server runs at `localhost:4321`.
 │   ├── stories/           Storybook stories
 │   └── styles/            Design tokens (one file per concern) + base/layout + per-component stylesheets
 ├── astro.config.mjs
-└── scripts/generate-cv-pdf.mjs   Renders src/pages/cv.astro to public/cv.pdf via headless Chromium
+└── scripts/generate-cv-pdf.mjs   Renders src/pages/cv.astro to public/Mikael_Andersson_CV.pdf via headless Chromium
 ```
 
 ## Conventions

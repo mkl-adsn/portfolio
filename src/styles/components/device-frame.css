@@ -20,7 +20,7 @@
 
 .device-frame {
   /* Shell's intrinsic pixel size. Also drives the aspect ratio, and lets a
-     layout cap the frame by height (see .case-split in pages/cases/[case].astro). */
+     layout cap the frame by height (see .case-split in pages/case/[case].astro). */
   --frame-w: 400;
   --frame-h: 820;
 

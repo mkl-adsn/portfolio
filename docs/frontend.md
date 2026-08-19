@@ -156,5 +156,5 @@ are **not** storied.
 - **Verify frontend changes by driving the app**, not just building — confirm the
   computed styles/behaviour actually changed (e.g. a quick headless-browser
   computed-style assertion), especially for tokens, theming, and motion.
-- Before committing, run `npm run build:cv` and include `public/cv.pdf` (see
+- Before committing, run `npm run build:cv` and include `public/Mikael_Andersson_CV.pdf` (see
   `CLAUDE.md`).

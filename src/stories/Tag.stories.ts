@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/html";
 
 // The pill tag used to list disciplines/tools: `variant="light"` on the case
 // list (src/layouts/Cases.astro), `variant="dark"` on a case's own hero
-// (src/pages/cases/[case].astro). Styles: src/styles/components/tag.css.
+// (src/pages/case/[case].astro). Styles: src/styles/components/tag.css.
 type TagArgs = { label: string; variant: "light" | "dark" };
 
 function renderTag({ label, variant }: TagArgs): string {

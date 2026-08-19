@@ -39,8 +39,8 @@ export const workExperience: WorkEntry[] = [
     period: '2017‑2018',
     role: 'UX/UI Game Artist',
     description: [
-      `Designed a new admin panel interface for Quizkampen Business (the enterprise version of QuizDuel), enabling clients to manage their quizzes and question databases. Also produced brochures, flyers, and landing pages for the sales team.`,
-      `Worked as lead designer for QuizDuel 2. Created the new visual identity, wireframes, and UI art, and implemented them in Unity alongside the development team. Contributed visual effects, animations, and game design.`,
+      `Designed a new admin panel interface for QuizDuel Business, enabling clients to manage their own quizzes and question databases. Produced brochures, flyers, and websites for the sales team.`,
+      `Worked as lead designer for the QuizDuel 2 Beta. Created the new visual identity, wireframes, UI art, and implemented them in Unity alongside the development team. Contributed visual effects, animations, and game design.`,
     ],
   },
   {
@@ -64,13 +64,13 @@ export const workExperience: WorkEntry[] = [
     period: '2010',
     role: 'Production Artist',
     description: [
-      `Seasonal position at the local morning newspaper. Laid out pages, fit articles and images, created news graphics, and occasionally rewrote copy to fit available space.`,
+      `Seasonal position at the local morning newspaper. Laid out pages, fit articles and images, created news graphics, and adjusted headlines and copy to fit the layout.`,
     ],
   },
   {
     company: 'Freelance',
     period: '2009‑2014, 2021‑',
-    role: 'Graphic / UX & UI Designer',
+    role: 'Digital Designer',
     description: [
       `Worked with businesses and startups on branding and visual identity, UX/UI design for web and apps, and print design.`,
     ],

@@ -3,15 +3,17 @@
  *
  * Run manually via `npm run build:cv` (or `npm run generate:cv`) — NOT part of
  * the deploy `build`, since the Vercel build environment has no Chromium binary.
- * The generated `public/cv.pdf` is committed to the repo and served as-is.
+ * The generated `public/Mikael_Andersson_CV.pdf` is committed to the repo and
+ * served as-is — the filename is what the browser saves, so it reads as a CV in
+ * a recruiter's downloads folder rather than a nondescript `cv.pdf`.
  *
  * Serves the built `dist/` with Astro's programmatic preview server, renders
  * `/cv` in headless Chromium, and writes the PDF to:
- *   - dist/cv.pdf    → local build output
- *   - public/cv.pdf  → committed; served by dev and every deploy
+ *   - dist/Mikael_Andersson_CV.pdf    → local build output
+ *   - public/Mikael_Andersson_CV.pdf  → committed; served by dev and every deploy
  *
- * The "Download CV" buttons point at /cv.pdf, so no app code needs to know this
- * script exists.
+ * The "Download CV" buttons point at /Mikael_Andersson_CV.pdf, so no app code
+ * needs to know this script exists.
  */
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
@@ -20,8 +22,8 @@ import { preview } from 'astro';
 import { chromium } from 'playwright';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const distPdf = resolve(root, 'dist/cv.pdf');
-const publicPdf = resolve(root, 'public/cv.pdf');
+const distPdf = resolve(root, 'dist/Mikael_Andersson_CV.pdf');
+const publicPdf = resolve(root, 'public/Mikael_Andersson_CV.pdf');
 
 const server = await preview({ root });
 const browser = await chromium.launch();
@@ -49,7 +51,7 @@ try {
   await mkdir(dirname(publicPdf), { recursive: true });
   await copyFile(distPdf, publicPdf);
 
-  console.log(`✓ cv.pdf generated → ${distPdf} and ${publicPdf}`);
+  console.log(`✓ Mikael_Andersson_CV.pdf generated → ${distPdf} and ${publicPdf}`);
 } finally {
   await browser.close();
   await server.stop();

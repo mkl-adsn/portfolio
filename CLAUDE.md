@@ -15,13 +15,13 @@ Keep narration and explanations of what you are about to do to a minimum. Act, t
 | `npm run build` | Build production site to `./dist/` |
 | `npm run preview` | Preview production build locally |
 | `npm run astro ...` | Run Astro CLI commands (e.g. `astro add`, `astro check`) |
-| `npm run build:cv` | Full site build **and** regenerate `public/cv.pdf` |
-| `npm run generate:cv` | Regenerate `public/cv.pdf` from the existing `dist/` build |
+| `npm run build:cv` | Full site build **and** regenerate `public/Mikael_Andersson_CV.pdf` |
+| `npm run generate:cv` | Regenerate `public/Mikael_Andersson_CV.pdf` from the existing `dist/` build |
 
 ## Committing
 
 Before committing a branch, **always** run `npm run build:cv` to regenerate the
-CV PDF, then include `public/cv.pdf` in the commit. Don't check whether CV
+CV PDF, then include `public/Mikael_Andersson_CV.pdf` in the commit. Don't check whether CV
 content changed first — unconditionally regenerating is foolproof and faster
 than deciding, so just do it every time.
 

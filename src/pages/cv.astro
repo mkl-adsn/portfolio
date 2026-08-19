@@ -3,25 +3,49 @@
  * Print-optimized CV route.
  *
  * This page is NOT part of the site navigation — it exists to be rendered to
- * `public/cv.pdf` by `scripts/generate-cv-pdf.mjs` (headless Chromium) at build
- * time. It deliberately does not use BaseLayout: no nav, hero, custom cursor,
+ * `public/Mikael_Andersson_CV.pdf` by `scripts/generate-cv-pdf.mjs` (headless
+ * Chromium) at build time.
+ * It deliberately does not use BaseLayout: no nav, hero, custom cursor,
  * animations, or the site's grey background. Pure white, print-tuned type.
  *
  * Content comes from the same data modules the landing page uses, so the CV and
  * the site never drift apart.
  */
-import { bioParagraphs } from '../content/data/bio.ts';
-import { contacts } from '../content/data/contact.ts';
+import { getCollection } from 'astro:content';
+import Icon from '../components/ui/Icon.astro';
+import { contacts, type ContactItem } from '../content/data/contact.ts';
+import { heroCopy } from '../content/data/hero.ts';
 import { workExperience, education, languages } from '../content/data/cv.ts';
 import { groupSkillsForPrint } from '../content/data/skills.ts';
 import '../styles/colors.css';       // colour tokens (--type-*)
 import '../styles/typography.css';   // fonts: @font-face + --font-serif/--font-sans
+import '../styles/components/icon.css'; // <Icon> sizing/tone
 
 const skillGroups = groupSkillsForPrint();
 
-const email = contacts.find(c => c.icon === 'mail')?.label ?? '';
-const phone = contacts.find(c => c.icon === 'phone')?.label ?? '';
-const location = contacts.find(c => c.icon === 'location')?.label ?? '';
+/* Cover contacts: the three reachable-at details, in the site's own order.
+   LinkedIn/GitHub are left to the QR code. */
+const COVER_CONTACTS = ['mail', 'phone', 'location'] as const;
+const coverContacts = COVER_CONTACTS
+  .map(icon => contacts.find(c => c.icon === icon))
+  .filter((c): c is ContactItem => Boolean(c));
+
+/* The hero sentence leads with "Mikael Andersson, senior …" because the site
+   animates it in under the name. On the cover the name is already the H1, so
+   drop the lead-in and re-capitalise what's left. */
+const tagline = heroCopy
+  .replace(/^Mikael Andersson,\s*/, '')
+  .replace(/^./, ch => ch.toUpperCase());
+
+/* Case studies, in their authored order — same source as the landing page. */
+const highlights = (await getCollection('cases'))
+  .filter(c => !c.data.comingSoon)
+  .sort((a, b) => a.data.order - b.data.order)
+  .map(c => ({
+    title: c.data.title,
+    description: c.data.description,
+    path: `mikael.work/case/${c.id.replace(/\.md$/, '')}`,
+  }));
 ---
 
 <!doctype html>
@@ -72,6 +96,14 @@ const location = contacts.find(c => c.icon === 'location')?.label ?? '';
       @media screen {
         body { background: #e6e8eb; padding: 24px; }
         .cv { box-shadow: 0 2px 24px rgba(0, 0, 0, 0.12); padding: 16mm; }
+        /* `break-after: page` is invisible on screen — mark the sheet edges so
+           the preview still reads as three pages. */
+        .cv-cover,
+        .cv-page:not(:last-child) {
+          border-bottom: 1px dashed #cacfd8;
+          padding-bottom: 11mm;
+          margin-bottom: 11mm;
+        }
       }
 
       .cv {
@@ -81,43 +113,185 @@ const location = contacts.find(c => c.icon === 'location')?.label ?? '';
       }
 
       /* ─── Print type scale ─────────────────────────────────────────── */
-      .cv-name-row {
-        display: flex;
-        align-items: top;
-        justify-content: space-between;
-        gap: 12pt;
-        margin: 0 0 28pt;
-      }
-      .cv-name {
-        font-family: var(--font-serif);
-        font-weight: 700;
-        font-size: 24pt;
-        line-height: 1;
-        color: var(--type-primary);
-        margin: 0;}
+      .cv-section { margin-top: 11mm; }
+      /* Each sheet opens flush at the top of its own content box. */
+      .cv-page > .cv-section:first-child { margin-top: 0; }
 
-      .cv-visit {
+      /* ─── Sheets after the cover ───────────────────────────────────────
+         The footer is absolutely positioned against the page, so each sheet
+         needs to be its own positioned box exactly one page tall — which
+         means sections are assigned to a page here rather than letting the
+         flow break where it likes. Sheet 2 currently runs to ~246mm of the
+         261mm available, so there is room for a job to grow before the split
+         has to be revisited.
+      ────────────────────────────────────────────────────────────────── */
+      .cv-page {
+        position: relative;
+        /* A4 height less the @page top/bottom margins (297 − 21 − 14), a
+           millimetre short so rounding can't spill a blank page. */
+        height: 261mm;
+        break-after: page;
+      }
+      .cv-page:last-child { break-after: auto; }
+
+      /* Sits on the bottom edge of the content box — Chromium clips anything
+         painted into the @page margin, so the footer can't drop below it the
+         way the design has it. */
+      .cv-footer {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12pt;
+      }
+
+      /* New text style — the running footer, one step below `.cv-cover-label`
+         on the same uppercase/0.15em-tracking pattern. */
+      .cv-footer-label {
+        font-family: var(--font-sans);
+        font-weight: 500;
+        font-size: 7pt;
+        line-height: 1;
+        letter-spacing: 1.05pt;
+        text-transform: uppercase;
+        color: var(--type-tertiary);
+      }
+      /* The outer labels are fixed-width and turned towards the centre, so the
+         page number stays optically centred whatever they say. */
+      .cv-footer-label--start { width: 100pt; text-align: right; }
+      .cv-footer-label--end   { width: 100pt; text-align: left; }
+
+      .cv-footer-rule {
+        width: 20pt;
+        height: 1px;
+        background: var(--border-medium);
+      }
+
+      /* ─── Cover page ───────────────────────────────────────────────────
+         Its own sheet: title block near the top, highlighted case studies
+         below, portfolio QR pinned to the bottom margin. The three blocks
+         are spaced on the same 11mm rhythm as `.cv-section`.
+      ────────────────────────────────────────────────────────────────── */
+      .cv-cover {
         display: flex;
         flex-direction: column;
-        text-align: right;
+        /* A4 height less the @page top/bottom margins (297 − 21 − 14), with a
+           few mm of slack so rounding can't spill an empty third page. */
+        min-height: 255mm;
+        break-after: page;
+      }
+
+      .cv-cover-head {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24pt;
+        margin: 24mm auto 0;
+        max-width: 134mm;
+        text-align: center;
+      }
+
+      /* New text style — the CV's title label, the print counterpart of
+         `.type-label` (same 0.15em tracking, at the print body size). */
+      .cv-cover-label {
+        font-family: var(--font-sans);
+        font-weight: 700;
         font-size: 9.5pt;
-        line-height: 1.4;
+        line-height: 1;
+        letter-spacing: 2pt;
+        text-transform: uppercase;
+        color: var(--type-primary);
+        margin: 0;
+      }
+
+      /* New text style — the cover H1. Bigger than `.cv-name` (the running
+         header on the pages that follow), which stays at 24pt. */
+      .cv-cover-name {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 36pt;
+        line-height: 1.2;
+        color: var(--type-primary);
+        margin: 0;
+      }
+
+      .cv-cover-intro {
+        font-family: var(--font-serif);
+        font-size: 16pt;
+        line-height: 1.3;
+        color: var(--type-primary);
+        margin: 0;
+      }
+
+      .cv-cover-contacts {
+        display: flex;
+        gap: 16pt;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .cv-cover-contacts li {
+        display: flex;
+        align-items: center;
+        gap: 6pt;
+        font-size: 9.5pt;
+        font-weight: 700;
+        line-height: 1;
+        color: var(--type-primary);
         white-space: nowrap;
       }
-      .cv-visit-url { font-weight: 700; color: var(--type-primary); text-decoration: none; }
-      .cv-visit-note { font-weight: 400; color: var(--type-primary); }
-      .cv-visit-contact { font-weight: 700; color: var(--type-primary); margin-top:6pt; }
 
-      .cv-intro { display: flex; flex-direction: column; gap: 6pt; }
-      .cv-intro p {
-        margin: 0;
-        font-size: 10pt;
-        line-height: 1.5;
-        color: var(--type-primary);
+      .cv-cover-projects { margin-top: 48mm; }
+      /* First entry sits under the heading on the same gap as the skills
+         section (6pt from `.cv-h2` + 9pt), not the 16pt entry-to-entry step. */
+      .cv-cover-projects .cv-entry:first-child .cv-h3 { margin-top: 9pt; }
+      /* The gap above the URL is the description's bottom margin — adjacent
+         margins collapse, so a `margin-top` on the URL itself would lose to
+         `.cv-body`'s 6pt. Both rules are scoped to the section so they outrank
+         `.cv-body`, which is declared further down this stylesheet. */
+      .cv-cover-projects .cv-body { margin-bottom: 3pt; }
+      .cv-cover-projects .cv-cover-url {
+        font-weight: 700;
+        color: var(--type-secondary);
       }
 
-      .cv-section { margin-top: 11mm; }
-      .cv-section:first-of-type { margin-top: 9mm; }
+      /* Pinned to the bottom of the sheet. Both children are trimmed to their
+         *visible* ink below (quiet zone off the QR, leading off the text), so
+         plain `flex-end` is what lines them up optically. */
+      .cv-cover-portfolio {
+        display: flex;
+        align-items: flex-end;
+        gap: 12pt;
+        margin-top: auto;
+      }
+
+      /* qr.png bakes a white quiet zone into all four sides — 96px of 888, so
+         10.81% per side. Bleeding that much back out with a negative margin
+         makes the element's outer box the printed code itself, which is what
+         then aligns to the text and to the left margin. Nudge --qr-quiet if
+         the optical fit needs it; 0 restores the raw image box. */
+      .cv-cover-qr {
+        --qr-size: 56pt;
+        --qr-quiet: 6.05pt;   /* 0.1081 × --qr-size */
+        display: block;
+        width: var(--qr-size);
+        height: var(--qr-size);
+        margin: calc(var(--qr-quiet) * -1);
+      }
+
+      /* Trim the line box to cap-height/alphabetic-baseline so the bottom of
+         this box is the baseline of "mikael.work", not its descender leading.
+         Scoped to the parent so it outranks `.cv-h2`, which sets a 6pt bottom
+         margin and is declared further down this stylesheet. */
+      .cv-cover-portfolio .cv-cover-portfolio-text {
+        line-height: 1.25;
+        margin-bottom: 0;
+        text-box: trim-both cap alphabetic;
+      }
+      .cv-cover-portfolio-text .cv-cover-portfolio-lede { font-weight: 400;}
 
       .cv-h2 {
         font-family: var(--font-serif);
@@ -195,68 +369,105 @@ const location = contacts.find(c => c.icon === 'location')?.label ?? '';
   </head>
   <body>
     <main class="cv">
-      <!-- Name + bio -->
-      <header>
-        <div class="cv-name-row">
-          <h1 class="cv-name">Mikael Andersson</h1>
-          <span class="cv-visit">
-            <span class="cv-visit-note">For cases, visit <a class="cv-visit-url" href="https://mikael.work">www.mikael.work</a></span>
-            <span class="cv-visit-contact">{email}</span>
-            <span class="cv-visit-contact">{phone}</span>
-            <span class="cv-visit-contact">{location}</span>
-          </span>
-        </div>
-        <div class="cv-intro">
-          {bioParagraphs.map(para => <p>{para}</p>)}
-        </div>
-      </header>
+      <!-- Cover page -->
+      <section class="cv-cover">
+        <header class="cv-cover-head">
+          <p class="cv-cover-label">Curriculum Vitae</p>
+          <h1 class="cv-cover-name">Mikael Andersson</h1>
+          <p class="cv-cover-intro">{tagline}</p>
+          <ul class="cv-cover-contacts">
+            {coverContacts.map(contact => (
+              <li>
+                <Icon name={contact.icon} size={16} tone="medium" />
+                <span>{contact.label}</span>
+              </li>
+            ))}
+          </ul>
+        </header>
 
-      <!-- Work Experience -->
-      <section class="cv-section">
-        <h2 class="cv-h2">Work Experience</h2>
-        {workExperience.map(job => (
-          <div class="cv-entry">
-            <h3 class="cv-h3">{job.company}<span class="cv-period">, {job.period}</span></h3>
-            <p class="cv-role">{job.role}</p>
-            {job.description.map(para => <p class="cv-body">{para}</p>)}
-          </div>
-        ))}
-      </section>
-
-      <!-- Professional Skills -->
-      <section class="cv-section">
-        <h2 class="cv-h2">Professional Skills</h2>
-        <div class="cv-skills-cols">
-          {skillGroups.map(group => (
-            <div class="cv-skill-group">
-              <p class="cv-cat">{group.category}</p>
-              <p class="cv-skill-names">{group.names.join(', ')}</p>
+        <section class="cv-cover-projects">
+          <h2 class="cv-h2">Highlighted projects</h2>
+          {highlights.map(project => (
+            <div class="cv-entry">
+              <h3 class="cv-h3">{project.title}</h3>
+              <p class="cv-body">{project.description}</p>
+              <p class="cv-body cv-cover-url">{project.path}</p>
             </div>
           ))}
-        </div>
+        </section>
+
+        <footer class="cv-cover-portfolio">
+          <img class="cv-cover-qr" src="/qr.png" alt="QR code linking to mikael.work" />
+          <p class="cv-h2 cv-cover-portfolio-text">
+            <span class="cv-cover-portfolio-lede">Full portfolio</span><br />mikael.work
+          </p>
+        </footer>
       </section>
 
-      <!-- Education -->
-      <section class="cv-section">
-        <h2 class="cv-h2">Education</h2>
-        {education.map(edu => (
-          <div class="cv-entry">
-            <h3 class="cv-h3">{edu.institution}<span class="cv-period">, {edu.period}</span></h3>
-            <p class="cv-role">{edu.degree}</p>
-            <p class="cv-body">{edu.description}</p>
-          </div>
-        ))}
-      </section>
-
-      <!-- Languages -->
-      <section class="cv-section">
-        <h2 class="cv-h2">Languages</h2>
-        <ul class="cv-list">
-          {languages.map(lang => (
-            <li><span class="cv-lang-name">{lang.name}</span> — {lang.level}</li>
+      <!-- Page 2 — Work Experience -->
+      <div class="cv-page">
+        <section class="cv-section">
+          <h2 class="cv-h2">Work Experience</h2>
+          {workExperience.map(job => (
+            <div class="cv-entry">
+              <h3 class="cv-h3">{job.company}<span class="cv-period">, {job.period}</span></h3>
+              <p class="cv-role">{job.role}</p>
+              {job.description.map(para => <p class="cv-body">{para}</p>)}
+            </div>
           ))}
-        </ul>
-      </section>
+        </section>
+
+        <footer class="cv-footer">
+          <span class="cv-footer-label cv-footer-label--start">Mikael Andersson</span>
+          <span class="cv-footer-rule"></span>
+          <span class="cv-footer-label">02</span>
+          <span class="cv-footer-rule"></span>
+          <span class="cv-footer-label cv-footer-label--end">mikael.work</span>
+        </footer>
+      </div>
+
+      <!-- Page 3 — Professional Skills, Education, Languages -->
+      <div class="cv-page">
+        <section class="cv-section">
+          <h2 class="cv-h2">Professional Skills</h2>
+          <div class="cv-skills-cols">
+            {skillGroups.map(group => (
+              <div class="cv-skill-group">
+                <p class="cv-cat">{group.category}</p>
+                <p class="cv-skill-names">{group.names.join(', ')}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="cv-section">
+          <h2 class="cv-h2">Education</h2>
+          {education.map(edu => (
+            <div class="cv-entry">
+              <h3 class="cv-h3">{edu.institution}<span class="cv-period">, {edu.period}</span></h3>
+              <p class="cv-role">{edu.degree}</p>
+              <p class="cv-body">{edu.description}</p>
+            </div>
+          ))}
+        </section>
+
+        <section class="cv-section">
+          <h2 class="cv-h2">Languages</h2>
+          <ul class="cv-list">
+            {languages.map(lang => (
+              <li><span class="cv-lang-name">{lang.name}</span> — {lang.level}</li>
+            ))}
+          </ul>
+        </section>
+
+        <footer class="cv-footer">
+          <span class="cv-footer-label cv-footer-label--start">Mikael Andersson</span>
+          <span class="cv-footer-rule"></span>
+          <span class="cv-footer-label">03</span>
+          <span class="cv-footer-rule"></span>
+          <span class="cv-footer-label cv-footer-label--end">mikael.work</span>
+        </footer>
+      </div>
     </main>
   </body>
 </html>
