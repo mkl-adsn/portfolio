@@ -1,5 +1,5 @@
 ---
-import { skills } from '../../content/data/skills.ts';
+import { skills, SHOW_SKILL_STARS } from '../../content/data/skills.ts';
 import SkillTag from './SkillTag.astro';
 import FilterTab from './FilterTab.astro';
 import Icon from './Icon.astro';
@@ -48,7 +48,7 @@ const categories = ['All Skills', 'Application', 'Design', 'Dev', 'Other'];
   <!-- Skill tags -->
   <div id="skills-grid" class="flex flex-wrap gap-1">
     {skills.map(skill => (
-      <SkillTag name={skill.name} level={skill.level} categories={skill.categories} />
+      <SkillTag name={skill.name} level={skill.level} categories={skill.categories} showStars={SHOW_SKILL_STARS} />
     ))}
   </div>
 
@@ -65,7 +65,7 @@ const categories = ['All Skills', 'Application', 'Design', 'Dev', 'Other'];
 </div>
 
 <script>
-  const VISIBLE_DEFAULT = 8;
+  const VISIBLE_DEFAULT = 12;
 
   document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('skill-search') as HTMLInputElement;

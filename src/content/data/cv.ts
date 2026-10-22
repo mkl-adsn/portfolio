@@ -40,7 +40,7 @@ export const workExperience: WorkEntry[] = [
     role: 'UX/UI Game Artist',
     description: [
       `Designed a new admin panel interface for QuizDuel Business, enabling clients to manage their own quizzes and question databases. Produced brochures, flyers, and websites for the sales team.`,
-      `Worked as lead designer for the QuizDuel 2 Beta. Created the new visual identity, wireframes, UI art, and implemented them in Unity alongside the development team. Contributed visual effects, animations, and game design.`,
+      `Worked as lead designer for QuizDuel 2. Created the new visual identity, wireframes, UI art, and implemented them in Unity alongside the development team. Contributed visual effects, animations, and game design.`,
     ],
   },
   {

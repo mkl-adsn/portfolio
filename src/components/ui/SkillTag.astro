@@ -6,27 +6,31 @@ export interface Props {
   name: string;
   level: 1 | 2 | 3;
   categories: string[];
+  /** Render the star rating. When false, the level is omitted entirely. */
+  showStars?: boolean;
 }
-const { name, level, categories } = Astro.props;
+const { name, level, categories, showStars = true } = Astro.props;
 
 // The pill is always dark (surface-9) → inverted (light) star glyphs.
 const stars: IconName[] = [1, 2, 3].map(i => (i <= level ? 'star-filled' : 'star-outline'));
 ---
 
 <div
-  class="skill-tag"
+  class:list={['skill-tag', { 'skill-tag--no-stars': !showStars }]}
   data-categories={categories.join(',')}
   data-name={name.toLowerCase()}
 >
   <span class="skill-tag__name">
     {name}
-    <span class="sr-only">, proficiency {level} of 3</span>
+    {showStars && <span class="sr-only">, proficiency {level} of 3</span>}
   </span>
-  <span class="skill-tag__stars" aria-hidden="true">
-    {stars.map(name => (
-      <Icon name={name} tone="inverted" size={12} />
-    ))}
-  </span>
+  {showStars && (
+    <span class="skill-tag__stars" aria-hidden="true">
+      {stars.map(name => (
+        <Icon name={name} tone="inverted" size={12} />
+      ))}
+    </span>
+  )}
 </div>
 
 <!-- Styles: src/styles/components/skill-tag.css (loaded via global.css) -->

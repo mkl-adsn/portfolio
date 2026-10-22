@@ -16,6 +16,11 @@
   flex-shrink: 0;
 }
 
+/* Without stars the name sits alone — balance the padding. */
+.skill-tag--no-stars {
+  padding-right: var(--space-12);
+}
+
 /* Base label typography comes from .type-label-sm (typography.css). The pill is
    always on surface-9, which inverts between themes, so the weight tracks the
    backdrop rather than the page: lighter on the dark pill (light theme),

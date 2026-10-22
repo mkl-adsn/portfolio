@@ -51,7 +51,7 @@ export function initHeroTypewriter() {
   }
 
   let index = 0;
-  const SPEED_MS = 25; // ms per character
+  const SPEED_MS = 20; // ms per character
 
   // Keep buttons invisible until typing finishes; wrapper opacity is already 0 in HTML
   function tick() {
@@ -80,6 +80,6 @@ export function initHeroTypewriter() {
   Promise.all([
     document.fonts.load('400 60px "Warnock Pro"'),
     document.fonts.load('600 60px "Warnock Pro"'),
-    new Promise<void>(resolve => setTimeout(resolve, 1200)),
+    new Promise<void>(resolve => setTimeout(resolve, 900)) // Minimum pause before starting,
   ]).then(() => tick());
 }

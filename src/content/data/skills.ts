@@ -7,6 +7,9 @@ export interface Skill {
   level: SkillLevel;
 }
 
+/** Toggle the 1–3 star proficiency rating on the site's skill tags. */
+export const SHOW_SKILL_STARS = false;
+
 export const skills: Skill[] = [
   // Apps
   { name: 'Figma',                    categories: ['Application', 'Design'],   level: 3 },
@@ -14,6 +17,7 @@ export const skills: Skill[] = [
   { name: 'Design Systems',           categories: ['Design'],                  level: 3 },
   { name: 'Photoshop',                categories: ['Application', 'Design'],   level: 3 },
   { name: 'Prototyping',              categories: ['Design'],                  level: 3 },
+  { name: 'Product design',              categories: ['Design', 'Other'],      level: 3 },
   { name: 'AI assisted workflows',    categories: ['Dev'],                     level: 2 },
   { name: 'UX Research',              categories: ['Design'],                  level: 2 },
   { name: 'Branding & Identity',      categories: ['Design'],                  level: 2 },
@@ -36,7 +40,7 @@ export const skills: Skill[] = [
   { name: 'Git',                      categories: ['Dev'],                     level: 1 },
   { name: 'Copywriting',              categories: ['Other'],                   level: 1 },
   { name: 'Unity',                    categories: ['Application'],             level: 1 },
-  { name: 'Wordpress',                categories: ['Dev'],                     level: 1 },
+  { name: 'WordPress',                categories: ['Dev'],                     level: 1 },
   { name: 'Product Ownership',        categories: ['Other'],                   level: 1 },
   { name: 'Drupal CMS',               categories: ['Other'],                   level: 1 },
 

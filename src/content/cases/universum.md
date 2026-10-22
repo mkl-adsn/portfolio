@@ -1,7 +1,7 @@
 ---
 title: "Universum"
 description: "Leading a digital overhaul of one of the world's most established employer-branding agencies, turning three disconnected products into one coherent experience."
-tags: ["Figma", "UX Research", "UI design", "Design Systems", "Product Ownership", "Storyblok CMS", "Front End"]
+tags: ["Figma", "UX Research", "UI design", "Product Design", "Design Systems", "Product Ownership", "Storyblok CMS", "Front End"]
 image: "/images/case/universum/thumbnail.webp"
 imageOrientation: landscape
 order: 1
