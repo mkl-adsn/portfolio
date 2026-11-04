@@ -33,6 +33,7 @@ export const skills: Skill[] = [
   { name: 'Figma MCP',                categories: ['Dev'],                     level: 2 },
   { name: 'Tailwind',                 categories: ['Dev'],                     level: 2 },
   { name: 'Storyblok CMS',            categories: ['Dev'],                     level: 2 },
+  { name: 'Storybook',                categories: ['Dev'],                     level: 2 },
   { name: 'Scrum / Agile',            categories: ['Other'],                   level: 2 },
   { name: 'Jira',                     categories: ['Other'],                   level: 2 },
   { name: 'Game Design/Gamification', categories: ['Design', 'Other'],         level: 2 },

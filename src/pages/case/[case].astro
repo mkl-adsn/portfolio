@@ -244,6 +244,11 @@ const { Content } = await render(entry);
       grid-template-columns: 1fr;
       gap: 32px;
     }
+    /* Height-capped portrait media is narrower than the column — centre it */
+    :global(.case-split > img),
+    :global(.case-split > video) {
+      margin-inline: auto;
+    }
     :global(.case-split--image-right > img),
     :global(.case-split--image-right > video),
     :global(.case-split--image-right > .device-frame) { order: unset; }
