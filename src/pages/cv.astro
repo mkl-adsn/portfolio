@@ -41,6 +41,7 @@ const tagline = heroCopy
 const highlights = (await getCollection('cases'))
   .filter(c => !c.data.comingSoon)
   .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3)
   .map(c => ({
     title: c.data.title,
     description: c.data.description,
