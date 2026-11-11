@@ -20,10 +20,15 @@ Keep narration and explanations of what you are about to do to a minimum. Act, t
 
 ## Committing
 
-Before committing a branch, **always** run `npm run build:cv` to regenerate the
-CV PDF, then include `public/Mikael_Andersson_CV.pdf` in the commit. Don't check whether CV
+Before **every** commit, run `npm run build:cv` to regenerate the CV PDF, then
+include `public/Mikael_Andersson_CV.pdf` in the commit. Don't check whether CV
 content changed first — unconditionally regenerating is foolproof and faster
 than deciding, so just do it every time.
+
+Run it **as part of the commit step itself**, in the same command chain as the
+`git add`/`git commit`/`git push` (for example `npm run build:cv; if ($?) { git add ...; git commit ...; git push }`).
+An earlier build in the session does **not** count: the user may have edited
+content since then, so a PDF built earlier can be stale.
 
 (`npm run generate:cv` re-renders the PDF from an existing `dist/` build if you
 already have one up to date, but `build:cv` is the safe default. The deploy
