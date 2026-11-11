@@ -44,7 +44,7 @@ const highlights = (await getCollection('cases'))
   .map(c => ({
     title: c.data.title,
     description: c.data.description,
-    path: `mikael.work/case/${c.id.replace(/\.md$/, '')}`,
+    path: `mikaeldesign.se/case/${c.id.replace(/\.md$/, '')}`,
   }));
 ---
 
@@ -283,7 +283,7 @@ const highlights = (await getCollection('cases'))
       }
 
       /* Trim the line box to cap-height/alphabetic-baseline so the bottom of
-         this box is the baseline of "mikael.work", not its descender leading.
+         this box is the baseline of "mikaeldesign.se", not its descender leading.
          Scoped to the parent so it outranks `.cv-h2`, which sets a 6pt bottom
          margin and is declared further down this stylesheet. */
       .cv-cover-portfolio .cv-cover-portfolio-text {
@@ -397,9 +397,9 @@ const highlights = (await getCollection('cases'))
         </section>
 
         <footer class="cv-cover-portfolio">
-          <img class="cv-cover-qr" src="/qr.png" alt="QR code linking to mikael.work" />
+          <img class="cv-cover-qr" src="/qr.png" alt="QR code linking to mikaeldesign.se" />
           <p class="cv-h2 cv-cover-portfolio-text">
-            <span class="cv-cover-portfolio-lede">Full portfolio</span><br />mikael.work
+            <span class="cv-cover-portfolio-lede">Full portfolio</span><br />mikaeldesign.se
           </p>
         </footer>
       </section>
@@ -422,7 +422,7 @@ const highlights = (await getCollection('cases'))
           <span class="cv-footer-rule"></span>
           <span class="cv-footer-label">02</span>
           <span class="cv-footer-rule"></span>
-          <span class="cv-footer-label cv-footer-label--end">mikael.work</span>
+          <span class="cv-footer-label cv-footer-label--end">mikaeldesign.se</span>
         </footer>
       </div>
 
@@ -465,7 +465,7 @@ const highlights = (await getCollection('cases'))
           <span class="cv-footer-rule"></span>
           <span class="cv-footer-label">03</span>
           <span class="cv-footer-rule"></span>
-          <span class="cv-footer-label cv-footer-label--end">mikael.work</span>
+          <span class="cv-footer-label cv-footer-label--end">mikaeldesign.se</span>
         </footer>
       </div>
     </main>
