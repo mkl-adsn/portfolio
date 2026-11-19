@@ -25,7 +25,16 @@ export function initAnimations() {
 
   // Rebuild text animations on resize (debounced 200 ms). ScrollTrigger.refresh()
   // recalculates image trigger positions after resize.
+  //
+  // Width-only: on iOS Safari (and mobile Chrome) the URL bar collapsing as the
+  // user starts scrolling fires a height-only `resize`. Rebuilding + refreshing
+  // ScrollTrigger mid-gesture makes it save/restore the scroll position, which
+  // (with `scroll-behavior: smooth` on <html>) kills the momentum scroll and
+  // snaps the page back to the top. Line wrapping only depends on width anyway.
+  let lastWidth = window.innerWidth;
   window.addEventListener('resize', () => {
+    if (window.innerWidth === lastWidth) return;
+    lastWidth = window.innerWidth;
     if (_resizeTimer) clearTimeout(_resizeTimer);
     _resizeTimer = setTimeout(() => {
       rebuildScrollReveal();

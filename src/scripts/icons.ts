@@ -38,6 +38,7 @@ export const ICON_NAMES = [
   'arrow-left',
   'arrow-right',
   'download',
+  'expand',
   'github',
   'linkedin',
   'location',

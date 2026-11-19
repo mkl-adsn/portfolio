@@ -11,6 +11,14 @@
   cursor: zoom-in;
 }
 
+/* The trigger is the expand button's containing block, so the image offsets
+   the script measures stay local to it and don't go stale when content above
+   reflows. Doubled attribute + class outranks the page's mobile
+   `.case-split, .case-image-full { position: static }` breakout reset. */
+.is-lightbox-trigger[data-lightbox] {
+  position: relative;
+}
+
 .lightbox {
   position: fixed;
   inset: 0;
@@ -159,53 +167,71 @@ body.lightbox-open {
   max-width: 720px;
 }
 
-/* ── Close button ─────────────────────────────────────────────────────────── */
+/* ── Round chrome buttons (close, zoom, on-page expand) ───────────────────── */
+.lightbox__close,
+.lightbox__zoom,
+.lightbox-expand {
+  position: absolute;
+  top: 20px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: var(--border-radius-full);
+  background-color: var(--backdrop-light);
+  color: var(--type-inverted-primary);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.lightbox__close:hover,
+.lightbox__zoom:hover,
+.lightbox-expand:hover {
+  background-color: var(--backdrop-medium);
+}
+
 .lightbox__close {
-  position: absolute;
-  top: 20px;
   right: 20px;
-  z-index: 2;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: none;
-  border-radius: var(--border-radius-full);
-  background-color: var(--backdrop-light);
-  color: var(--type-inverted-primary);
-  cursor: pointer;
-  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
-.lightbox__close:hover {
-  background-color: var(--backdrop-medium);
-}
-
-/* ── Zoom toggle (magnifier) ──────────────────────────────────────────────── */
-/* Sits just left of the close button; mirrors it. */
+/* Zoom toggle (magnifier) sits just left of the close button. */
 .lightbox__zoom {
-  position: absolute;
-  top: 20px;
   right: 72px;
-  z-index: 2;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: none;
-  border-radius: var(--border-radius-full);
-  background-color: var(--backdrop-light);
-  color: var(--type-inverted-primary);
-  cursor: pointer;
-  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
-.lightbox__zoom:hover {
-  background-color: var(--backdrop-medium);
+/* ── Expand button (on the page) ──────────────────────────────────────────── */
+/*
+  Lightbox-chrome pill in the upper-right corner of a lightbox-enabled image,
+  injected by lightbox.ts. It sits over the image rather than the page, so —
+  like the lightbox itself — it pins its tokens to the light-mode values and
+  looks the same in both themes.
+
+  Standalone [data-lightbox] images: the button is the <img>'s sibling, and the
+  script sets --expand-x / --expand-y to the image's top-right corner within
+  the (positioned) trigger. Carousels: it's a child of .carousel, whose
+  viewport starts at the top edge, so the plain corner offsets apply.
+*/
+.lightbox-expand {
+  --backdrop-light:  var(--grey-900-020);
+  --backdrop-medium: var(--grey-900-040);
+  --type-inverted-primary: var(--grey-100);
+
+  top: calc(var(--expand-y, 0px) + 16px);
+  left: calc(var(--expand-x, 100%) - 16px);
+  transform: translateX(-100%);
+  /* Above .case-split / .case-image-full content (local stacking). */
+  z-index: 2;
+}
+
+.carousel > .lightbox-expand {
+  top: 16px;
+  left: auto;
+  right: 16px;
+  transform: none;
 }
 
 /* ── Prev / next arrows ───────────────────────────────────────────────────── */

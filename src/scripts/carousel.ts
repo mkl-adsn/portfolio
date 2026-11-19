@@ -19,7 +19,7 @@
  * slide (without dragging) opens the whole set in the lightbox at that index.
  */
 
-import { openLightbox, type LightboxImage } from './lightbox';
+import { createExpandButton, openLightbox, type LightboxImage } from './lightbox';
 import { iconMarkup } from './icons';
 
 // Drag distance (fraction of viewport width) needed to advance a slide.
@@ -113,6 +113,9 @@ function setupCarousel(root: HTMLElement) {
     index = Math.max(0, Math.min(slides.length - 1, i));
     update();
   }
+
+  // Expand button, upper-right of the viewport: opens the set at the current slide.
+  root.appendChild(createExpandButton(() => openLightbox(groupOf(slides), index)));
 
   // ── Pointer drag / swipe ──────────────────────────────────────────────────
   let dragging = false;

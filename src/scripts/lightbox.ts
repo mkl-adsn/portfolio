@@ -649,6 +649,44 @@ function imageFromElement(el: HTMLElement): LightboxImage | null {
 }
 
 /**
+ * Build the on-page "expand" button — a lightbox-chrome pill that opens the
+ * lightbox. Clicks don't bubble, so a host's own click/tap handling (e.g. the
+ * carousel's) never opens it a second time. Placement is up to the caller.
+ */
+export function createExpandButton(onOpen: () => void): HTMLButtonElement {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'lightbox-expand';
+  btn.setAttribute('aria-label', 'View image full screen');
+  btn.innerHTML = iconTag('expand', 'lightbox__icon');
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    onOpen();
+  });
+  return btn;
+}
+
+/**
+ * Pin `btn` to the upper-right corner of `img`. The trigger is positioned
+ * (lightbox.css), so the image's offsetLeft/Top are local to it and place the
+ * button whatever the trigger's layout (a full-width figure, or a height-capped
+ * image in a .case-split grid column).
+ */
+function pinToImageCorner(btn: HTMLElement, img: HTMLImageElement, trigger: HTMLElement) {
+  img.after(btn);
+  const place = () => {
+    btn.style.setProperty('--expand-x', `${img.offsetLeft + img.offsetWidth}px`);
+    btn.style.setProperty('--expand-y', `${img.offsetTop}px`);
+  };
+  place();
+  // The image's box moves when it, or its container, resizes (e.g. the text
+  // column beside it reflowing after fonts load re-centres it vertically).
+  const ro = new ResizeObserver(place);
+  ro.observe(img);
+  ro.observe(trigger);
+}
+
+/**
  * Wire every standalone `[data-lightbox]` element under `root`. Carousels
  * opt out here (they own their own click handling) via `[data-carousel]`.
  */
@@ -660,9 +698,12 @@ export function initLightbox(root: ParentNode = document) {
     if (el.closest('[data-carousel]')) return;
     el.dataset.lightboxBound = 'true';
     el.classList.add('is-lightbox-trigger');
-    el.addEventListener('click', () => {
+    const open = () => {
       const item = imageFromElement(el);
       if (item) openLightbox([item], 0);
-    });
+    };
+    el.addEventListener('click', open);
+    const img = el.querySelector('img');
+    if (img) pinToImageCorner(createExpandButton(open), img, el);
   });
 }
